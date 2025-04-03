@@ -1,17 +1,39 @@
-<nav class= "text-white px-6 py-4 flex justify-between items-center">
-  <a routerLink="/" class="flex items-center gap-2">
-    <img src="assets/img/indimetraLogo.png" alt="Logo" class="h-8 w-auto" />
-  </a>
+<nav class="text-white px-6 py-4 flex justify-between items-center">
+  <!-- Contenedor del logo + navegación principal -->
+  <div class="flex items-center gap-8">
+    <!-- Logo -->
+    <a routerLink="/" class="flex items-center gap-2">
+      <img src="assets/img/logo.png" alt="Logo" class="h-8 w-auto" />
+    </a>
 
+    <!-- Navegación principal -->
+    <ul class="flex gap-6 items-center text-sm font-medium">
+      <li><a routerLink="/">Inicio</a></li>
+      <li><a routerLink="/genres">Género</a></li>
+      <li><a routerLink="/techniques">Técnicas</a></li>
+      <li><a routerLink="/explore">Explorar</a></li>
+    </ul>
+  </div>
 
+  <!-- Acciones de usuario -->
   <ul class="flex gap-6 items-center text-sm font-medium">
-    <li><a routerLink="/" class="hover:text-indigo-400 transition">Inicio</a></li>
-    <li><a routerLink="/genres" class="hover:text-indigo-400 transition">Género</a></li>
-    <li><a routerLink="/techniques" class="hover:text-indigo-400 transition">Técnicas</a></li>
-    <li><a routerLink="/explore" class="hover:text-indigo-400 transition">Explorar</a></li>
-    <li><a routerLink="/auth/register" class="hover:text-green-400 transition">Regístrate</a></li>
-    <li><a routerLink="/auth/login" class="hover:text-blue-400 transition">Iniciar sesión</a></li>
+    @if (!isLoggedIn()) {
+      <li><a routerLink="/auth/register" class="hover:text-yellow-200">Regístrate</a></li>
+      <button (click)="showLoginModal.set(true)">Iniciar sesión</button>
+    } @else {
+      <li><span class="text-gray-400">Hola, {{ user()?.username }}</span></li>
+      <li><button (click)="logout()" class="hover:text-red-400">Cerrar sesión</button></li>
+    }
+
+    @if (isAdmin()) {
+      <li><a routerLink="/admin" class="hover:text-yellow-200">Panel Admin</a></li>
+    }
   </ul>
 </nav>
+
+<app-login-modal
+  [visible]="showLoginModal()"
+  (close)="showLoginModal.set(false)"
+/>
 
 
