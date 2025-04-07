@@ -1,9 +1,9 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-
 import { User } from '../interfaces/user.interface';
-import { LoginResponse } from '../interfaces/login-response.interface';
+import { LoginResponseDto } from '../models/login-response.dto';
+import { LoginRequestDto } from '../models/login-request.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -21,30 +21,68 @@ export class AuthService {
   });
 
   constructor(private http: HttpClient) {
-    this.loadFromLocalStorage();
+    this.loadFromToken();
   }
 
-  login(username: string, password: string) {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, { username, password }).pipe(
-      tap((response: any) => {
+  login(data: LoginRequestDto) {
+    return this.http.post<LoginResponseDto>(`${this.baseUrl}/login`, data).pipe(
+      tap((response) => {
         console.log('LOGIN RESPONSE:', response);
 
-        // Guarda el token
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-        }
+        const token = response.token;
+        localStorage.setItem('token', token);
 
-        const user = {
-          username: response.username,
-          roles: ['ROLE_USER'],
-          email: '',
-          profileImage: '',
-        };
+        // Realizamos llamada a /auth/me para obtener el usuario completo
+        this.getProfile().subscribe({
+          next: (user) => {
+            console.log('Usuario completo desde /me:', user);
+            this.setUser(user);
+          },
+          error: (err) => {
+            console.error('Error al recuperar perfil:', err);
+          },
+        });
+      })
+    );
+  }
 
+  getProfile() {
+    return this.http.get<User>(`${this.baseUrl}/me`).pipe(
+      tap((user) => {
         this.setUser(user);
       })
-
     );
+  }
+
+  private buildUserFromToken(token: string): User | null {
+    try {
+      const payloadBase64 = token.split('.')[1];
+      const payload = JSON.parse(atob(payloadBase64));
+
+      const authorities = JSON.parse(payload.authorities);
+      const roles = authorities.map((auth: any) => auth.authority);
+
+      return {
+        username: payload.username || payload.sub,
+        email: '',
+        profileImage: '',
+        roles: roles,
+      };
+    } catch (error) {
+      console.error('Error al decodificar el token JWT:', error);
+      return null;
+    }
+  }
+
+  private loadFromToken() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const user = this.buildUserFromToken(token);
+      if (user) {
+        this.setUser(user);
+        this.getProfile().subscribe();
+      }
+    }
   }
 
   setUser(user: User) {
@@ -57,18 +95,4 @@ export class AuthService {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
   }
-
-  private loadFromLocalStorage() {
-    const stored = localStorage.getItem('user');
-    try {
-      if (stored && stored !== 'undefined') {
-        const parsed = JSON.parse(stored);
-        this._user.set(parsed);
-      }
-    } catch (err) {
-      console.error('Error al cargar el usuario desde localStorage:', err);
-      this._user.set(null);
-    }
-  }
 }
-

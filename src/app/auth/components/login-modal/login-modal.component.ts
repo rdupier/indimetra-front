@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { LoginRequestDto } from '../../models/login-request.dto';
 
 @Component({
   selector: 'app-login-modal',
@@ -21,14 +22,19 @@ export class LoginModalComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
-    this.authService.login(this.username, this.password).subscribe({
+    const loginData: LoginRequestDto = {
+      username: this.username,
+      password: this.password,
+    };
+
+    this.authService.login(loginData).subscribe({
       next: () => {
         this.close.emit();
         this.router.navigateByUrl('/');
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Error al iniciar sesión';
-      }
+      },
     });
   }
 
@@ -36,5 +42,3 @@ export class LoginModalComponent {
     this.close.emit();
   }
 }
-
-

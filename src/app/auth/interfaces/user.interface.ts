@@ -3,4 +3,7 @@ export interface User {
   email: string;
   profileImage: string;
   roles: string[];
+  isAuthor?: boolean;
+  country?: string;
+  socialLinks?: string;
 }
