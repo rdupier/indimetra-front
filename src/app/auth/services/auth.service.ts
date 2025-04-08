@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 import { User } from '../interfaces/user.interface';
 import { LoginResponseDto } from '../models/login-response.dto';
 import { LoginRequestDto } from '../models/login-request.dto';
+import { ApiResponse } from '../../shared/models/api-response';
 
 @Injectable({
   providedIn: 'root',
@@ -32,11 +33,10 @@ export class AuthService {
         const token = response.token;
         localStorage.setItem('token', token);
 
-        // Realizamos llamada a /auth/me para obtener el usuario completo
         this.getProfile().subscribe({
-          next: (user) => {
-            console.log('Usuario completo desde /me:', user);
-            this.setUser(user);
+          next: (res) => {
+            console.log('Usuario completo desde /me:', res.data);
+            this.setUser(res.data);
           },
           error: (err) => {
             console.error('Error al recuperar perfil:', err);
@@ -47,9 +47,9 @@ export class AuthService {
   }
 
   getProfile() {
-    return this.http.get<User>(`${this.baseUrl}/me`).pipe(
-      tap((user) => {
-        this.setUser(user);
+    return this.http.get<ApiResponse<User>>(`${this.baseUrl}/me`).pipe(
+      tap((res) => {
+        this.setUser(res.data);
       })
     );
   }
