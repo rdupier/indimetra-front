@@ -1,13 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Fuente Manrope desde Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap');
-
-/* Estilos globales */
 body {
   @apply bg-background text-textBase font-sans;
 }
-
-
