@@ -6,10 +6,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#2A2929"
+        background: "#2A2929",
+        textBase: "#FFF8F8",
+        hoverBg: "#E3E1DE",
+        hoverText: "#2A2929",
       },
       fontFamily: {
-        sans: ['"Open Sauce One"', 'sans-serif'],
+        sans: ['Manrope', 'sans-serif'],
       },
     },
   },
@@ -18,4 +21,3 @@ module.exports = {
     themes: [],
   },
 };
-
