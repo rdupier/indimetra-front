@@ -6,4 +6,5 @@
 
 body {
   @apply bg-background text-textBase font-sans;
+  overflow-x: hidden;
 }
