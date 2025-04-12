@@ -1,11 +1,12 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
+import { LoginModalComponent } from '../../../auth/components/login-modal/login-modal.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule, RouterLink],
+  imports: [RouterModule, RouterLink, LoginModalComponent],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
