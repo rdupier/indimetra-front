@@ -1,21 +1,20 @@
 <div
-class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-[#E3E1DE] overflow-hidden mt-4"
-style="height: 450px;"
+  class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-[#E3E1DE] overflow-hidden mt-4"
+  style="height: 450px;"
 >
-<div class="absolute inset-0 flex items-center justify-center w-full h-full">
-  <video
-    src="assets/videos/A New Romance_Ambros Chapel_12SEG.mp4"
-    class="w-full h-full object-cover"
-    autoplay
-    muted
-    loop
-    playsinline
-  ></video>
-</div>
+  <div class="absolute inset-0 flex items-center justify-center w-full h-full">
+    <video
+      src="assets/videos/A New Romance_Ambros Chapel_12SEG.mp4"
+      class="w-full h-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+    ></video>
+  </div>
 </div>
 
-
-<section class="text-center text-textBase bg-background py-8 space-y-2">
+<section class="text-center text-textBase bg-background py-[30px] space-y-2">
   <p class="text-base md:text-lg">
     Tu espacio para descubrir el mejor cine independiente, de autor y experimental
   </p>
@@ -24,26 +23,21 @@ style="height: 450px;"
   </p>
 </section>
 
-<!-- Miniaturas -->
 <section
-  class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-background py-6 mb-8"
+  class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-background pb-[30px]"
 >
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-
-    <div
-      class="relative bg-[#E3E1DE] h-[190px] overflow-hidden cursor-pointer"
-    >
-      <!-- IMAGEN REAL ASI -->
-      <img
-        src="URL_DE_LA_IMAGEN"
-        alt="Nombre del corto"
-        class="w-full h-full object-cover cursor-pointer"
-    />
-
-    </div>
-      <div class="relative bg-[#E3E1DE] h-[190px] overflow-hidden cursor-pointer"></div>
-      <div class="relative bg-[#E3E1DE] h-[190px] overflow-hidden cursor-pointer"></div>
-      <div class="relative bg-[#E3E1DE] h-[190px] overflow-hidden cursor-pointer"></div>
-    </div>
-
+    @for (corto of cortometrajes; track corto.id) {
+      <a
+        [routerLink]="['/cortometraje', corto.id]"
+        class="relative bg-[#E3E1DE] aspect-[350/235] overflow-hidden block"
+      >
+        <img
+          [src]="corto.imageUrl"
+          [alt]="corto.title"
+          class="w-full h-full object-cover transition-transform duration-300 hover:scale-105 block"
+        />
+      </a>
+    }
+  </div>
 </section>
