@@ -1,0 +1,23 @@
+<section class="text-center py-10">
+  <h1 class="text-2xl font-semibold mb-6">Cortometrajes de {{ autor }}</h1>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
+    @for (corto of cortometrajesFiltrados; track corto.id) {
+      <a
+        [routerLink]="['/cortometraje', corto.id]"
+        class="block bg-[#E3E1DE] h-[235px] w-full overflow-hidden"
+      >
+        <img
+          [src]="corto.imageUrl"
+          [alt]="corto.title"
+          class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+        />
+      </a>
+    }
+
+    @if (!cortometrajesFiltrados.length) {
+      <p class="col-span-full text-gray-400">Este autor aún no tiene cortometrajes disponibles.</p>
+    }
+  </div>
+</section>
+

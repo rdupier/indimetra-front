@@ -1,0 +1,95 @@
+<section class="w-[100vw] -ml-[calc((100vw-100%)/2)] px-[clamp(1rem,2.5vw,48px)] pb-10 pt-4 bg-background text-textBase">
+  @if (cortometraje()) {
+    <div class="grid md:grid-cols-[1fr_1.6fr] gap-10 items-start">
+      <div class="space-y-8 pt-6">
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <h1 class="text-xl font-semibold">{{ cortometraje()?.title }}</h1>
+            <span class="border border-textBase px-2 py-1 text-sm">
+              {{ cortometraje()?.rating }}
+            </span>
+          </div>
+
+          <a
+            [routerLink]="['/autor', cortometraje()?.author]"
+            class="text-sm font-medium"
+            style="color: #E3E1DE;"
+          >
+            {{ cortometraje()?.author }}
+          </a>
+        </div>
+
+        <div class="flex flex-wrap gap-2 text-xs font-medium text-gray-300 mt-2 items-center">
+          <span style="color: #E3E1DE;">{{ cortometraje()?.releaseYear }}</span>
+          <img
+            src="assets/icons/linedetails.svg"
+            alt="|"
+            class="h-[18px] w-auto mx-2 inline-block"
+          />
+          <span style="color: #E3E1DE;">{{ cortometraje()?.duration }} min</span>
+          <img
+            src="assets/icons/linedetails.svg"
+            alt="|"
+            class="h-[18px] w-auto mx-2 inline-block"
+          />
+          <span style="color: #E3E1DE;">{{ cortometraje()?.language?.toUpperCase() }}</span>
+          <img
+            src="assets/icons/linedetails.svg"
+            alt="|"
+            class="h-[18px] w-auto mx-2 inline-block"
+          />
+          <span style="color: #E3E1DE;">{{ cortometraje()?.category?.toUpperCase() }}</span>
+        </div>
+
+        <div class="mt-4">
+          <h2 class="font-semibold mb-1 text-sm">Sinopsis</h2>
+          <p class="text-sm" style="color: #E3E1DE;">{{ cortometraje()?.description }}</p>
+        </div>
+
+        <button
+          (click)="toggleReviews()"
+          class="block mx-auto mt-4 border border-textBase text-textBase px-4 py-2 text-sm rounded hover:bg-hoverBg hover:text-hoverText transition"
+        >
+          {{ mostrarResenas() ? 'Ocultar Reseñas' : 'Ver Reseñas' }}
+        </button>
+      </div>
+
+      <div class="aspect-video overflow-hidden">
+        <iframe
+          [src]="videoUrlSanitizado()"
+          frameborder="0"
+          allowfullscreen
+          class="w-full h-full"
+        ></iframe>
+      </div>
+    </div>
+
+    @if (mostrarResenas()) {
+      <div class="mt-10 space-y-6">
+        <h2 class="text-center text-sm font-medium border-b border-textBase pb-2 w-[clamp(200px,80vw,1300px)] mx-auto">
+          Reseñas
+        </h2>
+
+
+
+        @for (review of reviews(); track review.id) {
+          <div class="bg-[#2A2929] p-4 rounded text-sm text-gray-100 border border-gray-600">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-semibold">{{ review.username }}</span>
+              <span class="text-xs border border-gray-400 px-2 py-0.5 rounded">
+                {{ review.rating }}
+              </span>
+            </div>
+            <p>{{ review.comment }}</p>
+          </div>
+        }
+
+        @if (isLoggedIn()) {} @else {
+          <p class="text-center text-xs text-gray-400">
+            Para dejar una reseña, <a routerLink="/auth/login" class="underline">inicia sesión</a>.
+          </p>
+        }
+      </div>
+    }
+  }
+</section>
