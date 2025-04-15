@@ -29,21 +29,14 @@ export class AuthService {
       tap((response: any) => {
         console.log('LOGIN RESPONSE:', response);
 
-        // Guarda el token
         if (response.token) {
           localStorage.setItem('token', response.token);
+
+          this.http.get<User>(`${this.baseUrl}/me`).subscribe((user) => {
+            this.setUser(user);
+          });
         }
-
-        const user = {
-          username: response.username,
-          roles: ['ROLE_USER'],
-          email: '',
-          profileImage: '',
-        };
-
-        this.setUser(user);
       })
-
     );
   }
 
@@ -70,5 +63,16 @@ export class AuthService {
       this._user.set(null);
     }
   }
+
+  refreshUser() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    this.http.get<User>(`${this.baseUrl}/me`).subscribe({
+      next: (user) => this.setUser(user),
+      error: () => this.logout()
+    });
+  }
+
 }
 
