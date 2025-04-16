@@ -32,7 +32,7 @@
     @for (corto of cortometrajes; track corto.id) {
       <a
         [routerLink]="['/cortometraje', corto.id]"
-        class="relative bg-[#E3E1DE] overflow-hidden block"
+        class="relative bg-[#E3E1DE] aspect-[350/196] overflow-hidden block"
       >
         <img
           [src]="corto.imageUrl"
