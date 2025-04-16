@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 
 import { User } from '../interfaces/user.interface';
 import { LoginResponse } from '../interfaces/login-response.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class AuthService {
     return Array.isArray(user?.roles) && user.roles.includes('ROLE_ADMIN');
   });
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.loadFromLocalStorage();
   }
 
@@ -34,6 +35,12 @@ export class AuthService {
 
           this.http.get<User>(`${this.baseUrl}/me`).subscribe((user) => {
             this.setUser(user);
+
+            if (user.roles.includes('ROLE_ADMIN')) {
+              this.router.navigate(['/admin/videos']);
+            } else {
+              this.router.navigate(['/']);
+            }
           });
         }
       })

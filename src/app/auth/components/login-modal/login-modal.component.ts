@@ -24,13 +24,13 @@ export class LoginModalComponent {
     this.authService.login(this.username, this.password).subscribe({
       next: () => {
         this.close.emit();
-        this.router.navigateByUrl('/');
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Error al iniciar sesión';
       }
     });
   }
+
 
   closeModal() {
     this.close.emit();
