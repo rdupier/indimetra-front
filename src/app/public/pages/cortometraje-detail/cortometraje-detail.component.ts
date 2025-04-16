@@ -33,7 +33,7 @@ export class CortometrajeDetailComponent implements OnInit {
     if (isNaN(id)) return;
 
     this.cortometrajeService.getCortometrajeById(id).subscribe({
-      next: (data) => this.cortometraje.set(data),
+      next: (data: any) => this.cortometraje.set(data.data),
       error: (err) => console.error('Error cargando cortometraje', err),
     });
 

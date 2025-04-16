@@ -7,11 +7,11 @@
     </a>
 
     @if (showMobileMenu() || isDesktop()) {
-      <ul class="flex flex-col md:flex-row gap-y-2 md:gap-x-6 items-center text-sm font-medium mt-4 md:mt-0">
-        <li><a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Inicio</a></li>
-        <li><a routerLink="/genres" routerLinkActive="active-link">Género</a></li>
-        <li><a routerLink="/techniques" routerLinkActive="active-link">Técnicas</a></li>
-        <li><a routerLink="/explore" routerLinkActive="active-link">Explorar</a></li>
+      <ul class="flex flex-col md:flex-row gap-y-2 md:gap-x-12 items-center text-sm font-medium mt-4 md:mt-0">
+        <li><a class="nav-link" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Inicio</a></li>
+        <li><a class="nav-link" routerLink="/genres" routerLinkActive="active-link">Género</a></li>
+        <li><a class="nav-link" routerLink="/techniques" routerLinkActive="active-link">Técnicas</a></li>
+        <li><a class="nav-link" routerLink="/explore" routerLinkActive="active-link">Explorar</a></li>
       </ul>
     }
   </div>

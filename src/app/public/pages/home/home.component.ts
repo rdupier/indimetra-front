@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.cortometrajeService.getAllCortometrajes().subscribe({
-      next: (data) => (this.cortometrajes = data),
+      next: (data: any) => (this.cortometrajes = data.data),
       error: (err) => console.error('Error al cargar cortometrajes:', err),
     });
   }

@@ -32,12 +32,12 @@
     @for (corto of cortometrajes; track corto.id) {
       <a
         [routerLink]="['/cortometraje', corto.id]"
-        class="relative bg-[#E3E1DE] aspect-[350/235] overflow-hidden block"
+        class="relative bg-[#E3E1DE] overflow-hidden block"
       >
         <img
           [src]="corto.imageUrl"
           [alt]="corto.title"
-          class="w-full h-full object-cover transition-transform duration-300 hover:scale-105 block"
+          class="w-full transition-transform duration-300 hover:scale-105 block"
         />
       </a>
     }
