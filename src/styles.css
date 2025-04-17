@@ -90,3 +90,13 @@ main {
   font-weight: 600;
   line-height: 2.125rem;
 }
+
+.logoMedium {
+  width: 370.08px;
+  height: 151.2px;
+}
+
+.logoSmall {
+  width: 154.2px;
+  height: 63px;
+}
