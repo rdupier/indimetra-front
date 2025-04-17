@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         background: "#2A2929",
         textBase: "#FFF8F8",
+        subtext: 'A9A59B',
         hoverBg: "#E3E1DE",
         hoverText: "#2A2929",
       },
