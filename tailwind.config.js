@@ -63,7 +63,14 @@ module.exports = {
           lineHeight: '2.125rem',
           fontWeight: '600',
         }],
+        h6: ['1.125rem', {
+          lineHeight: '1.75rem',
+          fontWeight: '600',
+        }],
       },
+      backgroundImage: {
+        'main-bg': "url(/assets/img/main-bg.svg)",
+      }
     },
   },
   plugins: [require("daisyui")],
