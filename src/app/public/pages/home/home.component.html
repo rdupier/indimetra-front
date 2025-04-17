@@ -1,6 +1,6 @@
 <div
-  class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-[#E3E1DE] overflow-hidden mt-4"
-  style="height: 450px;"
+  class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden mt-4"
+  style="height: 480px;"
 >
   <div class="absolute inset-0 flex items-center justify-center w-full h-full">
     <video
@@ -17,22 +17,22 @@
 </div>
 
 <section class="text-center text-textBase bg-background py-[30px] space-y-2">
-  <p class="text-base md:text-lg">
+  <p class="text-base md:text-lg font-h5">
     Tu espacio para descubrir el mejor cine independiente, de autor y experimental
   </p>
-  <p class="text-base md:text-lg">
+  <p class="text-base md:text-lg font-h5">
     Tu espacio para hacer cine a tu manera
   </p>
 </section>
 
 <section
-  class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-background pb-[30px]"
+  class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-background"
 >
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
     @for (corto of cortometrajes; track corto.id) {
       <a
         [routerLink]="['/cortometraje', corto.id]"
-        class="relative bg-[#E3E1DE] aspect-[16/9] overflow-hidden block"
+        class="relative aspect-[16/9] overflow-hidden block"
       >
         <img
           [src]="corto.imageUrl"
