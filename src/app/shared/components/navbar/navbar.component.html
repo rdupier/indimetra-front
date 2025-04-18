@@ -30,7 +30,10 @@
           </li>
         } @else {
           <li>
-            <a routerLink="/mi-estudio" class="boton-menu" aria-label="Mi estudio">Mi Estudio</a>
+            <a routerLink="/mi-estudio" class="boton-menu icon-btn flex items-center gap-2" aria-label="Mi estudio">
+              <img src="assets/icons/profile.svg" alt="icon profile" class="w-5 h-5"/>
+              Mi Estudio
+            </a>
           </li>
           <li>
             <button (click)="logout()" class="boton-menu" aria-label="Cerrar sesión">Cerrar Sesión</button>
