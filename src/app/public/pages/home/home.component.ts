@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { CortometrajeService } from '../../../auth/services/cortometraje.service';
-import { Cortometraje } from '../../../auth/interfaces/cortometraje.interface';
 import { RouterModule } from '@angular/router';
+import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
+import { CortometrajeService } from '../../../core/services/cortometraje.service';
 
 @Component({
   selector: 'app-home',

@@ -1,10 +1,12 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-
-import { User } from '../interfaces/user.interface';
-import { LoginResponse } from '../interfaces/login-response.interface';
 import { Router } from '@angular/router';
+
+import { LoginResponse } from '../models/login-response.dto';
+import { User } from '../../core/interfaces/user.interface';
+import { ApiResponse } from '../../core/models/api-response.dto';
+import { RegisterRequestDto } from '../models/register-request.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -26,25 +28,38 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, { username, password }).pipe(
-      tap((response: any) => {
-        console.log('LOGIN RESPONSE:', response);
+    return this.http
+      .post<LoginResponse>(`${this.baseUrl}/login`, { username, password })
+      .pipe(
+        tap((response) => {
+          if (response.token) {
+            localStorage.setItem('token', response.token);
 
-        if (response.token) {
-          localStorage.setItem('token', response.token);
+            this.getCurrentUser().subscribe({
+              next: (res) => {
+                const user = res.data;
+                console.log('Usuario autenticado:', user);
+                this.setUser(user);
 
-          this.http.get<User>(`${this.baseUrl}/me`).subscribe((user) => {
-            this.setUser(user);
+                if (user.roles.includes('ROLE_ADMIN')) {
+                  this.router.navigate(['/admin/videos']);
+                } else {
+                  this.router.navigate(['/']);
+                }
+              },
+              error: () => this.logout(),
+            });
+          }
+        })
+      );
+  }
 
-            if (user.roles.includes('ROLE_ADMIN')) {
-              this.router.navigate(['/admin/videos']);
-            } else {
-              this.router.navigate(['/']);
-            }
-          });
-        }
-      })
-    );
+  register(data: RegisterRequestDto) {
+    return this.http.post<ApiResponse<User>>(`${this.baseUrl}/register`, data);
+  }
+
+  getCurrentUser() {
+    return this.http.get<ApiResponse<User>>(`${this.baseUrl}/me`);
   }
 
   setUser(user: User) {
@@ -53,9 +68,23 @@ export class AuthService {
   }
 
   logout() {
-    this._user.set(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    this.logoutFromBackend().subscribe({
+      next: () => {
+        this._user.set(null);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      },
+      error: () => {
+        this._user.set(null);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      },
+    });
+  }
+
+  // Util si en el futuro se quiere guardar sesiones en la bbdd, backlist de JWT, usar cookies en vez de localStorage, etc.
+  logoutFromBackend() {
+    return this.http.post<ApiResponse<void>>(`${this.baseUrl}/logout`, {});
   }
 
   private loadFromLocalStorage() {
@@ -65,8 +94,7 @@ export class AuthService {
         const parsed = JSON.parse(stored);
         this._user.set(parsed);
       }
-    } catch (err) {
-      console.error('Error al cargar el usuario desde localStorage:', err);
+    } catch {
       this._user.set(null);
     }
   }
@@ -75,11 +103,9 @@ export class AuthService {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    this.http.get<User>(`${this.baseUrl}/me`).subscribe({
-      next: (user) => this.setUser(user),
-      error: () => this.logout()
+    this.getCurrentUser().subscribe({
+      next: (res) => this.setUser(res.data),
+      error: () => this.logout(),
     });
   }
-
 }
-

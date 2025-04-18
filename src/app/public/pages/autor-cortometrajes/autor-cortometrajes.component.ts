@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CortometrajeService } from '../../../auth/services/cortometraje.service';
-import { Cortometraje } from '../../../auth/interfaces/cortometraje.interface';
+import { CortometrajeService } from '../../../core/services/cortometraje.service';
+import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 
 @Component({
   selector: 'app-autor-cortometrajes',

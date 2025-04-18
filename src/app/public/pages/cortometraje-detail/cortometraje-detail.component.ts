@@ -1,11 +1,11 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { CortometrajeService } from '../../../auth/services/cortometraje.service';
-import { ReviewService } from '../../../auth/services/review.service';
+import { CortometrajeService } from '../../../core/services/cortometraje.service';
+import { ReviewService } from '../../../core/services/review.service';
 import { AuthService } from '../../../auth/services/auth.service';
-import { Cortometraje } from '../../../auth/interfaces/cortometraje.interface';
-import { Review } from '../../../auth/interfaces/review.interface';
+import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
+import { Review } from '../../../core/interfaces/review.interface';
 
 @Component({
   selector: 'app-cortometraje-detail',

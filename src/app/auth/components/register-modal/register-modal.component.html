@@ -1,0 +1,117 @@
+@if (visible) {
+
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+>
+  <div class="p-6 rounded shadow-lg w-full max-w-md relative">
+    <button
+      (click)="closeModal()"
+      class="absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
+    >
+      ✕
+    </button>
+
+    <h1 class="text-2xl font-bold mb-4 text-white">Registrarse</h1>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-white">Usuario</label>
+        <input
+          type="text"
+          formControlName="username"
+          class="w-full mt-1 p-2 border rounded text-black"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-white">Email</label>
+        <input
+          type="email"
+          formControlName="email"
+          class="w-full mt-1 p-2 border rounded text-black"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-white">Contraseña</label>
+        <input
+          type="password"
+          formControlName="password"
+          class="w-full mt-1 p-2 border rounded text-black"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-white">País</label>
+        <input
+          type="text"
+          formControlName="country"
+          class="w-full mt-1 p-2 border rounded text-black"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-white"
+          >Imagen de perfil (URL)</label
+        >
+        <input
+          type="text"
+          formControlName="profileImage"
+          class="w-full mt-1 p-2 border rounded text-black"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-white"
+          >Redes sociales</label
+        >
+        <input
+          type="text"
+          formControlName="socialLinks"
+          class="w-full mt-1 p-2 border rounded text-black"
+        />
+      </div>
+
+      <div class="mb-4 flex items-start gap-2">
+        <input
+          type="checkbox"
+          formControlName="termsAccepted"
+          id="termsAccepted"
+          class="mt-1"
+        />
+        <label for="termsAccepted" class="text-sm text-white">
+          Aceptar los términos y condiciones
+        </label>
+      </div>
+
+      <p class="text-bodyXS text-gray-400 mb-4">
+        Al registrarte, aceptas los términos recogidos en nuestro
+        <a routerLink="/legal" class="underline hover:text-white">Aviso legal</a
+        >.
+      </p>
+
+      <button
+        type="submit"
+        [disabled]="registerForm.invalid"
+        class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+      >
+        Registrarse
+      </button>
+
+      <p class="text-bodyXS text-gray-400 mt-4 text-center">
+        ¿Ya tienes cuenta?
+        <a
+          (click)="switchToLogin()"
+          class="underline cursor-pointer hover:text-white"
+        >
+          Inicia sesión aquí
+        </a>
+      </p>
+
+      @if (errorMessage) {
+      <p class="text-red-500 text-sm mt-2">{{ errorMessage }}</p>
+      }
+    </form>
+  </div>
+</div>
+}
