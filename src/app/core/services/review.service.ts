@@ -13,12 +13,19 @@ export class ReviewService {
   constructor(private http: HttpClient) {}
 
   getReviewsByCortometrajeId(id: number): Observable<Review[]> {
-    return this.http.get<Review[]>('http://localhost:8080/review').pipe(
-      map((reviews) => reviews.filter(r => r.cortometrajeId === id))
-    );
+    return this.http
+      .get<{ data: Review[] }>(`http://localhost:8080/review/buscar/por-cortometraje/${id}`)
+      .pipe(map((res) => res.data));
   }
+
 
   getAll(): Observable<Review[]> {
     return this.http.get<Review[]>(this.apiUrl);
   }
+
+  createReview(review: { cortometrajeId: number; rating: number; comment: string }) {
+    return this.http.post<any>('http://localhost:8080/review', review);
+  }
+
+
 }

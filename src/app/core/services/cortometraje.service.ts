@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Cortometraje } from '../interfaces/cortometraje.interface';
 import { Review } from '../interfaces/review.interface';
 
@@ -24,9 +24,17 @@ export class CortometrajeService {
     return this.http.get<Review[]>(`${this.apiUrl}/${id}/reviews`);
   }
 
-  // cuando tenga el endpoint:
-  // getCortometrajesByAuthor(author: string): Observable<Cortometraje[]> {
-  //   return this.http.get<Cortometraje[]>(`http://localhost:8080/cortometraje/autor/${author}`);
-  // }
+  getMyFavorites(): Observable<any[]> {
+    return this.http
+      .get<{ data: any[] }>('http://localhost:8080/favorite/mis-favoritos')
+      .pipe(map((res) => res.data));
+  }
 
+  addToFavorites(cortometrajeId: number) {
+    return this.http.post<any>('http://localhost:8080/favorite', { cortometrajeId });
+  }
+
+  removeFromFavorites(favoriteId: number) {
+    return this.http.delete(`http://localhost:8080/favorite/${favoriteId}`);
+  }
 }
