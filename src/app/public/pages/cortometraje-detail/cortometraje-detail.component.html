@@ -21,23 +21,11 @@
 
         <div class="flex flex-wrap gap-2 text-xs font-medium text-gray-300 mt-2 items-center">
           <span style="color: #E3E1DE;">{{ cortometraje()?.releaseYear }}</span>
-          <img
-            src="assets/icons/linedetails.svg"
-            alt="|"
-            class="h-[18px] w-auto mx-2 inline-block"
-          />
+          <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] w-auto mx-2 inline-block" />
           <span style="color: #E3E1DE;">{{ cortometraje()?.duration }} min</span>
-          <img
-            src="assets/icons/linedetails.svg"
-            alt="|"
-            class="h-[18px] w-auto mx-2 inline-block"
-          />
+          <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] w-auto mx-2 inline-block" />
           <span style="color: #E3E1DE;">{{ cortometraje()?.language?.toUpperCase() }}</span>
-          <img
-            src="assets/icons/linedetails.svg"
-            alt="|"
-            class="h-[18px] w-auto mx-2 inline-block"
-          />
+          <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] w-auto mx-2 inline-block" />
           <span style="color: #E3E1DE;">{{ cortometraje()?.category?.toUpperCase() }}</span>
         </div>
 
@@ -46,45 +34,52 @@
           <p class="text-sm" style="color: #E3E1DE;">{{ cortometraje()?.description }}</p>
         </div>
 
-        <button
-          (click)="toggleReviews()"
-          class="block mx-auto mt-4 border border-textBase text-textBase px-4 py-2 text-sm rounded hover:bg-hoverBg hover:text-hoverText transition"
-        >
-          {{ mostrarResenas() ? 'Ocultar Reseñas' : 'Ver Reseñas' }}
-        </button>
+        @if (isLoggedIn()) {
+          <div class="flex flex-wrap justify-start gap-4 mt-4">
+            <button (click)="toggleWatchLater()" class="boton-menu icon-btn flex items-center gap-2">
+              <img [src]="estaEnWatchLater() ? 'assets/icons/bookmark-style.svg' : 'assets/icons/bookmark.svg'" alt="Ver después" class="w-5 h-5" />
+              Ver después
+            </button>
+
+            <button (click)="abrirValoracion()" class="boton-menu icon-btn flex items-center gap-2">
+              <img src="assets/icons/star.svg" alt="Valorar" class="w-5 h-5" />
+              Valorar
+            </button>
+
+            <button (click)="toggleReviews()" class="boton-menu icon-btn flex items-center gap-2">
+              <img src="assets/icons/comment.svg" alt="Ver Reseñas" class="w-5 h-5" />
+              {{ mostrarResenas() ? 'Ocultar' : 'Ver reseñas' }}
+            </button>
+          </div>
+        } @else {
+          <div class="flex justify-center mt-4">
+            <button (click)="toggleReviews()" class="boton-menu icon-btn flex items-center gap-2">
+              <img src="assets/icons/comment.svg" alt="Ver Reseñas" class="w-5 h-5" />
+              {{ mostrarResenas() ? 'Ocultar' : 'Ver reseñas' }}
+            </button>
+          </div>
+        }
       </div>
 
       <div class="aspect-video overflow-hidden">
-        <iframe
-          [src]="videoUrlSanitizado()"
-          frameborder="0"
-          allowfullscreen
-          class="w-full h-full"
-        ></iframe>
+        <iframe [src]="videoUrlSanitizado()" frameborder="0" allowfullscreen class="w-full h-full"></iframe>
       </div>
     </div>
 
-   @if (mostrarResenas()) {
+    @if (mostrarResenas()) {
       <div class="mt-10 space-y-6">
         <h2 class="text-center text-sm font-medium border-b border-textBase pb-2 w-[clamp(200px,80vw,1300px)] mx-auto">
           Reseñas
         </h2>
         @for (review of reviews(); track review.id) {
           <div class="max-w-3xl mx-auto">
-            <span class="block text-[#FFF8F8] font-semibold mb-1 text-[15px]">
-              {{ review.username }}
-            </span>
+            <span class="block text-[#FFF8F8] font-semibold mb-1 text-[15px]">{{ review.username }}</span>
             <div class="bg-[#393533] p-4 text-sm text-[#A9A59B] shadow-sm">
               <div class="w-full flex justify-end mb-1">
-                <span class="text-xs border border-gray-400 px-2 py-0.5 text-white">
-                  {{ review.rating }}
-                </span>
+                <span class="text-xs border border-gray-400 px-2 py-0.5 text-white">{{ review.rating }}</span>
               </div>
-              <p class="text-sm leading-tight mt-0">
-                {{ review.comment }}
-              </p>
+              <p class="text-sm leading-tight mt-0">{{ review.comment }}</p>
             </div>
-
           </div>
         }
 
@@ -96,5 +91,62 @@
         }
       </div>
     }
+  }
+
+  @if (modalResenas()) {
+    <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+      <div class="relative w-[clamp(340px,95vw,650px)] px-24 pt-6 pb-6 bg-background text-textBase border-[1.3px] border-textBase shadow-lg rounded-lg">
+
+        <button (click)="cerrarValoracion()" class="absolute top-4 right-4 text-sm text-gray-400 hover:text-white">✕</button>
+
+        <div class="mx-auto space-y-6">
+
+          <div class="text-center">
+            <h2 class="text-xl font-semibold mb-1">
+              ¿Cómo valoras {{ cortometraje()?.title }}?
+            </h2>
+            <p class="text-sm text-gray-300">
+              Para escribir un comentario, por favor, puntúa
+            </p>
+          </div>
+
+          <div class="flex flex-col">
+            <div class="grid grid-cols-5 gap-2 justify-center mt-2 mb-8">
+              @for (i of [1,2,3,4,5]; track i) {
+                <div class="bg-[#393533] flex flex-col items-center justify-center px-2 pb-3 pt-6 cursor-pointer transition hover:scale-105" (click)="seleccionarEstrella(i)">
+                  <img [src]="i <= estrellaSeleccionada() ? 'assets/icons/star-style.svg' : 'assets/icons/star.svg'" class="w-7 h-7 mb-4" alt="Estrella {{ i }}" />
+                  <span class="text-xs text-white font-medium">
+                    {{
+                      i === 1 ? 'Malo' :
+                      i === 2 ? 'Flojo' :
+                      i === 3 ? 'Bueno' :
+                      i === 4 ? 'Notable' :
+                      'Excelente'
+                    }}
+                  </span>
+                </div>
+              }
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1 mt-4">Comentario</label>
+              <textarea
+                class="w-full bg-[#393533] text-white p-3 text-xs resize-none min-h-[80px]"
+                rows="3"
+                placeholder="Escribe tu comentario..."
+                [ngModel]="comentario()"
+                (ngModelChange)="comentario.set($event)"
+              ></textarea>
+            </div>
+
+            <div class="flex justify-center mt-6">
+              <button (click)="enviarValoracion()" class="boton-menu min-w-[125px]">
+                Valorar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   }
 </section>
