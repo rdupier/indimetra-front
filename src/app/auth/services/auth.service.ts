@@ -38,7 +38,7 @@ export class AuthService {
             this.getCurrentUser().subscribe({
               next: (res) => {
                 const user = res.data;
-                console.log('Usuario autenticado:', user);
+                // console.log('Usuario autenticado:', user);
                 this.setUser(user);
 
                 if (user.roles.includes('ROLE_ADMIN')) {

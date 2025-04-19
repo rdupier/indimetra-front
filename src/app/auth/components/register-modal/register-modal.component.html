@@ -1,117 +1,210 @@
 @if (visible) {
-
 <div
   class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+  (click)="closeModal()"
 >
-  <div class="p-6 rounded shadow-lg w-full max-w-md relative">
-    <button
-      (click)="closeModal()"
-      class="absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
+  <div
+    class="w-[95%] max-w-[512px] bg-background border-[1.3px] border-textBase rounded-[8px] p-[16px] sm:p-[24px] flex flex-col justify-between font-sans text-textBase relative gap-[16px] overflow-y-auto max-h-[95vh]"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Bloque 1: Logo y botón cerrar -->
+    <div class="relative mb-2">
+      <button
+        (click)="closeModal()"
+        class="absolute top-0 right-0 text-gray-400 hover:text-white text-xl"
+        aria-label="Cerrar"
+      >
+        ✕
+      </button>
+
+      <div class="flex justify-center">
+        <img
+          src="assets/img/indimetra-logo.svg"
+          alt="Logo"
+          class="logoSmall w-auto"
+        />
+      </div>
+    </div>
+
+    <!-- Bloque 2: Formulario -->
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="register()"
+      class="flex flex-col items-center gap-[20px] w-full"
     >
-      ✕
-    </button>
+      <h1
+        class="w-full text-actionBase font-semibold text-center text-textBase text-[15px] leading-[20px] tracking-[0.002em]"
+      >
+        Regístrate
+      </h1>
 
-    <h1 class="text-2xl font-bold mb-4 text-white">Registrarse</h1>
+      <div class="flex flex-col gap-[10px] w-full max-w-[360px]">
+        <div class="flex flex-col gap-[2px]">
+          <label class="text-xs font-medium text-white">Usuario *</label>
+          <input
+            type="text"
+            formControlName="username"
+            class="input-form h-[30px] px-[10px] py-[4px]"
+            placeholder="Introduce tu usuario"
+          />
+          @if (registerForm.get('username')?.touched &&
+          registerForm.get('username')?.invalid) {
+          <p class="text-red-400 text-xs mt-[2px]">
+            @if (registerForm.get('username')?.errors?.['required']) { El nombre
+            de usuario es obligatorio. } @if
+            (registerForm.get('username')?.errors?.['minlength']) { Mínimo 3
+            caracteres. } @if
+            (registerForm.get('username')?.errors?.['pattern']) { No puede ser
+            solo números. }
+          </p>
+          }
+        </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="register()">
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-white">Usuario</label>
-        <input
-          type="text"
-          formControlName="username"
-          class="w-full mt-1 p-2 border rounded text-black"
-        />
+        <div class="flex flex-col gap-[2px]">
+          <label class="text-xs font-medium text-white">Email *</label>
+          <input
+            type="email"
+            formControlName="email"
+            class="input-form h-[30px] px-[10px] py-[4px]"
+            placeholder="correo@dominio.com"
+          />
+          @if (registerForm.get('email')?.touched &&
+          registerForm.get('email')?.invalid) {
+          <p class="text-red-400 text-xs mt-[2px]">
+            @if (registerForm.get('email')?.errors?.['required']) { El email es
+            obligatorio. } @if (registerForm.get('email')?.errors?.['email'] ||
+            registerForm.get('email')?.errors?.['pattern']) { Introduce un email
+            válido. }
+          </p>
+          }
+        </div>
+
+        <div class="flex flex-col gap-[2px]">
+          <label class="text-xs font-medium text-white">Contraseña *</label>
+          <input
+            type="password"
+            formControlName="password"
+            class="input-form h-[30px] px-[10px] py-[4px]"
+            placeholder="Introduce tu contraseña"
+          />
+          @if (registerForm.get('password')?.touched &&
+          registerForm.get('password')?.invalid) {
+          <p class="text-red-400 text-xs mt-[2px]">
+            @if (registerForm.get('password')?.errors?.['required']) { La
+            contraseña es obligatoria. } @if
+            (registerForm.get('password')?.errors?.['minlength']) { Mínimo 8
+            caracteres. }
+          </p>
+          }
+        </div>
+
+        <div class="flex flex-col gap-[2px]">
+          <label class="text-xs font-medium text-white">País *</label>
+          <input
+            type="text"
+            formControlName="country"
+            class="input-form h-[30px] px-[10px] py-[4px]"
+            placeholder="Ej. España"
+          />
+          @if (registerForm.get('country')?.touched &&
+          registerForm.get('country')?.invalid) {
+          <p class="text-red-400 text-xs mt-[2px]">El país es obligatorio.</p>
+          }
+        </div>
+
+        <div class="flex flex-col gap-[2px]">
+          <label class="text-xs font-medium text-white"
+            >Imagen de perfil (URL)</label
+          >
+          <input
+            type="text"
+            formControlName="profileImage"
+            class="input-form h-[30px] px-[10px] py-[4px]"
+            placeholder="https://..."
+          />
+        </div>
+
+        <div class="flex flex-col gap-[2px]">
+          <label class="text-xs font-medium text-white">Redes sociales</label>
+          <input
+            type="text"
+            formControlName="socialLinks"
+            class="input-form h-[30px] px-[10px] py-[4px]"
+            placeholder="https://linkedin.com/in/usuario"
+          />
+        </div>
       </div>
 
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-white">Email</label>
-        <input
-          type="email"
-          formControlName="email"
-          class="w-full mt-1 p-2 border rounded text-black"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-white">Contraseña</label>
-        <input
-          type="password"
-          formControlName="password"
-          class="w-full mt-1 p-2 border rounded text-black"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-white">País</label>
-        <input
-          type="text"
-          formControlName="country"
-          class="w-full mt-1 p-2 border rounded text-black"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-white"
-          >Imagen de perfil (URL)</label
-        >
-        <input
-          type="text"
-          formControlName="profileImage"
-          class="w-full mt-1 p-2 border rounded text-black"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-white"
-          >Redes sociales</label
-        >
-        <input
-          type="text"
-          formControlName="socialLinks"
-          class="w-full mt-1 p-2 border rounded text-black"
-        />
-      </div>
-
-      <div class="mb-4 flex items-start gap-2">
+      <div class="flex items-start gap-2 w-full max-w-[360px] mt-[-4px]">
         <input
           type="checkbox"
           formControlName="termsAccepted"
           id="termsAccepted"
-          class="mt-1"
+          class="mt-[2px]"
+          (change)="registerForm.get('termsAccepted')?.markAsTouched()"
         />
-        <label for="termsAccepted" class="text-sm text-white">
+        <label for="termsAccepted" class="text-xs text-white">
           Aceptar los términos y condiciones
         </label>
       </div>
 
-      <p class="text-bodyXS text-gray-400 mb-4">
-        Al registrarte, aceptas los términos recogidos en nuestro
-        <a routerLink="/legal" class="underline hover:text-white">Aviso legal</a
-        >.
+      @if (registerForm.get('termsAccepted')?.touched &&
+      registerForm.get('termsAccepted')?.invalid) {
+      <p class="text-red-400 text-xs mt-[2px] max-w-[360px] text-start">
+        Debes aceptar los términos y condiciones.
       </p>
+      }
 
-      <button
-        type="submit"
-        [disabled]="registerForm.invalid"
-        class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+      <p
+        class="text-[11px] text-gray-400 w-full max-w-[360px] text-start leading-[14px] mt-[-2px]"
       >
-        Registrarse
-      </button>
-
-      <p class="text-bodyXS text-gray-400 mt-4 text-center">
-        ¿Ya tienes cuenta?
+        Al registrarte, aceptas los términos recogidos en nuestro
         <a
-          (click)="switchToLogin()"
-          class="underline cursor-pointer hover:text-white"
+          (click)="openLegalModal()"
+          class="underline hover:text-white cursor-pointer"
+          >Aviso legal</a
         >
-          Inicia sesión aquí
-        </a>
       </p>
+
+      <p
+        class="text-[10px] text-gray-400 w-full max-w-[360px] text-start leading-[12px] mt-[-4px]"
+      >
+        * Campos obligatorios
+      </p>
+
+      <div
+        class="w-full max-w-[360px] pt-[6px] flex flex-col gap-[4px] items-center"
+      >
+        <button
+          type="button"
+          (click)="onRegisterClick()"
+          [ngClass]="{
+            'cursor-not-allowed opacity-60': registerForm.invalid,
+            'cursor-pointer': registerForm.valid
+          }"
+          class="boton-menu w-[110px] h-[32px] text-sm"
+        >
+          Registrarse
+        </button>
+      </div>
 
       @if (errorMessage) {
-      <p class="text-red-500 text-sm mt-2">{{ errorMessage }}</p>
+      <p class="text-red-500 text-sm text-center mt-1">{{ errorMessage }}</p>
       }
     </form>
+
+    <!-- Bloque 3: Link alternancia -->
+    <p class="text-[12px] leading-4 font-semibold text-center text-white mt-1">
+      ¿Ya tienes cuenta?
+      <a
+        (click)="switchToLogin()"
+        class="text-underline hover:text-subtext cursor-pointer transition-colors text-[12px] font-semibold"
+      >
+        Inicia sesión aquí
+      </a>
+    </p>
   </div>
 </div>
-}
+@if (legalVisible) {
+<app-legal-modal [visible]="legalVisible" (close)="closeLegalModal()" />
+} }

@@ -1,51 +1,92 @@
 @if (visible) {
 <div
   class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+  (click)="closeModal()"
 >
-  <div class="p-6 rounded shadow-lg w-full max-w-md relative">
-    <button
-      (click)="closeModal()"
-      class="absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
-    >
-      ✕
-    </button>
-
-    <h1 class="text-2xl font-bold mb-4">Iniciar sesión</h1>
-
-    <form (ngSubmit)="login()">
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-white">Usuario</label>
-        <input
-          type="text"
-          [(ngModel)]="username"
-          name="username"
-          required
-          class="w-full mt-1 p-2 border rounded text-black"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-white">Contraseña</label>
-        <input
-          type="password"
-          [(ngModel)]="password"
-          name="password"
-          required
-          class="w-full mt-1 p-2 border rounded text-black"
-        />
-      </div>
-
+  <div
+    class="w-[95%] max-w-[512px] bg-background border-[1.3px] border-textBase rounded-[8px] p-[16px] sm:p-[24px] flex flex-col justify-between font-sans text-textBase relative gap-[16px] overflow-y-auto max-h-[90vh]"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Bloque 1: Logo y botón cerrar -->
+    <div class="relative mb-4">
       <button
-        type="submit"
-        class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        (click)="closeModal()"
+        class="absolute top-0 right-0 text-gray-400 hover:text-white text-xl"
+        aria-label="Cerrar"
       >
-        Iniciar sesión
+        ✕
       </button>
 
+      <div class="flex justify-center">
+        <img
+          src="assets/img/indimetra-logo.svg"
+          alt="Logo"
+          class="logoSmall w-auto"
+        />
+      </div>
+    </div>
+
+    <!-- Bloque 2: Formulario -->
+    <form
+      (ngSubmit)="login()"
+      class="flex flex-col items-center gap-[30px] w-full"
+    >
+      <h1 class="text-actionBase font-semibold text-center text-textBase">
+        Iniciar Sesión
+      </h1>
+
+      <div class="flex flex-col gap-[25px] w-full max-w-[377px]">
+        <div class="flex flex-col gap-[6px]">
+          <label class="text-sm font-medium text-white">Username</label>
+          <input
+            type="text"
+            [(ngModel)]="username"
+            name="username"
+            required
+            class="input-form"
+            placeholder="Introduce tu usuario"
+          />
+        </div>
+
+        <div class="flex flex-col gap-[6px]">
+          <label class="text-sm font-medium text-white">Contraseña</label>
+          <input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            class="input-form"
+            placeholder="Introduce tu contraseña"
+          />
+        </div>
+      </div>
+
+      <div
+        class="w-full max-w-[464px] pt-[8px] flex flex-col gap-[8px] items-center"
+      >
+        <button
+          type="submit"
+          class="boton-menu w-[120px] h-[35px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] hover:bg-white hover:text-background transition-colors duration-300 ease-in-out"
+        >
+          Iniciar
+        </button>
+      </div>
+
       @if (errorMessage) {
-      <p class="text-red-500 text-sm mt-2">{{ errorMessage }}</p>
+      <p class="text-red-600 text-sm text-center">{{ errorMessage }}</p>
       }
     </form>
+
+    <!-- Bloque 3: Link alternancia -->
+    <p class="text-[12px] leading-4 font-semibold text-center text-white mt-4">
+      ¿No tienes cuenta?
+      <a
+        (click)="switchToRegister()"
+        class="text-underline hover:text-subtext cursor-pointer transition-colors text-[12px] font-semibold"
+      >
+        Regístrate aquí
+      </a>
+    </p>
   </div>
 </div>
 }

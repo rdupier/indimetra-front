@@ -22,6 +22,7 @@ main {
   width: 23.13rem;
   height: 9.45rem;
 }
+
 .logoSmall {
   width: 9.64rem;
   height: 3.94rem;
@@ -34,4 +35,8 @@ main {
   text-decoration-thickness: 7%;
   text-underline-offset: 19%;
   text-underline-position: from-font;
+}
+
+.input-form {
+  @apply w-full h-[36px] px-[12px] pr-[56px] py-[8px] rounded-[2px] bg-backgroundInput text-sm leading-5 font-medium text-subtext placeholder:text-subtext placeholder:font-medium placeholder:text-sm placeholder:leading-5;
 }

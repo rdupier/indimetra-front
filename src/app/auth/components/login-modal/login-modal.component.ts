@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class LoginModalComponent {
   @Input() visible: boolean = false;
   @Output() close = new EventEmitter<void>();
+  @Output() openRegister = new EventEmitter<void>();
 
   username: string = '';
   password: string = '';
@@ -27,14 +28,16 @@ export class LoginModalComponent {
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Error al iniciar sesión';
-      }
+      },
     });
   }
-
 
   closeModal() {
     this.close.emit();
   }
+
+  switchToRegister() {
+    this.close.emit();
+    this.openRegister.emit();
+  }
 }
-
-

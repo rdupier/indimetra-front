@@ -37,14 +37,6 @@
         <li>
           <a
             class="nav-link"
-            routerLink="/techniques"
-            routerLinkActive="active-link"
-            >Técnicas</a
-          >
-        </li>
-        <li>
-          <a
-            class="nav-link"
             routerLink="/explore"
             routerLinkActive="active-link"
             >Explorar</a
@@ -99,17 +91,24 @@
     }
   </div>
 
-  <!-- Modal login -->
   <app-login-modal
     [visible]="showLoginModal()"
     (close)="showLoginModal.set(false)"
+    (openRegister)="showLoginModal.set(false); showRegisterModal.set(true)"
   >
   </app-login-modal>
 
-  <!-- Modal registro -->
   <app-register-modal
     [visible]="showRegisterModal()"
     (close)="showRegisterModal.set(false)"
-    (openLogin)="showLoginModal.set(true)"
-  ></app-register-modal>
+    (openLogin)="showRegisterModal.set(false); showLoginModal.set(true)"
+    (openLegal)="showRegisterModal.set(false); showLegalModal.set(true)"
+  >
+  </app-register-modal>
+
+  <app-legal-modal
+    [visible]="showLegalModal()"
+    (close)="showLegalModal.set(false); showRegisterModal.set(true)"
+  >
+  </app-legal-modal>
 </nav>

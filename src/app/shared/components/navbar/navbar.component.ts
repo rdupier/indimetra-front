@@ -3,13 +3,20 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 import { LoginModalComponent } from '../../../auth/components/login-modal/login-modal.component';
 import { RegisterModalComponent } from '../../../auth/components/register-modal/register-modal.component';
+import { LegalModalComponent } from "../../../auth/components/legal-modal/legal-modal.component";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule, RouterLink, LoginModalComponent, RegisterModalComponent],
+  imports: [
+    RouterModule,
+    RouterLink,
+    LoginModalComponent,
+    RegisterModalComponent,
+    LegalModalComponent
+],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
   private authService = inject(AuthService);
@@ -21,6 +28,9 @@ export class NavbarComponent {
   showLoginModal = signal(false);
   showRegisterModal = signal(false);
   showMobileMenu = signal(false);
+  showLegalModal = signal(false);
+
+  previousModal: 'register' | null = null;
 
   // Detectar si está en escritorio (solo al cargar)
   isDesktop = signal(window.innerWidth >= 768);
@@ -30,7 +40,7 @@ export class NavbarComponent {
   }
 
   toggleMobileMenu() {
-    this.showMobileMenu.update(v => !v);
+    this.showMobileMenu.update((v) => !v);
   }
 
   // Cerrar unn modal si el otro se abre
@@ -38,10 +48,9 @@ export class NavbarComponent {
     this.showRegisterModal.set(false);
     this.showLoginModal.set(true);
   }
-  
+
   openRegisterModal() {
     this.showLoginModal.set(false);
     this.showRegisterModal.set(true);
   }
-  
 }
