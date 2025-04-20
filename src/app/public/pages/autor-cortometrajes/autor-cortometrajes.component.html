@@ -1,23 +1,71 @@
-<section class="text-center py-10">
-  <h1 class="text-2xl font-semibold mb-6">Cortometrajes de {{ autor }}</h1>
+<section class="text-center py-10 text-textBase">
+  <h1 class="text-xl font-semibold mb-4">Obras por autor</h1>
 
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
-    @for (corto of cortometrajesFiltrados; track corto.id) {
-      <a
-        [routerLink]="['/cortometraje', corto.id]"
-        class="block bg-[#E3E1DE] h-[235px] w-full overflow-hidden"
-      >
+  <section>
+    @if (userData) {
+      <div class="flex flex-col items-center gap-3">
         <img
-          [src]="corto.imageUrl"
-          [alt]="corto.title"
-          class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          [src]="userData.profileImage"
+          (error)="onImageError($event)"
+          alt="Avatar del autor"
+          class="w-24 h-24 rounded-full object-cover border border-textBase"
         />
-      </a>
-    }
 
-    @if (!cortometrajesFiltrados.length) {
-      <p class="col-span-full text-gray-400">Este autor aún no tiene cortometrajes disponibles.</p>
+        <h2 class="text-l font-semibold">{{ autor }}</h2>
+
+        <p class="text-sm text-subtext mb-6">
+          Links redes sociales
+          @if (userData.socialLinks) {
+            <p class="text-sm text-subtext mb-6">
+              Links redes sociales
+              <a
+                [href]="userData.socialLinks"
+                target="_blank"
+                class="underline hover:text-white transition"
+              >
+                {{ userData.socialLinks.replace('https://', '').replace('www.', '') }}
+              </a>
+            </p>
+          }
+      </div>
+
+    } @else {
+      <p class="text-center text-subtext mb-6">Cargando perfil del autor...</p>
     }
-  </div>
+  </section>
+
+  <section class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-background text-textBase mb-10">
+    <div class="px-[clamp(1rem,2.5vw,48px)] py-3">
+      <h2 class="text-l font-semibold text-left">Todos sus metrajes</h2>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      @for (corto of cortometrajesFiltrados; track corto.id) {
+        <a
+          [routerLink]="['/cortometraje', corto.id]"
+          class="block"
+        >
+          <div class="aspect-[16/9] overflow-hidden">
+            <img
+              [src]="corto.imageUrl"
+              [alt]="corto.title"
+              class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            />
+          </div>
+          <div class="bg-backgroundInput px-6 py-2">
+            <h3 class="text-sm font-semibold text-textBase truncate">
+              {{ corto.title }}
+            </h3>
+            <p class="text-xs text-subtext truncate">{{ corto.author }}</p>
+          </div>
+        </a>
+      }
+
+      @if (!cortometrajesFiltrados.length) {
+        <p class="col-span-full text-center text-sm text-subtext mt-6">
+          Este autor aún no tiene cortometrajes disponibles.
+        </p>
+      }
+    </div>
+  </section>
 </section>
-

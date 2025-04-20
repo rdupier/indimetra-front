@@ -24,6 +24,12 @@ export class CortometrajeService {
     return this.http.get<Review[]>(`${this.apiUrl}/${id}/reviews`);
   }
 
+  getCortometrajesByAuthor(username: string) {
+    return this.http
+      .get<{ data: Cortometraje[] }>(`${this.apiUrl}/buscar/autor/${username}`)
+      .pipe(map((res) => res.data));
+  }
+
   getMyFavorites(): Observable<any[]> {
     return this.http
       .get<{ data: any[] }>('http://localhost:8080/favorite/mis-favoritos')
