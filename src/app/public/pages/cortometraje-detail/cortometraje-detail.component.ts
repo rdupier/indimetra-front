@@ -7,6 +7,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 import { Review } from '../../../core/interfaces/review.interface';
 import { FormsModule } from '@angular/forms';
+import { ModalService } from '../../../shared/modal.service';
 
 @Component({
   selector: 'app-cortometraje-detail',
@@ -15,6 +16,7 @@ import { FormsModule } from '@angular/forms';
   imports: [RouterModule, FormsModule],
 })
 export class CortometrajeDetailComponent implements OnInit {
+  constructor(private modalService: ModalService) {}
 
   private route = inject(ActivatedRoute);
   private cortometrajeService = inject(CortometrajeService);
@@ -53,6 +55,11 @@ export class CortometrajeDetailComponent implements OnInit {
     });
 
   }
+
+  abrirModalLogin() {
+    this.modalService.showLoginModal.set(true);
+  }
+
 
   toggleReviews(): void {
     this.mostrarResenas.update((v) => !v);

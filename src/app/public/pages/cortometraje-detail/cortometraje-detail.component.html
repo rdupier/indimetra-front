@@ -71,6 +71,13 @@
         <h2 class="text-center text-sm font-medium border-b border-textBase pb-2 w-[clamp(200px,80vw,1300px)] mx-auto">
           Reseñas
         </h2>
+
+        @if (reviews().length === 0) {
+          <p class="text-center text-xs text-subtext mt-6">
+            Este cortometraje no tiene reseñas todavía.
+          </p>
+        }
+
         @for (review of reviews(); track review.id) {
           <div class="max-w-3xl mx-auto">
             <span class="block text-textBase font-semibold mb-1 text-[15px]">{{ review.username }}</span>
@@ -84,9 +91,11 @@
         }
 
         @if (isLoggedIn()) {} @else {
-          <p class="text-center text-sm text-subtext mt-6">
+          <p class="text-center text-xs text-subtext mt-6">
             Para escribir un comentario, por favor,
-            <a routerLink="/auth/login" class="underline hover:text-white transition">inicia sesión</a>.
+            <a (click)="abrirModalLogin()" class="underline hover:text-white transition cursor-pointer">
+              inicia sesión
+            </a>.
           </p>
         }
       </div>

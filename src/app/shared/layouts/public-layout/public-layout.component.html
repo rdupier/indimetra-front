@@ -6,6 +6,12 @@
   </main>
 
   <app-footer></app-footer>
+
+  <app-login-modal
+    [visible]="modalService.showLoginModal()"
+    (close)="modalService.showLoginModal.set(false)"
+  ></app-login-modal>
+
 </div>
 
 
