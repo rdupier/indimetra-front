@@ -37,7 +37,7 @@
 
       <div class="flex flex-col gap-[25px] w-full max-w-[377px]">
         <div class="flex flex-col gap-[6px]">
-          <label class="text-sm font-medium text-white">Username</label>
+          <label class="text-sm font-medium text-textBase">Username</label>
           <input
             type="text"
             [(ngModel)]="username"
@@ -49,7 +49,7 @@
         </div>
 
         <div class="flex flex-col gap-[6px]">
-          <label class="text-sm font-medium text-white">Contraseña</label>
+          <label class="text-sm font-medium text-textBase">Contraseña</label>
           <input
             type="password"
             [(ngModel)]="password"
@@ -78,7 +78,7 @@
     </form>
 
     <!-- Bloque 3: Link alternancia -->
-    <p class="text-[12px] leading-4 font-semibold text-center text-white mt-4">
+    <p class="text-[12px] leading-4 font-semibold text-center text-textBase mt-4">
       ¿No tienes cuenta?
       <a
         (click)="switchToRegister()"

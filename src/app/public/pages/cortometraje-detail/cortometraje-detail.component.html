@@ -73,10 +73,10 @@
         </h2>
         @for (review of reviews(); track review.id) {
           <div class="max-w-3xl mx-auto">
-            <span class="block text-[#FFF8F8] font-semibold mb-1 text-[15px]">{{ review.username }}</span>
-            <div class="bg-[#393533] p-4 text-sm text-[#A9A59B] shadow-sm">
+            <span class="block text-textBase font-semibold mb-1 text-[15px]">{{ review.username }}</span>
+            <div class="bg-backgroundInput p-4 text-sm text-subtext shadow-sm">
               <div class="w-full flex justify-end mb-1">
-                <span class="text-xs border border-gray-400 px-2 py-0.5 text-white">{{ review.rating }}</span>
+                <span class="text-xs border text-textBase px-2 py-0.5">{{ review.rating }}</span>
               </div>
               <p class="text-sm leading-tight mt-0">{{ review.comment }}</p>
             </div>
@@ -84,7 +84,7 @@
         }
 
         @if (isLoggedIn()) {} @else {
-          <p class="text-center text-sm text-[#A9A59B] mt-6">
+          <p class="text-center text-sm text-subtext mt-6">
             Para escribir un comentario, por favor,
             <a routerLink="/auth/login" class="underline hover:text-white transition">inicia sesión</a>.
           </p>
@@ -97,7 +97,7 @@
     <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
       <div class="relative w-[clamp(340px,95vw,650px)] px-24 pt-6 pb-6 bg-background text-textBase border-[1.3px] border-textBase shadow-lg rounded-lg">
 
-        <button (click)="cerrarValoracion()" class="absolute top-4 right-4 text-sm text-gray-400 hover:text-white">✕</button>
+        <button (click)="cerrarValoracion()" class="absolute top-4 right-4 text-sm text-textBase hover:text-white">✕</button>
 
         <div class="mx-auto space-y-6">
 
@@ -105,7 +105,7 @@
             <h2 class="text-xl font-semibold mb-1">
               ¿Cómo valoras {{ cortometraje()?.title }}?
             </h2>
-            <p class="text-sm text-gray-300">
+            <p class="text-sm text-textBase">
               Para escribir un comentario, por favor, puntúa
             </p>
           </div>
@@ -113,9 +113,9 @@
           <div class="flex flex-col">
             <div class="grid grid-cols-5 gap-2 justify-center mt-2 mb-8">
               @for (i of [1,2,3,4,5]; track i) {
-                <div class="bg-[#393533] flex flex-col items-center justify-center px-2 pb-3 pt-6 cursor-pointer transition hover:scale-105" (click)="seleccionarEstrella(i)">
+                <div class="bg-backgroundInput flex flex-col items-center justify-center px-2 pb-3 pt-6 cursor-pointer transition hover:scale-105" (click)="seleccionarEstrella(i)">
                   <img [src]="i <= estrellaSeleccionada() ? 'assets/icons/star-style.svg' : 'assets/icons/star.svg'" class="w-7 h-7 mb-4" alt="Estrella {{ i }}" />
-                  <span class="text-xs text-white font-medium">
+                  <span class="text-xs text-textBase font-medium">
                     {{
                       i === 1 ? 'Malo' :
                       i === 2 ? 'Flojo' :
@@ -131,7 +131,7 @@
             <div>
               <label class="block text-sm font-medium mb-1 mt-4">Comentario</label>
               <textarea
-                class="w-full bg-[#393533] text-white p-3 text-xs resize-none min-h-[80px]"
+                class="w-full bg-backgroundInput text-subtext placeholder:text-subtext p-3 text-xs resize-none min-h-[80px]"
                 rows="3"
                 placeholder="Escribe tu comentario..."
                 [ngModel]="comentario()"
