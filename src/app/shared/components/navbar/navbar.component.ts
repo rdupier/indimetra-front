@@ -43,7 +43,7 @@ export class NavbarComponent {
     this.showMobileMenu.update((v) => !v);
   }
 
-  // Cerrar unn modal si el otro se abre
+  // Cerrar un modal si el otro se abre
   openLoginModal() {
     this.showRegisterModal.set(false);
     this.showLoginModal.set(true);
