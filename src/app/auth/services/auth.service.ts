@@ -12,6 +12,9 @@ import { RegisterRequestDto } from '../models/register-request.dto';
   providedIn: 'root',
 })
 export class AuthService {
+  getRole() {
+    throw new Error('Method not implemented.');
+  }
   private baseUrl = 'http://localhost:8080/auth';
 
   private _user = signal<User | null>(null);
@@ -73,11 +76,13 @@ export class AuthService {
         this._user.set(null);
         localStorage.removeItem('user');
         localStorage.removeItem('token');
+        this.router.navigate(['/']);
       },
       error: () => {
         this._user.set(null);
         localStorage.removeItem('user');
         localStorage.removeItem('token');
+        this.router.navigate(['/']);
       },
     });
   }
