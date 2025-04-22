@@ -1,31 +1,33 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { LegalModalComponent } from '../../../auth/components/legal-modal/legal-modal.component';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { RegisterRequestDto } from '../../models/register-request.dto';
+import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
-import { LegalModalComponent } from '../legal-modal/legal-modal.component';
+import { RegisterRequestDto } from '../../../auth/models/register-request.dto';
+import { LoginModalComponent } from '../../../auth/components/login-modal/login-modal.component';
 
 @Component({
-  selector: 'app-register-modal',
+  selector: 'app-register',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LegalModalComponent],
-  templateUrl: './register-modal.component.html',
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.css'
 })
-export class RegisterModalComponent {
+export class RegisterComponent {
+
   @Input() visible: boolean = false;
   @Output() close = new EventEmitter<void>();
   @Output() openLogin = new EventEmitter<void>();
   @Output() openLegal = new EventEmitter<void>();
+  @Output() switchToLoginModal = new EventEmitter<void>();
 
   registerForm: FormGroup;
   errorMessage: string = '';
   legalVisible: boolean = false;
+
+  showLegalModal = signal(false);
+  showLoginModal = signal(false);
 
   constructor(
     private fb: FormBuilder,
@@ -55,8 +57,7 @@ export class RegisterModalComponent {
         [Validators.pattern(/^(https?:\/\/)?[\w\-]+(\.[\w\-]+)+[/#?]?.*$/)],
       ],
       country: ['', [Validators.required]],
-      socialLinks: [
-        '',
+      socialLinks: ['',
         [
           Validators.pattern(
             /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=.]+)?$/
@@ -81,7 +82,6 @@ export class RegisterModalComponent {
         this.authService.login(data.username, data.password).subscribe({
           next: () => {
             this.close.emit();
-            // this.router.navigate(['/menu']);
           },
           error: (err) => {
             this.errorMessage =
@@ -96,13 +96,8 @@ export class RegisterModalComponent {
     });
   }
 
-  closeModal() {
-    this.close.emit();
-  }
-
   switchToLogin() {
-    this.close.emit();
-    this.openLogin.emit();
+    this.switchToLoginModal.emit();
   }
 
   onRegisterClick() {
@@ -118,12 +113,12 @@ export class RegisterModalComponent {
     }
   }
 
-  closeLegalModal() {
-    this.legalVisible = false;
+  openLegalModal() {
+    this.showLegalModal.set(true);
   }
 
-  openLegalModal() {
-    this.close.emit();
-    this.openLegal.emit();
+  closeLegalModal() {
+    this.showLegalModal.set(false);
   }
+
 }

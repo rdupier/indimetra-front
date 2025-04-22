@@ -1,131 +1,84 @@
 @if (visible) {
-<div
-  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-  (click)="closeModal()"
->
-  <div
-    class="w-full max-w-[930px] bg-background border-[1.3px] border-textBase rounded-[8px] p-[24px] gap-[24px] flex flex-col justify-between font-sans text-textBase relative overflow-y-auto max-h-[95vh]"
-    (click)="$event.stopPropagation()"
-  >
+<div class="fixed inset-0 bg-base bg-opacity-50 flex items-center justify-center z-50" (click)="closeModal()">
+  <div class="w-full max-w-3xl bg-base border-[1.3px] border-primary rounded-[8px] p-[24px] gap-[24px] flex flex-col 
+    justify-between relative overflow-y-auto max-h-[95vh]" (click)="$event.stopPropagation()">
     <!-- Bloque 1: Logo y botón cerrar -->
     <div class="relative mb-2">
-      <button
-        (click)="closeModal()"
-        class="absolute top-0 right-0 text-gray-400 hover:text-white text-xl"
-        aria-label="Cerrar"
-      >
+      <button (click)="closeModal()" class="absolute top-0 right-0 text-gray-400 hover:text-white text-xl"
+        aria-label="Cerrar">
         ✕
       </button>
 
       <div class="flex justify-center">
-        <img
-          src="assets/img/indimetra-logo.svg"
-          alt="Logo"
-          class="logoSmall w-auto"
-        />
+        <img src="assets/img/indimetra-logo.svg" alt="Logo" class="logoSmall w-auto"/>
       </div>
     </div>
 
     <!-- Bloque 2: Avisos legales -->
-    <h1 class="text-actionBase font-semibold text-center text-[18px]">
-      Aviso legal
-    </h1>
-
-    <div
-      class="flex flex-col gap-[24px] text-white max-h-[540px] overflow-y-auto pr-[8px] font-sans"
-    >
-      <div class="flex flex-col gap-[10px]">
-        <p class="font-semibold text-[16px] leading-[24px] tracking-[0.002em]">
-          1. Propiedad intelectual
-        </p>
-        <p class="text-sm leading-[20px] font-normal">
-          Todo el contenido audiovisual publicado en Indimetra es
-          responsabilidad de sus respectivos autores. El usuario que sube una
-          obra garantiza ser el titular de los derechos o disponer de la
-          autorización necesaria para su publicación.
-        </p>
-      </div>
-
-      <div class="flex flex-col gap-[10px]">
-        <p class="font-semibold text-[16px] leading-[24px] tracking-[0.002em]">
-          2. Publicación de contenido
-        </p>
-        <p class="text-sm leading-[20px] font-normal">
-          Indimetra es una plataforma abierta para la promoción de obras
-          originales. Al publicar un cortometraje, el usuario acepta que su obra
-          sea visible públicamente y declara que el contenido no infringe
-          ninguna ley de derechos de autor, imagen o privacidad.
-        </p>
-      </div>
-
-      <!-- FIX: INCLUIR ENLACE A CONTACTO CUANDO ESTE LISTO -->
-      <div class="flex flex-col gap-[10px]">
-        <p class="font-semibold text-[16px] leading-[24px] tracking-[0.002em]">
-          3. Retirada de contenido
-        </p>
-        <p class="text-sm leading-[20px] font-normal">
-          Indimetra se reserva el derecho de retirar cualquier contenido que
-          vulnere derechos de autor, promueva discursos de odio, incite a la
-          violencia, contravenga la legalidad vigente o las normas de uso de la
-          plataforma. Para reportes,
-          <a href="/contacto" class="text-underline hover:text-white"
-            >contacta con nosotros</a
-          >.
-        </p>
-      </div>
-
-      <div class="flex flex-col gap-[10px]">
-        <p class="font-semibold text-[16px] leading-[24px] tracking-[0.002em]">
-          4. Protección de datos
-        </p>
-        <p class="text-sm leading-[20px] font-normal">
-          Indimetra no recopila datos personales sin el consentimiento del
-          usuario. Cualquier formulario incluirá las debidas cláusulas
-          informativas conforme a la normativa vigente de protección de datos
-          (Reglamento UE 2016/679 - RGPD).
-        </p>
-      </div>
-
-      <div class="flex flex-col gap-[10px]">
-        <p class="font-semibold text-[16px] leading-[24px] tracking-[0.002em]">
-          5. Uso de cookies
-        </p>
-        <p class="text-sm leading-[20px] font-normal">
-          Este sitio puede utilizar cookies técnicas necesarias para su
-          funcionamiento. En caso de incorporar cookies analíticas o de
-          terceros, se mostrará un aviso y se solicitará el consentimiento del
-          usuario al acceder por primera vez.
-        </p>
-      </div>
-
-      <div class="flex flex-col gap-[10px]">
-        <p class="font-semibold text-[16px] leading-[24px] tracking-[0.002em]">
-          6. Modificaciones
-        </p>
-        <p class="text-sm leading-[20px] font-normal">
-          Indimetra se reserva el derecho de modificar en cualquier momento el
-          presente Aviso Legal. Las modificaciones entrarán en vigor desde el
-          momento de su publicación.
-        </p>
-      </div>
-
-      <div class="flex flex-col gap-[10px]">
-        <p class="font-semibold text-[16px] leading-[24px] tracking-[0.002em]">
-          7. Jurisdicción
-        </p>
-        <p class="text-sm leading-[20px] font-normal">
-          Cualquier conflicto relacionado con esta web se regirá por la
-          legislación española, siendo competentes los Juzgados y Tribunales de
-          Madrid.
-        </p>
-      </div>
+    <div class="mx-auto space-y-6 text-primary text-bodyS px-12">
+      <h5 class="text-h5 text-center">Aviso legal</h5>
+      <ol class="space-y-7 list-decimal list-inside text-justify">
+        <li>
+          <span class="text-actionBase">Propiedad intelectual</span>
+          <p class="pt-1">
+            Todo el contenido audiovisual publicado en Indimetra es responsabilidad de sus respectivos autores.
+            El usuario que sube una obra garantiza ser el titular de los derechos o disponer de la autorización
+            necesaria para su publicación.
+          </p>
+        </li>
+        <li>
+          <span class="text-actionBase">Publicación de contenido</span>
+          <p class="pt-1">
+            Indimetra es una plataforma abierta para la promoción de obras originales. Al publicar un
+            cortometraje, el usuario acepta que su obra sea visible públicamente y declara que el contenido no
+            infringe ninguna ley de derechos de autor, imagen o privacidad.
+          </p>
+        </li>
+        <li>
+          <span class="text-actionBase">Retirada de contenido</span>
+          <p class="pt-1">
+            Indimetra se reserva el derecho de retirar cualquier contenido que vulnere derechos de autor,
+            promueva discursos de odio, incite a la violencia, contravenga la legalidad vigente o las normas de
+            uso de la plataforma. Para reportes,
+            <a class="text-underline text-action hover:text-primary cursor-pointer"
+            href="/contact" target="_blank" rel="noopener noreferrer">contacta con nosotros</a>.
+          </p>
+        </li>
+        <li>
+          <span class="text-actionBase">Protección de datos</span>
+          <p class="pt-1">
+            Indimetra no recopila datos personales sin el consentimiento del usuario. Cualquier formulario
+            incluirá las debidas cláusulas informativas conforme a la normativa vigente de protección de datos
+            (Reglamento UE 2016/679 - RGPD).
+          </p>
+        </li>
+        <li>
+          <span class="text-actionBase">Uso de cookies</span>
+          <p class="pt-1">
+            Este sitio puede utilizar cookies técnicas necesarias para su funcionamiento. En caso de incorporar
+            cookies analíticas o de terceros, se mostrará un aviso y se solicitará el consentimiento del usuario
+            al acceder por primera vez.
+          </p>
+        </li>
+        <li>
+          <span class="text-actionBase">Modificaciones</span>
+          <p class="pt-1">
+            Indimetra se reserva el derecho de modificar en cualquier momento el presente Aviso Legal. Las
+            modificaciones entrarán en vigor desde el momento de su publicación.
+          </p>
+        </li>
+        <li>
+          <span class="text-actionBase">Jurisdicción</span>
+          <p class="pt-1">
+            Cualquier conflicto relacionado con esta web se regirá por la legislación española, siendo
+            competentes los Juzgados y Tribunales de Madrid.
+          </p>
+        </li>
+      </ol>
     </div>
 
     <!-- Bloque 3: Cerrar -->
-    <button
-      (click)="closeModal()"
-      class="self-center boton-menu w-[110px] h-[32px] text-sm mt-2"
-    >
+    <button (click)="closeModal()" class="self-center boton-menu w-[110px] h-[32px] text-sm mt-2">
       Cerrar
     </button>
   </div>

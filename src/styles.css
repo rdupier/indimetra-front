@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-background text-textBase font-sans;
+  @apply bg-base text-primary font-sans;
   overflow-x: hidden;
 }
 
@@ -15,7 +15,7 @@ main {
 }
 
 .boton-menu {
-  @apply inline-flex items-center justify-center px-4 py-2 border border-textBase rounded-md text-textBase text-bodyS hover:bg-hoverBg hover:text-hoverText transition-colors duration-200 whitespace-nowrap appearance-none;
+  @apply inline-flex items-center justify-center px-4 py-2 border border-primary rounded-md text-primary text-bodyS hover:bg-action hover:text-base transition-colors duration-200 whitespace-nowrap appearance-none;
 }
 
 .logoMedium {
@@ -38,5 +38,5 @@ main {
 }
 
 .input-form {
-  @apply w-full h-[36px] px-[12px] pr-[56px] py-[8px] rounded-[2px] bg-backgroundInput text-sm leading-5 font-medium text-subtext placeholder:text-subtext placeholder:font-medium placeholder:text-sm placeholder:leading-5;
+  @apply w-full h-[36px] px-[12px] pr-[56px] py-[8px] rounded-[2px] bg-input text-sm leading-5 font-medium text-secondary placeholder:text-secondary placeholder:font-medium placeholder:text-sm placeholder:leading-5;
 }
