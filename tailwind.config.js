@@ -6,12 +6,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#2A2929",
-        textBase: "#FFF8F8",
-        subtext: '#A9A59B',
-        hoverBg: "#E3E1DE",
-        hoverText: "#2A2929",
-        backgroundInput: "#373330"
+        base: "#2A2929",
+        primary: "#FFF8F8",
+        secondary: '#A9A59B',
+        action: "#E3E1DE",
+        input: "#373330",
+        error: "#D75158"
       },
       fontFamily: {
         sans: ['Manrope', 'sans-serif'],
