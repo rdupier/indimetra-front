@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap');
 
-@tailwind principal;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  @apply bg-base text-primary font-sans;
+  @apply bg-principal text-primary font-sans;
   overflow-x: hidden;
 }
 
