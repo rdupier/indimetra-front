@@ -16,9 +16,10 @@ export class HomeComponent implements OnInit {
   constructor(private cortometrajeService: CortometrajeService) {}
 
   ngOnInit(): void {
-    this.cortometrajeService.getAllCortometrajes().subscribe({
-      next: (data: any) => (this.cortometrajes = data.data),
-      error: (err) => console.error('Error al cargar cortometrajes:', err),
+    this.cortometrajeService.getTop5Latest().subscribe({
+      next: (data) => (this.cortometrajes = data.slice(0, 4)),
+      error: (err) =>
+        console.error('Error al cargar los cortometrajes más recientes:', err),
     });
   }
 

@@ -24,9 +24,15 @@ export class CortometrajeService {
     return this.http.get<Review[]>(`${this.apiUrl}/${id}/reviews`);
   }
 
-  getCortometrajesByAuthor(username: string) {
+  getCortometrajesByAuthor(username: string): Observable<Cortometraje[]> {
     return this.http
       .get<{ data: Cortometraje[] }>(`${this.apiUrl}/buscar/autor/${username}`)
+      .pipe(map((res) => res.data));
+  }
+
+  getTop5Latest(): Observable<Cortometraje[]> {
+    return this.http
+      .get<{ data: Cortometraje[] }>(`${this.apiUrl}/buscar/latest`)
       .pipe(map((res) => res.data));
   }
 
@@ -36,11 +42,15 @@ export class CortometrajeService {
       .pipe(map((res) => res.data));
   }
 
-  addToFavorites(cortometrajeId: number) {
-    return this.http.post<any>('http://localhost:8080/favorite', { cortometrajeId });
+  addToFavorites(cortometrajeId: number): Observable<any> {
+    return this.http.post<any>('http://localhost:8080/favorite', {
+      cortometrajeId,
+    });
   }
 
-  removeFromFavorites(favoriteId: number) {
-    return this.http.delete(`http://localhost:8080/favorite/${favoriteId}`);
+  removeFromFavorites(favoriteId: number): Observable<void> {
+    return this.http.delete<void>(
+      `http://localhost:8080/favorite/${favoriteId}`
+    );
   }
 }
