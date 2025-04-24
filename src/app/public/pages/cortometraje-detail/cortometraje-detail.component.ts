@@ -8,12 +8,13 @@ import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 import { Review } from '../../../core/interfaces/review.interface';
 import { FormsModule } from '@angular/forms';
 import { ModalService } from '../../../shared/modal.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cortometraje-detail',
   standalone: true,
   templateUrl: './cortometraje-detail.component.html',
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule, CommonModule],
 })
 export class CortometrajeDetailComponent implements OnInit {
   constructor(private modalService: ModalService) {}
