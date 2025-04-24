@@ -1,1 +1,55 @@
-<p>explore works!</p>
+<section
+  class="w-full bg-principal text-primary px-[clamp(1rem,2.5vw,48px)] pt-10 pb-16"
+>
+  <!-- Header -->
+  <div class="text-center space-y-4 mb-10">
+    <h2 class="text-h2">Explora los límites de tu imaginación</h2>
+  </div>
+
+  <!-- Filtros -->
+  <div class="flex flex-wrap gap-4 justify-between items-center mb-10">
+    <!-- Dropdowns -->
+    <app-filtro-select
+      label="GÉNERO"
+      [opciones]="generos()"
+      [(model)]="filtroGenero"
+    />
+    <app-filtro-select
+      label="IDIOMA"
+      [opciones]="idiomas()"
+      [(model)]="filtroIdioma"
+    />
+    <app-filtro-select
+      label="DURACIÓN"
+      [opciones]="duraciones"
+      [(model)]="filtroDuracion"
+    />
+
+    <!-- Botones -->
+    <div class="flex gap-3">
+      <button class="boton-menu" (click)="aplicarFiltros()">Filtrar</button>
+      <button class="boton-menu" (click)="resetFiltros()">Limpiar</button>
+    </div>
+  </div>
+
+  <!-- Grid de cortometrajes -->
+  <div
+    class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+  >
+    @for (corto of cortometrajesFiltrados(); track corto.id) {
+    <div
+      class="bg-dark rounded-md overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+    >
+      <img
+        [src]="corto.imageUrl"
+        alt="Portada"
+        class="w-full h-[200px] object-cover"
+      />
+      <div class="p-4">
+        <h3 class="text-sm font-semibold">{{ corto.title }}</h3>
+        <p class="text-xs text-subtext">{{ corto.author }}</p>
+      </div>
+    </div>
+    }
+  </div>
+</section>

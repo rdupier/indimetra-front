@@ -1,0 +1,13 @@
+<div class="flex flex-col gap-1 text-sm">
+  <label class="font-medium text-primary">{{ label }}</label>
+  <select
+    class="input-form"
+    [ngModel]="model"
+    (ngModelChange)="modelChange.emit($event)"
+  >
+    <option [ngValue]="null">Todos</option>
+    @for (opcion of opciones; track opcion) {
+      <option [ngValue]="opcion">{{ opcion }}</option>
+    }
+  </select>
+</div>

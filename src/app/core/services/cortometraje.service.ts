@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Cortometraje } from '../interfaces/cortometraje.interface';
 import { Review } from '../interfaces/review.interface';
+import { ApiResponse } from '../models/api-response.dto';
+import { PagedResponse } from '../models/paged-response.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +53,21 @@ export class CortometrajeService {
   removeFromFavorites(favoriteId: number): Observable<void> {
     return this.http.delete<void>(
       `http://localhost:8080/favorite/${favoriteId}`
+    );
+  }
+
+  getAllLanguages(): Observable<string[]> {
+    return this.http
+      .get<ApiResponse<string[]>>(`${this.apiUrl}/buscar/idiomas`)
+      .pipe(map((res) => res.data));
+  }
+
+  getAllCortometrajesPaginados(
+    page: number = 0,
+    size: number = 10
+  ): Observable<PagedResponse<Cortometraje>> {
+    return this.http.get<PagedResponse<Cortometraje>>(
+      `${this.apiUrl}/paginated?page=${page}&size=${size}`
     );
   }
 }
