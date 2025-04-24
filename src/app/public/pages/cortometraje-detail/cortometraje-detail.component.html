@@ -81,7 +81,7 @@
         @for (review of reviews(); track review.id) {
           <div class="max-w-3xl mx-auto">
             <span class="block text-textBase font-semibold mb-1 text-[15px]">{{ review.username }}</span>
-            <div class="bg-backgroundInput p-4 text-sm text-subtext shadow-sm">
+            <div class="bg-input p-4 text-sm text-subtext shadow-sm">
               <div class="w-full flex justify-end mb-1">
                 <span class="text-xs border text-textBase px-2 py-0.5">{{ review.rating }}</span>
               </div>
@@ -122,7 +122,7 @@
           <div class="flex flex-col">
             <div class="grid grid-cols-5 gap-2 justify-center mt-2 mb-8">
               @for (i of [1,2,3,4,5]; track i) {
-                <div class="bg-backgroundInput flex flex-col items-center justify-center px-2 pb-3 pt-6 cursor-pointer transition hover:scale-105" (click)="seleccionarEstrella(i)">
+                <div class="bg-input flex flex-col items-center justify-center px-2 pb-3 pt-6 cursor-pointer transition hover:scale-105" (click)="seleccionarEstrella(i)">
                   <img [src]="i <= estrellaSeleccionada() ? 'assets/icons/star-style.svg' : 'assets/icons/star.svg'" class="w-7 h-7 mb-4" alt="Estrella {{ i }}" />
                   <span class="text-xs text-textBase font-medium">
                     {{
@@ -140,7 +140,7 @@
             <div>
               <label class="block text-sm font-medium mb-1 mt-4">Comentario</label>
               <textarea
-                class="w-full bg-backgroundInput text-subtext placeholder:text-subtext p-3 text-xs resize-none min-h-[80px]"
+                class="w-full bg-input text-subtext placeholder:text-subtext p-3 text-xs resize-none min-h-[80px]"
                 rows="3"
                 placeholder="Escribe tu comentario..."
                 [ngModel]="comentario()"
