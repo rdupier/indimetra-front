@@ -1,46 +1,60 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 import { FiltroSelectComponent } from '../../../shared/components/filtro-select/filtro-select.component';
 import { CategoryService } from '../../../core/services/category.service';
 import { CortometrajeService } from '../../../core/services/cortometraje.service';
+import { CortometrajeCardComponent } from '../../../shared/components/cortometraje-card/cortometraje-card.component';
 
 @Component({
   selector: 'app-explore',
   standalone: true,
-  imports: [CommonModule, FormsModule, FiltroSelectComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    FiltroSelectComponent,
+    CortometrajeCardComponent,
+  ],
   templateUrl: './explore.component.html',
 })
 export class ExploreComponent implements OnInit {
   private categoryService = inject(CategoryService);
   private cortometrajeService = inject(CortometrajeService);
 
-  // Signals para filtros y datos
   cortometrajes = signal<Cortometraje[]>([]);
   filtroGenero = signal<string | null>(null);
   filtroIdioma = signal<string | null>(null);
   filtroDuracion = signal<string | null>(null);
 
-  // Opciones dinámicas
+  paginaActual = signal(0);
+  tamanoPagina = signal(12);
+  totalPaginas = signal(0);
+
   generos = signal<string[]>([]);
   idiomas = signal<string[]>([]);
   duraciones: string[] = ['< 5 min', '5-10 min', '10-20 min', '> 20 min'];
 
-  cortometrajesFiltrados = computed(() => {
-    return this.cortometrajes().filter((c) => {
-      return (
-        (!this.filtroGenero() || c.category === this.filtroGenero()) &&
-        (!this.filtroIdioma() || c.language === this.filtroIdioma()) &&
-        (!this.filtroDuracion() || this.comprobarDuracion(c.duration))
-      );
+  constructor() {
+    effect(() => {
+      this.filtroGenero();
+      this.filtroIdioma();
+      this.filtroDuracion();
+      this.paginaActual.set(0);
     });
-  });
+
+    effect(() => {
+      this.filtroGenero();
+      this.filtroIdioma();
+      this.filtroDuracion();
+      this.paginaActual();
+      this.loadCortometrajes();
+    });
+  }
 
   ngOnInit(): void {
     this.loadCategorias();
     this.loadIdiomas();
-    this.loadCortometrajes();
   }
 
   loadCategorias() {
@@ -61,34 +75,56 @@ export class ExploreComponent implements OnInit {
   }
 
   loadCortometrajes() {
-    this.cortometrajeService.getAllCortometrajesPaginados(0, 100).subscribe({
-      next: (res) => this.cortometrajes.set(res.data),
-      error: (err) => console.error('Error cargando cortometrajes', err),
-    });
-  }
+    const page = this.paginaActual();
+    const size = this.tamanoPagina();
+    const genero = this.filtroGenero();
+    const idioma = this.filtroIdioma();
+    const duracion = this.mapDuracionValor(this.filtroDuracion());
 
-  aplicarFiltros() {
-    // Aquí podrías realizar la llamada al backend si decides filtrar allí
+    this.cortometrajeService
+      .buscarConFiltros(genero, idioma, duracion, page, size)
+      .subscribe({
+        next: (res) => {
+          this.cortometrajes.set(res.data);
+          const totalPaginasCalculadas = Math.ceil(
+            res.totalItems / res.pageSize
+          );
+          this.totalPaginas.set(totalPaginasCalculadas);
+        },
+        error: (err) => console.error('Error al filtrar cortometrajes', err),
+      });
   }
 
   resetFiltros() {
     this.filtroGenero.set(null);
     this.filtroIdioma.set(null);
     this.filtroDuracion.set(null);
+    this.paginaActual.set(0);
   }
 
-  comprobarDuracion(duracion: number): boolean {
-    switch (this.filtroDuracion()) {
+  siguientePagina() {
+    if (this.paginaActual() < this.totalPaginas() - 1) {
+      this.paginaActual.update((p) => p + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  paginaAnterior() {
+    if (this.paginaActual() > 0) {
+      this.paginaActual.update((p) => p - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  private mapDuracionValor(valor: string | null): string | null {
+    switch (valor) {
       case '< 5 min':
-        return duracion < 5;
       case '5-10 min':
-        return duracion >= 5 && duracion <= 10;
       case '10-20 min':
-        return duracion > 10 && duracion <= 20;
       case '> 20 min':
-        return duracion > 20;
+        return valor;
       default:
-        return true;
+        return null;
     }
   }
 }

@@ -1,0 +1,18 @@
+<a
+  [routerLink]="['/cortometraje', corto.id]"
+  class="group w-full max-w-[310px] overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+>
+  <div class="w-full h-[210px] overflow-hidden">
+    <img
+      [src]="corto.imageUrl"
+      [alt]="corto.title"
+      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+    />
+  </div>
+  <div class="bg-card p-3 h-[60px] flex flex-col justify-center">
+    <h3 class="text-sm font-semibold text-primary truncate">
+      {{ corto.title }}
+    </h3>
+    <p class="text-xs text-primary mt-1 truncate">{{ corto.author }}</p>
+  </div>
+</a>

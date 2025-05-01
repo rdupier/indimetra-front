@@ -70,4 +70,26 @@ export class CortometrajeService {
       `${this.apiUrl}/paginated?page=${page}&size=${size}`
     );
   }
+
+  buscarConFiltros(
+    genero?: string | null,
+    idioma?: string | null,
+    duracion?: string | null,
+    page: number = 0,
+    size: number = 12
+  ): Observable<PagedResponse<Cortometraje>> {
+    const params: any = {
+      page,
+      size,
+    };
+
+    if (genero) params.genero = genero;
+    if (idioma) params.idioma = idioma;
+    if (duracion) params.duracion = duracion;
+
+    return this.http.get<PagedResponse<Cortometraje>>(
+      `${this.apiUrl}/filtrar`,
+      { params }
+    );
+  }
 }
