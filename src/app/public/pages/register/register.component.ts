@@ -6,6 +6,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
 import { RegisterRequestDto } from '../../../auth/models/register-request.dto';
 import { LoginModalComponent } from '../../../auth/components/login-modal/login-modal.component';
+import { ModalService } from '../../../shared/modal.service';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private modalService: ModalService
   ) {
     this.registerForm = this.fb.group({
       username: [
@@ -119,6 +121,10 @@ export class RegisterComponent {
 
   closeLegalModal() {
     this.showLegalModal.set(false);
+  }
+
+  abrirModalLogin() {
+    this.modalService.showLoginModal.set(true);
   }
 
 }

@@ -2,9 +2,7 @@
     <!-- imagen de fondo -->
     <div class="absolute inset-0 bg-fixed bg-cover bg-center bg-main-bg opacity-25 -z-10"></div>
     <!-- contenido -->
-    <div class="max-w-xl mx-auto space-y-6 my-20 text-primary text-bodyS px-12 pb-10 bg-principal 
-     rounded-[8px] p-[24px]">
-        <!-- Bloque 1: Formulario -->
+    <div class="max-w-xl mx-auto space-y-6 my-20 text-primary text-bodyS px-12 pb-10 bg-principal rounded-[8px] p-[24px]">
         <form [formGroup]="registerForm" (ngSubmit)="register()" class="flex flex-col items-center gap-[20px] mt-10">
             <p class="text-h4 text-primary text-center">
                 Regístrate
@@ -113,13 +111,18 @@
                 <i>* Campos obligatorios</i>
             </p>
 
-            <div class="w-full max-w-[26.3rem] pt-[6px] flex flex-col gap-[4px] items-center">
-                <button type="button" (click)="onRegisterClick()" [ngClass]="{
-                'cursor-not-allowed opacity-60': registerForm.invalid,
-                'cursor-pointer': registerForm.valid
-              }" class="boton-menu w-[110px] h-[32px] text-bodyXS">
-                    Registrarse
-                </button>
+            <div class="w-full max-w-[464px] pt-[8px] flex flex-col gap-[8px] items-center">
+              <button
+                type="button"
+                (click)="onRegisterClick()"
+                [ngClass]="{
+                  'cursor-not-allowed opacity-60': registerForm.invalid,
+                  'cursor-pointer hover:bg-white hover:text-background transition-colors duration-300 ease-in-out': registerForm.valid
+                }"
+                class="boton-menu w-[120px] h-[35px] text-bodyXS"
+              >
+                Registrarse
+              </button>
             </div>
 
             @if (errorMessage) {
@@ -127,12 +130,14 @@
             }
         </form>
 
-        <!-- Bloque 2: Link -->
         <p class="text-bodyXS text-primary leading-4 text-center mt-5">
             ¿Ya tienes cuenta?
-            <a class="text-underline text-action hover:text-primary cursor-pointer">
-                Inicia sesión aquí <!--pendiente implementar el servicio de inicio-->
-            </a>
+            <a
+              (click)="abrirModalLogin()"
+              class="text-underline text-action hover:text-primary cursor-pointer"
+            >
+              Inicia sesión aquí</a
+            >
         </p>
 
         @if (showLegalModal()) {

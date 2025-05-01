@@ -1,9 +1,9 @@
 @if (visible) {
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" (click)="closeModal()">
-  <div class="w-[95%] max-w-[512px] bg-principal border-[1.3px] border-primary rounded-[8px] p-[16px] sm:p-[24px] 
+  <div class="w-[95%] max-w-[512px] bg-principal border-[1.3px] border-primary rounded-[8px] p-[16px] sm:p-[24px]
     flex flex-col justify-between font-sans text-primary relative gap-[16px] overflow-y-auto max-h-[90vh]"
     (click)="$event.stopPropagation()">
-    <!-- Bloque 1: Logo y botón cerrar -->
+
     <div class="relative mb-4">
       <button (click)="closeModal()" class="absolute top-0 right-0 text-gray-400 hover:text-white text-xl"
         aria-label="Cerrar">
@@ -15,7 +15,6 @@
       </div>
     </div>
 
-    <!-- Bloque 2: Formulario -->
     <form (ngSubmit)="login()" class="flex flex-col items-center gap-[30px] w-full">
       <h1 class="text-actionBase font-semibold text-center text-primary">
         Iniciar Sesión
@@ -36,7 +35,7 @@
       </div>
 
       <div class="w-full max-w-[464px] pt-[8px] flex flex-col gap-[8px] items-center">
-        <button type="submit" class="boton-menu w-[120px] h-[35px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] hover:bg-white 
+        <button type="submit" class="boton-menu w-[120px] h-[35px] hover:bg-white
           hover:text-background transition-colors duration-300 ease-in-out">
           Iniciar
         </button>
@@ -47,15 +46,14 @@
       }
     </form>
 
-    <!-- Bloque 3: Link alternancia -->
-    <p class="text-[12px] leading-4 font-semibold text-center text-textBase mt-4">
+    <p class="text-bodyXS text-primary leading-4 text-center mt-5">
       ¿No tienes cuenta?
-      <a class="text-underline text-action hover:text-primary" (click)="closeModal()" routerLink="/register"
+      <a class="text-underline text-action hover:text-primary cursor-pointer" (click)="closeModal()" routerLink="/register"
         routerLinkActive="active-link">
-        Regístrate aquí
-      </a>.
+        Regístrate aquí</a
+      >
     </p>
-  
+
   </div>
 </div>
 }
