@@ -163,122 +163,44 @@
   @if (mostrarResenas()) {
   <div class="mt-10 space-y-6">
     <h2
-      class="text-center text-sm font-medium border-b border-primary pb-2 w-[clamp(200px,80vw,1300px)] mx-auto"
-    >
-      Reseñas
-    </h2>
+      class="text-center text-h6 font-medium border-b border-primary pb-2 w-[clamp(200px,80vw,1300px)] mx-auto">
+      Reseñas</h2>
 
     @if (reviews().length === 0) {
-    <p class="text-center text-xs text-subtext mt-6">
+    <p class="text-center text-bodyXS text-secondary mt-6">
       Este cortometraje no tiene reseñas todavía.
     </p>
     } @for (review of reviews(); track review.id) {
     <div class="max-w-3xl mx-auto">
-      <span class="block text-textBase font-semibold mb-1 text-[15px]">{{
-        review.username
-      }}</span>
+      <span class="block text-primary text-bodyS mb-1">{{review.username}}</span>
       <div class="bg-input p-4 text-sm text-subtext shadow-sm">
         <div class="w-full flex justify-end mb-1">
-          <span class="text-xs border text-textBase px-2 py-0.5">{{
-            review.rating
-          }}</span>
+          <span class="text-action text-bodyXS border px-2 py-0.5">
+            {{ review.rating }}
+          </span>
         </div>
-        <p class="text-sm leading-tight mt-0">{{ review.comment }}</p>
+        <p class="text-secondary text-bodyXS leading-tight mt-0">{{ review.comment }}</p>
       </div>
     </div>
     } @if (isLoggedIn()) {} @else {
-    <p class="text-center text-xs text-subtext mt-6">
+    <p class="text-center text-secondary text-bodyXS mt-6">
       Para escribir un comentario, por favor,
       <a
         (click)="abrirModalLogin()"
         class="underline hover:text-white transition cursor-pointer"
       >
         inicia sesión </a
-      >.
+      >
     </p>
     }
   </div>
   } } @if (modalResenas()) {
-  <div
-    class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
-  >
-    <div
-      class="relative w-[clamp(340px,95vw,650px)] px-24 pt-6 pb-6 bg-principal text-primary border-[1.3px] border-primary shadow-lg rounded-lg"
-    >
-      <button
-        (click)="cerrarValoracion()"
-        class="absolute top-4 right-4 text-sm text-textBase hover:text-white"
-      >
-        ✕
-      </button>
-
-      <div class="mx-auto space-y-6">
-        <div class="text-center">
-          <h2 class="text-xl font-semibold mb-1">
-            ¿Cómo valoras {{ cortometraje()?.title }}?
-          </h2>
-          <p class="text-sm text-textBase">
-            Para escribir un comentario, por favor, puntúa
-          </p>
-        </div>
-
-        <div class="flex flex-col">
-          <div class="grid grid-cols-5 gap-2 justify-center mt-2 mb-8">
-            @for (i of [1,2,3,4,5]; track i) {
-            <div
-              class="bg-input flex flex-col items-center justify-center px-2 pb-3 pt-6 cursor-pointer transition hover:scale-105"
-              (click)="seleccionarEstrella(i)"
-            >
-              <img
-                [src]="
-                  i <= estrellaSeleccionada()
-                    ? 'assets/icons/star-style.svg'
-                    : 'assets/icons/star.svg'
-                "
-                class="w-7 h-7 mb-4"
-                alt="Estrella {{ i }}"
-              />
-              <span class="text-xs text-textBase font-medium">
-                {{
-                  i === 1
-                    ? "Malo"
-                    : i === 2
-                    ? "Flojo"
-                    : i === 3
-                    ? "Bueno"
-                    : i === 4
-                    ? "Notable"
-                    : "Excelente"
-                }}
-              </span>
-            </div>
-            }
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium mb-1 mt-4"
-              >Comentario</label
-            >
-            <textarea
-              class="w-full bg-input text-subtext placeholder:text-subtext p-3 text-xs resize-none min-h-[80px]"
-              rows="3"
-              placeholder="Escribe tu comentario..."
-              [ngModel]="comentario()"
-              (ngModelChange)="comentario.set($event)"
-            ></textarea>
-          </div>
-
-          <div class="flex justify-center mt-6">
-            <button
-              (click)="enviarValoracion()"
-              class="boton-menu min-w-[125px]"
-            >
-              Valorar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <app-valorar-modal
+      [visible]="modalResenas()"
+      [title]="cortometraje()?.title || ''"
+      [form]="formValoracion"
+      (close)="cerrarValoracion()"
+      (submit)="enviarValoracionExterna($event)"
+    />
   }
 </section>

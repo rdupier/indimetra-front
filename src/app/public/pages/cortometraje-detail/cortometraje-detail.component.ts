@@ -1,23 +1,29 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { ModalService } from '../../../shared/modal.service';
+
 import { CortometrajeService } from '../../../core/services/cortometraje.service';
 import { ReviewService } from '../../../core/services/review.service';
-import { AuthService } from '../../../auth/services/auth.service';
 import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 import { Review } from '../../../core/interfaces/review.interface';
-import { FormsModule } from '@angular/forms';
-import { ModalService } from '../../../shared/modal.service';
-import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../auth/services/auth.service';
+import { ValorarModalComponent } from '../../../shared/components/valorar-modal/valorar-modal.component';
 
 @Component({
   selector: 'app-cortometraje-detail',
   standalone: true,
   templateUrl: './cortometraje-detail.component.html',
-  imports: [RouterModule, FormsModule, CommonModule],
+  imports: [RouterModule, FormsModule, CommonModule, ReactiveFormsModule, ValorarModalComponent],
 })
 export class CortometrajeDetailComponent implements OnInit {
-  constructor(private modalService: ModalService) {}
+  constructor(
+    private fb: FormBuilder,
+    private modalService: ModalService
+  ) {}
 
   private route = inject(ActivatedRoute);
   private cortometrajeService = inject(CortometrajeService);
@@ -29,12 +35,13 @@ export class CortometrajeDetailComponent implements OnInit {
   reviews = signal<Review[]>([]);
   mostrarResenas = signal(false);
   modalResenas = signal(false);
-  estrellaSeleccionada = signal<number>(0);
-  comentario = signal('');
   estaEnWatchLater = signal(false);
   favoriteId: number | null = null;
 
   isLoggedIn = computed(() => this.authService.isLoggedIn());
+
+  formValoracion!: FormGroup;
+  formTocado = false;
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -50,9 +57,14 @@ export class CortometrajeDetailComponent implements OnInit {
 
     this.reviewService.getReviewsByCortometrajeId(id).subscribe({
       next: (res) => {
-        this.reviews.set(res); // res ya es Review[]
+        this.reviews.set(res);
       },
       error: (err) => console.error('Error al cargar reseñas', err),
+    });
+
+    this.formValoracion = this.fb.group({
+      rating: [0, [Validators.min(1)]],
+      comment: ['', [Validators.required, Validators.minLength(2)]],
     });
 
   }
@@ -60,7 +72,6 @@ export class CortometrajeDetailComponent implements OnInit {
   abrirModalLogin() {
     this.modalService.showLoginModal.set(true);
   }
-
 
   toggleReviews(): void {
     this.mostrarResenas.update((v) => !v);
@@ -72,54 +83,30 @@ export class CortometrajeDetailComponent implements OnInit {
 
   cerrarValoracion(): void {
     this.modalResenas.set(false);
-    this.estrellaSeleccionada.set(0);
-    this.comentario.set('');
   }
 
   seleccionarEstrella(valor: number): void {
-    this.estrellaSeleccionada.set(valor);
+    this.formValoracion.get('rating')?.setValue(valor);
   }
 
-  enviarValoracion(): void {
+  enviarValoracionExterna(data: { rating: number; comment: string }) {
+    if (!data || typeof data.rating !== 'number') return;
+
     const cortometrajeId = this.cortometraje()?.id;
-    const estrellas = this.estrellaSeleccionada();
-    const comment = this.comentario().trim();
-
-    if (!cortometrajeId || estrellas < 1 || estrellas > 5) {
-      console.warn('Faltan datos válidos para enviar valoración');
-      return;
-    }
-
-    // // Rating hardcodeado para test
-    // const rating = 2.0;
-
-    // const body = {
-    //   cortometrajeId,
-    //   rating,
-    //   comment
-    // };
-
-    const rating = Number(estrellas).toFixed(1); // Esto da un string "2.0"
-    const parsedRating = parseFloat(rating); // Asegura que va como número 2.0
+    if (!cortometrajeId) return;
 
     const body = {
       cortometrajeId,
-      rating: parsedRating,
-      comment,
+      rating: parseFloat(data.rating.toFixed(1)),
+      comment: data.comment.trim(),
     };
-
-
-    // JSON para test
-    console.log('Enviando:', JSON.stringify(body, null, 2));
 
     this.reviewService.createReview(body).subscribe({
       next: (nuevaResena) => {
         this.reviews.update(actuales => [...actuales, nuevaResena]);
-        this.cerrarValoracion();
+        this.modalResenas.set(false);
       },
-      error: (err) => {
-        console.error('Error al enviar valoración', err);
-      }
+      error: (err) => console.error('Error al enviar valoración', err),
     });
   }
 
@@ -159,7 +146,6 @@ export class CortometrajeDetailComponent implements OnInit {
     });
   }
 
-
   videoUrlSanitizado(): SafeResourceUrl {
     const videoUrl = this.cortometraje()?.videoUrl ?? '';
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.convertToEmbedUrl(videoUrl));
@@ -169,4 +155,5 @@ export class CortometrajeDetailComponent implements OnInit {
     const match = url.match(/(?:youtube\.com.*(?:\?v=|embed\/)|youtu\.be\/)([^&]+)/);
     return match ? `https://www.youtube.com/embed/${match[1]}` : '';
   }
+
 }

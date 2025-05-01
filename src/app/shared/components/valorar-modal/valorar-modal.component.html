@@ -1,0 +1,82 @@
+@if (visible) {
+  <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+    <div class="relative w-[clamp(340px,95vw,650px)] px-24 pt-6 pb-6 bg-principal text-primary border-[1.3px] border-primary shadow-lg rounded-lg">
+      <button
+        (click)="onClose()"
+        class="absolute top-4 right-4 text-sm text-textBase hover:text-white"
+      >✕</button>
+
+      <div class="mx-auto space-y-6">
+        <div class="text-center">
+          <h2 class="text-xl font-semibold mb-1">¿Cómo valoras {{ title }}?</h2>
+          <p class="text-primary text-bodyS">Para escribir un comentario, por favor, puntúa</p>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col">
+          <div class="grid grid-cols-5 gap-2 justify-center mt-2 mb-3">
+            @for (i of [1, 2, 3, 4, 5]; track i) {
+              <div
+                class="bg-input flex flex-col items-center justify-center px-2 pb-3 pt-6 cursor-pointer transition hover:scale-105"
+                (click)="setRating(i)"
+              >
+                <img
+                  [attr.src]="
+                    i <= form.get('rating')?.value
+                      ? 'assets/icons/star-style.svg'
+                      : 'assets/icons/star.svg'
+                  "
+                  class="w-7 h-7 mb-4"
+                  alt="Estrella {{ i }}"
+                />
+                <span class="text-bodyXS text-primary font-medium">
+                  {{
+                    i === 1 ? 'Malo' :
+                    i === 2 ? 'Flojo' :
+                    i === 3 ? 'Bueno' :
+                    i === 4 ? 'Notable' :
+                    'Excelente'
+                  }}
+                </span>
+              </div>
+            }
+          </div>
+
+          @if (formTouched && form.get('rating')?.errors?.['min']) {
+            <p class="text-error text-bodyXS">
+              Selecciona al menos una estrella.
+            </p>
+          }
+
+          <div>
+            <label class="block text-bodyS mb-1 mt-8">Comentario</label>
+            <textarea
+              formControlName="comment"
+              class="w-full bg-input placeholder:text-secondary text-bodyXS p-3 resize-none min-h-[80px]"
+              placeholder="Escribe tu comentario..."
+            ></textarea>
+
+            @if (formTouched && form.get('comment')?.invalid) {
+              <p class="text-error text-bodyXS mt-1">
+                @if (form.get('comment')?.errors?.['required']) {
+                  El comentario es obligatorio.
+                }
+                @if (form.get('comment')?.errors?.['minlength']) {
+                  Debe tener al menos 2 caracteres.
+                }
+              </p>
+            }
+          </div>
+
+          <div class="flex justify-center mt-6">
+            <button
+              type="submit"
+              class="boton-menu min-w-[125px]"
+            >
+              Valorar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}
