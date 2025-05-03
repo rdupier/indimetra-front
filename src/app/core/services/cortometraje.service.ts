@@ -6,62 +6,61 @@ import { Review } from '../interfaces/review.interface';
 import { ApiResponse } from '../models/api-response.dto';
 import { PagedResponse } from '../models/paged-response.dto';
 
+/**
+ * Servicio para gestionar cortometrajes y sus operaciones asociadas,
+ * incluyendo búsqueda, favoritos y reseñas.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class CortometrajeService {
   private readonly apiUrl = 'http://localhost:8080/cortometraje';
+  private readonly favoritosUrl = 'http://localhost:8080/favorite';
 
   constructor(private http: HttpClient) {}
 
+  // --------------------------------------------------------------------------
+  // 📁 BÁSICO - CRUD
+  // --------------------------------------------------------------------------
+
+  /**
+   * Obtiene todos los cortometrajes sin paginar.
+   * @returns Observable con un array de cortometrajes.
+   */
   getAllCortometrajes(): Observable<Cortometraje[]> {
     return this.http.get<Cortometraje[]>(this.apiUrl);
   }
 
+  /**
+   * Obtiene un cortometraje por su ID.
+   * @param id ID del cortometraje.
+   * @returns Observable con el cortometraje correspondiente.
+   */
   getCortometrajeById(id: number): Observable<Cortometraje> {
     return this.http.get<Cortometraje>(`${this.apiUrl}/${id}`);
   }
 
-  getReviewByCortometrajeId(id: number): Observable<Review[]> {
-    return this.http.get<Review[]>(`${this.apiUrl}/${id}/reviews`);
-  }
-
-  getCortometrajesByAuthor(username: string): Observable<Cortometraje[]> {
+  /**
+   * Elimina un cortometraje si el usuario es el dueño o admin.
+   * @param id ID del cortometraje a eliminar.
+   * @returns Observable con el mensaje de éxito.
+   */
+  eliminarCortometraje(id: number): Observable<string> {
     return this.http
-      .get<{ data: Cortometraje[] }>(`${this.apiUrl}/buscar/autor/${username}`)
-      .pipe(map((res) => res.data));
+      .delete<ApiResponse<void>>(`${this.apiUrl}/${id}`)
+      .pipe(map((res) => res.message));
   }
 
-  getTop5Latest(): Observable<Cortometraje[]> {
-    return this.http
-      .get<{ data: Cortometraje[] }>(`${this.apiUrl}/buscar/latest`)
-      .pipe(map((res) => res.data));
-  }
+  // --------------------------------------------------------------------------
+  // 🔍 BÚSQUEDAS Y FILTROS
+  // --------------------------------------------------------------------------
 
-  getMyFavorites(): Observable<any[]> {
-    return this.http
-      .get<{ data: any[] }>('http://localhost:8080/favorite/mis-favoritos')
-      .pipe(map((res) => res.data));
-  }
-
-  addToFavorites(cortometrajeId: number): Observable<any> {
-    return this.http.post<any>('http://localhost:8080/favorite', {
-      cortometrajeId,
-    });
-  }
-
-  removeFromFavorites(favoriteId: number): Observable<void> {
-    return this.http.delete<void>(
-      `http://localhost:8080/favorite/${favoriteId}`
-    );
-  }
-
-  getAllLanguages(): Observable<string[]> {
-    return this.http
-      .get<ApiResponse<string[]>>(`${this.apiUrl}/buscar/idiomas`)
-      .pipe(map((res) => res.data));
-  }
-
+  /**
+   * Obtiene todos los cortometrajes paginados.
+   * @param page Número de página (por defecto 0).
+   * @param size Tamaño de página (por defecto 10).
+   * @returns Observable con los cortometrajes paginados.
+   */
   getAllCortometrajesPaginados(
     page: number = 0,
     size: number = 10
@@ -71,6 +70,15 @@ export class CortometrajeService {
     );
   }
 
+  /**
+   * Busca cortometrajes filtrando por género, idioma o duración.
+   * @param genero Género del cortometraje (opcional).
+   * @param idioma Idioma del cortometraje (opcional).
+   * @param duracion Rango de duración (opcional).
+   * @param page Página actual (por defecto 0).
+   * @param size Tamaño de página (por defecto 12).
+   * @returns Observable con cortometrajes filtrados y paginados.
+   */
   buscarConFiltros(
     genero?: string | null,
     idioma?: string | null,
@@ -78,11 +86,7 @@ export class CortometrajeService {
     page: number = 0,
     size: number = 12
   ): Observable<PagedResponse<Cortometraje>> {
-    const params: any = {
-      page,
-      size,
-    };
-
+    const params: any = { page, size };
     if (genero) params.genero = genero;
     if (idioma) params.idioma = idioma;
     if (duracion) params.duracion = duracion;
@@ -91,5 +95,81 @@ export class CortometrajeService {
       `${this.apiUrl}/filtrar`,
       { params }
     );
+  }
+
+  /**
+   * Obtiene los cortometrajes publicados por un autor específico.
+   * @param username Nombre de usuario del autor.
+   * @returns Observable con un array de cortometrajes.
+   */
+  getCortometrajesByAuthor(username: string): Observable<Cortometraje[]> {
+    return this.http
+      .get<{ data: Cortometraje[] }>(`${this.apiUrl}/buscar/autor/${username}`)
+      .pipe(map((res) => res.data));
+  }
+
+  /**
+   * Obtiene los 5 cortometrajes más recientes.
+   * @returns Observable con un array de cortometrajes.
+   */
+  getTop5Latest(): Observable<Cortometraje[]> {
+    return this.http
+      .get<{ data: Cortometraje[] }>(`${this.apiUrl}/buscar/latest`)
+      .pipe(map((res) => res.data));
+  }
+
+  /**
+   * Obtiene la lista de idiomas disponibles en los cortometrajes.
+   * @returns Observable con un array de strings (idiomas).
+   */
+  getAllLanguages(): Observable<string[]> {
+    return this.http
+      .get<ApiResponse<string[]>>(`${this.apiUrl}/buscar/idiomas`)
+      .pipe(map((res) => res.data));
+  }
+
+  // --------------------------------------------------------------------------
+  // ⭐ FAVORITOS
+  // --------------------------------------------------------------------------
+
+  /**
+   * Obtiene los cortometrajes marcados como favoritos por el usuario autenticado.
+   * @returns Observable con un array de favoritos.
+   */
+  getMyFavorites(): Observable<any[]> {
+    return this.http
+      .get<{ data: any[] }>(`${this.favoritosUrl}/mis-favoritos`)
+      .pipe(map((res) => res.data));
+  }
+
+  /**
+   * Añade un cortometraje a favoritos.
+   * @param cortometrajeId ID del cortometraje a añadir.
+   * @returns Observable con la respuesta del backend.
+   */
+  addToFavorites(cortometrajeId: number): Observable<any> {
+    return this.http.post<any>(this.favoritosUrl, { cortometrajeId });
+  }
+
+  /**
+   * Elimina un cortometraje de favoritos.
+   * @param favoriteId ID del favorito a eliminar.
+   * @returns Observable void al eliminar con éxito.
+   */
+  removeFromFavorites(favoriteId: number): Observable<void> {
+    return this.http.delete<void>(`${this.favoritosUrl}/${favoriteId}`);
+  }
+
+  // --------------------------------------------------------------------------
+  // 🧩 RELACIONES
+  // --------------------------------------------------------------------------
+
+  /**
+   * Obtiene las reseñas asociadas a un cortometraje.
+   * @param id ID del cortometraje.
+   * @returns Observable con un array de reseñas.
+   */
+  getReviewByCortometrajeId(id: number): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.apiUrl}/${id}/reviews`);
   }
 }
