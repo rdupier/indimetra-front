@@ -92,4 +92,9 @@ export class CortometrajeService {
       { params }
     );
   }
+
+  createCortometraje(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, data);
+  }
+
 }

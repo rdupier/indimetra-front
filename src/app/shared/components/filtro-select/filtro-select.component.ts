@@ -10,9 +10,11 @@ import { FormsModule } from '@angular/forms';
 })
 export class FiltroSelectComponent {
   @Input() label: string = 'Todos';
+  @Input() customClass: string = '';
   @Input() opciones: string[] = [];
   @Input() model: string | null = null;
   @Output() modelChange = new EventEmitter<string | null>();
+  @Input() containerClass: string = '';
 
   isOpen = false;
 
