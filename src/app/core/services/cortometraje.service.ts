@@ -97,4 +97,8 @@ export class CortometrajeService {
     return this.http.post(`${this.apiUrl}`, data);
   }
 
+  deleteCortometraje(id: number): Observable<void> {
+    return this.http.delete<void>(`http://localhost:8080/cortometraje/${id}`);
+  }
+
 }
