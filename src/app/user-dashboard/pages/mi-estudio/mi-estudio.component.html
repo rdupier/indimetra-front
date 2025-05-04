@@ -12,7 +12,7 @@
         <h1 class="text-h6 font-semibold">¡Hola, {{ user()?.username }}!</h1>
         <p class="text-bodyS font-semibold text-primary">
           Este es tu estudio, tu espacio personal donde puedes guardar las obras que más te
-          <br>
+          <br />
           inspiran y compartir las tuyas propias con el mundo.
         </p>
 
@@ -22,53 +22,31 @@
             Subir nueva obra
           </button>
 
-          <button class="boton-menu flex items-center gap-2" (click)="verMisMetrajes()">
+          <a routerLink="gestion-obras" class="boton-menu flex items-center gap-2">
             <img src="assets/icons/ajust.svg" alt="Gestionar" class="w-5 h-5" />
             Gestionar obras
-          </button>
+          </a>
 
-          <button class="boton-menu flex items-center gap-2" (click)="editarPerfil()">
+          <a routerLink="editar-perfil" class="boton-menu flex items-center gap-2">
             <img src="assets/icons/edit.svg" alt="Editar" class="w-5 h-5" />
             Editar perfil
-          </button>
+          </a>
         </div>
-
       </div>
     </div>
   </section>
 
-  <section class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-background text-textBase mb-10">
-    <div>
-      <div class="px-[clamp(1rem,2.5vw,48px)] py-3">
-        <h2 class="text-l font-semibold text-left">Ver después</h2>
-      </div>
-
-      @if (favoritos().length > 0) {
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-[clamp(1rem,2.5vw,48px)]">
-          @for (corto of favoritos(); track corto.id) {
-            <div class="bg-input p-4 rounded-lg shadow">
-              <h3 class="text-primary font-semibold mb-2">{{ corto.title }}</h3>
-              <p class="text-bodyXS text-secondary mb-2">{{ corto.category }} | {{ corto.releaseYear }}</p>
-              <a [routerLink]="['/cortometraje', corto.id]"
-                class="text-action text-bodyXS underline hover:text-primary transition">
-                Ver detalles
-              </a>
-            </div>
-          }
-        </div>
-      }
-    </div>
-  </section>
+  <router-outlet></router-outlet>
 } @else {
   <div class="text-center mt-10 text-bodyS text-secondary">Cargando datos del usuario...</div>
 }
 
-  @if (modalSubida()) {
-    <app-upload-modal
-      [visible]="true"
-      (close)="cerrarModalSubida()"
-      (submit)="crearNuevaObra($event)"
-    />
-  }
+@if (modalSubida()) {
+  <app-upload-modal
+    [visible]="true"
+    (close)="cerrarModalSubida()"
+    (submit)="crearNuevaObra($event)"
+  />
+}
 
 <app-footer></app-footer>

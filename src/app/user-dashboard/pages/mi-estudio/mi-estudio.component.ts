@@ -1,15 +1,13 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { UploadModalComponent } from '../../../shared/components/upload-modal/upload-modal.component';
 import { User } from '../../../core/interfaces/user.interface';
-import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 import { AuthService } from '../../../auth/services/auth.service';
 import { CortometrajeService } from '../../../core/services/cortometraje.service';
-
+import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 
 @Component({
   selector: 'app-mi-estudio',
@@ -20,15 +18,9 @@ import { CortometrajeService } from '../../../core/services/cortometraje.service
 })
 export class MiEstudioComponent implements OnInit {
   user = signal<User | null>(null);
-  favoritos = signal<Cortometraje[]>([]);
+  modalSubida = signal(false);
 
   username = computed(() => this.user()?.username || 'Usuario');
-
-  modalSubida = signal(false);
-    cerrarModalSubida() {
-      this.modalSubida.set(false);
-    }
-
 
   constructor(
     private authService: AuthService,
@@ -37,42 +29,23 @@ export class MiEstudioComponent implements OnInit {
 
   ngOnInit(): void {
     this.user.set(this.authService.currentUser());
-
-    this.cortometrajeService.getMyFavorites().subscribe({
-      next: (res) => {
-        const cortos = res.map((fav: any) => fav.cortometraje).filter(Boolean);
-        this.favoritos.set(cortos);
-      },
-      error: (err) => console.error('Error al cargar favoritos', err),
-    });
   }
 
   abrirModalSubida() {
     this.modalSubida.set(true);
   }
 
-  verMisMetrajes() {
-
+  cerrarModalSubida() {
+    this.modalSubida.set(false);
   }
 
-  editarPerfil() {
-
-  }
-
-  crearNuevaObra(data: any): void {
-    console.log('Enviando al backend:', data);
-
+  crearNuevaObra(data: Partial<Cortometraje>): void {
     this.cortometrajeService.createCortometraje(data).subscribe({
-      next: (response) => {
-        console.log('Obra creada con éxito:', response);
+      next: (res) => {
+        console.log('Obra creada con éxito:', res);
         this.modalSubida.set(false);
-        this.verMisMetrajes();
       },
-      error: (error) => {
-        console.error('Error al crear la obra:', error);
-      }
+      error: (err) => console.error('Error al crear la obra:', err),
     });
   }
-
 }
-

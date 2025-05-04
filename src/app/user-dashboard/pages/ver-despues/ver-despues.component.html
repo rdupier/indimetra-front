@@ -1,0 +1,22 @@
+<section class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-background text-textBase mb-10">
+  <div>
+    <div class="px-[clamp(1rem,2.5vw,48px)] py-3">
+      <h2 class="text-l font-semibold text-left">Ver después</h2>
+    </div>
+
+    @if (favoritos().length > 0) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-[clamp(1rem,2.5vw,48px)]">
+        @for (corto of favoritos(); track corto.id) {
+          <div class="bg-input p-4 rounded-lg shadow cursor-pointer"
+              [routerLink]="['/cortometraje', corto.id]">
+            <h3 class="text-primary font-semibold mb-2">{{ corto.title }}</h3>
+            <p class="text-bodyXS text-secondary mb-2">{{ corto.category }} | {{ corto.releaseYear }}</p>
+          </div>
+
+        }
+      </div>
+    } @else {
+      <p class="text-center text-secondary text-bodyS p-4">Aún no tienes nada para ver después.</p>
+    }
+  </div>
+</section>
