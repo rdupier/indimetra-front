@@ -1,8 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CortometrajeService } from '../../../core/services/cortometraje.service';
-import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { Favorite } from '../../../core/interfaces/favorite.interface';
 
 @Component({
   selector: 'app-ver-despues',
@@ -11,17 +11,34 @@ import { RouterModule } from '@angular/router';
   templateUrl: './ver-despues.component.html'
 })
 export class VerDespuesComponent implements OnInit {
-  favoritos = signal<Cortometraje[]>([]);
+  favoritos = signal<Favorite[]>([]);
 
-  constructor(private cortometrajeService: CortometrajeService) {}
+  constructor(
+    private cortometrajeService: CortometrajeService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.cortometrajeService.getMyFavorites().subscribe({
       next: (res) => {
-        const cortos = res.map((f: any) => f.cortometraje).filter(Boolean);
-        this.favoritos.set(cortos);
+        this.favoritos.set(res);
       },
       error: (err) => console.error('Error al cargar favoritos', err),
     });
   }
+
+  eliminarDeFavoritos(favoriteId: number) {
+    this.cortometrajeService.removeFromFavorites(favoriteId).subscribe({
+      next: () => {
+        const nuevosFavoritos = this.favoritos().filter(f => f.id !== favoriteId);
+        this.favoritos.set(nuevosFavoritos);
+      },
+      error: (err) => console.error('Error al eliminar de favoritos:', err),
+    });
+  }
+
+  explorar() {
+    this.router.navigate(['/explorar']);
+  }
+
 }

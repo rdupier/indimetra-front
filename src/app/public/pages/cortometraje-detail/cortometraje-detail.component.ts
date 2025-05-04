@@ -123,12 +123,19 @@ export class CortometrajeDetailComponent implements OnInit {
         error: (err) => console.error('Error al quitar favorito', err),
       });
     } else {
+
+      console.log('Enviando favorito:', { cortometrajeId: cortoId });
+      console.log('Está logueado:', this.authService.isLoggedIn());
+
       this.cortometrajeService.addToFavorites(cortoId).subscribe({
         next: (res) => {
           this.estaEnWatchLater.set(true);
           this.favoriteId = res.id;
         },
-        error: (err) => console.error('Error al añadir favorito', err),
+        error: (err) => {
+          console.error('Error al añadir favorito:', err);
+          console.error('Mensaje del servidor:', err.error?.message || err.message);
+        }
       });
     }
   }
