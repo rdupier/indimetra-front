@@ -59,35 +59,10 @@ export class MiEstudioComponent implements OnInit {
 
   }
 
-  // crearNuevaObra(data: any): void {
-  //   this.cortometrajeService.createCortometraje(data).subscribe({
-  //     next: (response) => {
-  //       console.log('Obra creada con éxito:', response);
-  //       this.modalSubida.set(false);
-  //       this.verMisMetrajes();
-  //     },
-  //     error: (error) => {
-  //       console.error('Error al crear la obra:', error);
-  //     },
-  //   });
-  // }
-
   crearNuevaObra(data: any): void {
-    const newCortometraje = {
-      title: data.title,
-      description: data.description,
-      technique: data.technique,
-      releaseYear: Number(data.releaseYear),
-      duration: Number(data.duration),
-      language: data.language,
-      imageUrl: data.imageUrl,
-      videoUrl: data.videoUrl,
-      category: data.category
-    };
+    console.log('Enviando al backend:', data);
 
-    console.log('Enviando al backend:', newCortometraje);
-
-    this.cortometrajeService.createCortometraje(newCortometraje).subscribe({
+    this.cortometrajeService.createCortometraje(data).subscribe({
       next: (response) => {
         console.log('Obra creada con éxito:', response);
         this.modalSubida.set(false);

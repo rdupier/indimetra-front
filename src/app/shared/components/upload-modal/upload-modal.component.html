@@ -36,12 +36,13 @@
               <label class="block text-bodyS font-medium mb-1">Género</label>
               <div class="w-full">
                 <app-filtro-select
-                  label="Escoge categoría"
+                  [label]="generosPlaceholder"
                   [opciones]="generos"
-                  [(model)]="form.controls['category'].value"
+                  [(model)]="selectedCategory"
                   [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
                   [containerClass]="'relative w-full text-sm'"
                 ></app-filtro-select>
+
                 @if (formTouched && form.get('category')?.invalid) {
                   <p class="text-error text-bodyXS mt-1">Selecciona una categoría.</p>
                 }
@@ -50,16 +51,16 @@
             </div>
             <div class="relative">
               <label class="block text-bodyS font-medium mb-1">Técnica</label>
-                <app-filtro-select
-                  label="Selecciona técnica"
-                  [opciones]="tecnicasDisponibles"
-                  [(model)]="form.controls['technique'].value"
-                  [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
-                  [containerClass]="'relative w-full text-sm'"
-                ></app-filtro-select>
-                @if (formTouched && form.get('technique')?.invalid) {
-                  <p class="text-error text-bodyXS mt-1">Selecciona una técnica.</p>
-                }
+              <app-filtro-select
+                [label]="tecnicaPlaceholder"
+                [opciones]="tecnicasDisponibles"
+                [(model)]="selectedTechnique"
+                [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
+                [containerClass]="'relative w-full text-sm'"
+              ></app-filtro-select>
+              @if (formTouched && form.get('technique')?.invalid) {
+                <p class="text-error text-bodyXS mt-1">Selecciona una técnica.</p>
+              }
             </div>
           </div>
 
@@ -89,23 +90,23 @@
             <div>
               <label class="block text-bodyS font-medium mb-1">Año de lanzamiento</label>
               <app-filtro-select
-              label="AÑO"
-              [opciones]="years"
-              [(model)]="form.controls['releaseYear'].value"
-              [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
-              [containerClass]="'relative w-full text-sm'"
-            ></app-filtro-select>
-            @if (formTouched && form.get('releaseYear')?.invalid) {
-              <p class="text-error text-bodyXS mt-1">Selecciona el año de lanzamiento.</p>
-            }
+                [label]="yearsPlaceholder"
+                [opciones]="years"
+                [(model)]="selectedReleaseYear"
+                [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
+                [containerClass]="'relative w-full text-sm'"
+              ></app-filtro-select>
+              @if (formTouched && form.get('releaseYear')?.invalid) {
+                <p class="text-error text-bodyXS mt-1">Selecciona el año de lanzamiento.</p>
+              }
             </div>
 
             <div>
               <label class="block text-bodyS font-medium mb-1">Duración</label>
               <app-filtro-select
-                label="DURACIÓN"
-                [opciones]="duraciones"
-                [(model)]="form.controls['duration'].value"
+                [label]="duracionesPlaceholder"
+                [opciones]="duracionLabels"
+                [(model)]="selectedDuration"
                 [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
                 [containerClass]="'relative w-full text-sm'"
               ></app-filtro-select>
@@ -117,10 +118,10 @@
 
           <div>
             <label class="block text-bodyS font-medium mb-1">Idioma</label>
-              <app-filtro-select
-                label="Escoge idioma"
+            <app-filtro-select
+                [label]="idiomasPlaceholder"
                 [opciones]="idiomas"
-                [(model)]="form.controls['language'].value"
+                [(model)]="selectedLanguage"
                 [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
                 [containerClass]="'relative w-full text-sm'"
               ></app-filtro-select>

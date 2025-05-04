@@ -6,7 +6,8 @@
     (click)="toggleOpen()"
     (blur)="closeDropdown()"
   >
-    <option [ngValue]="null">{{ label }}</option>
+  <option [ngValue]="null" disabled hidden selected>{{ label }}</option>
+
     @for (opcion of opciones; track opcion) {
     <option [ngValue]="opcion">{{ opcion }}</option>
     }

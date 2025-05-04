@@ -20,12 +20,30 @@ export class UploadModalComponent implements OnInit {
   form: FormGroup;
   formTouched = false;
 
+  // Modelos seleccionados
+  selectedCategory: string | null = null;
+  selectedTechnique: string | null = null;
+  selectedLanguage: string | null = null;
+  selectedReleaseYear: string | null = null;
+  selectedDuration: string | null = null;
+
+  // Placeholders
+  generosPlaceholder = 'Escoge categoría';
+  tecnicaPlaceholder = 'Selecciona técnica';
+  idiomasPlaceholder = 'Escoge idioma';
+  yearsPlaceholder = 'Año de lanzamiento';
+  duracionesPlaceholder = 'Duración (1–59)';
+
+  // Opciones
   generos: string[] = [];
   years: string[] = [];
-  duraciones: string[] = ['< 5 min', '5-10 min', '10-20 min', '> 20 min'];
+  duraciones = [
+    { label: '< 5 min', value: 4 },
+    { label: '5-10 min', value: 8 },
+    { label: '10-20 min', value: 15 },
+    { label: '> 20 min', value: 25 },
+  ];
   idiomas: string[] = [];
-
-
   tecnicasDisponibles: string[] = [
     'Plano Secuencia',
     'Animación 2D',
@@ -42,12 +60,9 @@ export class UploadModalComponent implements OnInit {
     'Collage digital',
   ];
 
-  duracionesDisponibles: string[] = [
-    '< 5 min',
-    '5-10 min',
-    '10-20 min',
-    '> 20 min'
-  ];
+  get duracionLabels(): string[] {
+    return this.duraciones.map(d => d.label);
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -56,7 +71,7 @@ export class UploadModalComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       title: ['', Validators.required],
-      description: ['', Validators.required, Validators.minLength(10)],
+      description: ['', [Validators.required, Validators.minLength(10)]],
       category: ['', Validators.required],
       technique: [[], Validators.required],
       videoUrl: ['', [Validators.required, Validators.pattern('https?://.+')]],
@@ -65,64 +80,73 @@ export class UploadModalComponent implements OnInit {
       duration: ['', [Validators.required, Validators.min(1), Validators.max(59)]],
       language: ['', Validators.required],
     });
-
   }
 
   ngOnInit(): void {
-    this.form.get('category')?.valueChanges.subscribe(val => this.form.get('category')?.setValue(val));
-    this.form.get('technique')?.valueChanges.subscribe(val => this.form.get('technique')?.setValue(val));
-    this.form.get('language')?.valueChanges.subscribe(val => this.form.get('language')?.setValue(val));
-    this.form.get('releaseYear')?.valueChanges.subscribe(val => this.form.get('releaseYear')?.setValue(val));
-
     this.categoryService.getAllCategories().subscribe((cats) => {
-      this.generos = ['Escoge categoría', ...cats.map((c) => c.name)];
+      this.generos = cats.map((c) => c.name);
     });
 
     this.cortometrajeService.getAllLanguages().subscribe((langs) => {
-      this.idiomas = ['Escoge idioma', ...langs];
+      this.idiomas = langs;
     });
 
     const currentYear = new Date().getFullYear();
-    this.years = ['Año de lanzamiento', ...Array.from({ length: currentYear - 1950 + 1 }, (_, i) => (currentYear - i).toString())];
-
-    this.duraciones = ['Duración (1–59)', ...this.duraciones];
-    this.tecnicasDisponibles = ['Selecciona técnica', ...this.tecnicasDisponibles];
+    this.years = Array.from({ length: currentYear - 1950 + 1 }, (_, i) => (currentYear - i).toString());
   }
 
   onSubmit(): void {
     this.formTouched = true;
 
-    const { category, technique, language, releaseYear, duration } = this.form.value;
+    // Convertir duración textual a valor numérico estimado
+    const durationMap: { [label: string]: number } = {
+      '< 5 min': 4,
+      '5-10 min': 8,
+      '10-20 min': 15,
+      '> 20 min': 25
+    };
 
-    // Si el usuario no ha cambiado el valor del placeholder
+    const duration = this.selectedDuration ? durationMap[this.selectedDuration] : null;
+    const releaseYear = this.selectedReleaseYear ? Number(this.selectedReleaseYear) : null;
+
+    this.form.patchValue({
+      category: this.selectedCategory,
+      technique: this.selectedTechnique ? [this.selectedTechnique] : [],
+      language: this.selectedLanguage,
+      releaseYear,
+      duration,
+    });
+
+    const {
+      category,
+      technique,
+      language,
+      imageUrl,
+      videoUrl,
+      title,
+      description
+    } = this.form.value;
+
     if (
-      category === 'Escoge categoría' ||
-      language === 'Escoge idioma' ||
-      releaseYear === 'Año de lanzamiento' ||
-      duration === 'Duración (1–59)' ||
-      technique.includes('Selecciona técnica')
+      !title || !description || !technique || !language ||
+      !imageUrl || !videoUrl || !category ||
+      releaseYear === null || duration === null
     ) {
+      console.warn('Formulario incompleto');
       this.form.markAllAsTouched();
       return;
     }
-
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    const formValue = this.form.value;
 
     const newCortometraje: Partial<Cortometraje> = {
-      title: formValue.title,
-      description: formValue.description,
-      technique: formValue.technique.join(', '),
-      releaseYear: Number(formValue.releaseYear),
-      duration: Number(formValue.duration),
-      language: formValue.language,
-      videoUrl: formValue.videoUrl,
-      imageUrl: formValue.imageUrl,
-      category: formValue.category
+      title,
+      description,
+      technique: technique.join(', '),
+      releaseYear,
+      duration,
+      language,
+      videoUrl,
+      imageUrl,
+      category
     };
 
     this.submit.emit(newCortometraje);
@@ -133,7 +157,6 @@ export class UploadModalComponent implements OnInit {
     this.resetForm();
     this.close.emit();
   }
-
 
   resetForm(): void {
     this.form.reset({
@@ -149,6 +172,12 @@ export class UploadModalComponent implements OnInit {
     });
 
     this.formTouched = false;
-  }
 
+    // Reset de valores seleccionados
+    this.selectedCategory = null;
+    this.selectedTechnique = null;
+    this.selectedLanguage = null;
+    this.selectedReleaseYear = null;
+    this.selectedDuration = null;
+  }
 }
