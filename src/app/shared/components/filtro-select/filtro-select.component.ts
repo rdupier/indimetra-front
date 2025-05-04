@@ -13,8 +13,8 @@ export class FiltroSelectComponent {
   @Input() customClass: string = '';
   @Input() opciones: string[] = [];
   @Input() model: string | null = null;
-  @Output() modelChange = new EventEmitter<string | null>();
   @Input() containerClass: string = '';
+  @Output() modelChange = new EventEmitter<string | null>();
 
   isOpen = false;
 

@@ -17,8 +17,8 @@
             <label class="block text-bodyS font-medium mb-1">Título</label>
             <input type="text" formControlName="title" placeholder="Escribe el título del cortometraje"
               class="w-full bg-input text-bodyXS p-3 placeholder:text-secondary rounded-sm" />
-            @if (formTouched && form.get('title')?.invalid) {
-              <p class="text-error text-bodyXS mt-1">Título obligatorio.</p>
+              @if (form.get('title')?.touched && form.get('title')?.invalid) {
+              <p class="text-error text-bodyXS mt-1">El título es obligatorio.</p>
             }
           </div>
 
@@ -26,9 +26,15 @@
             <label class="block text-bodyS font-medium mb-1">Sinopsis</label>
             <textarea formControlName="description" placeholder="Sobre qué trata tu obra"
               class="w-full bg-input text-bodyXS p-3 placeholder:text-secondary min-h-[80px] resize-none rounded-sm"></textarea>
-            @if (formTouched && form.get('description')?.invalid) {
-              <p class="text-error text-bodyXS mt-1">Sinopsis obligatoria.</p>
-            }
+              @if (form.get('description')?.touched && form.get('description')?.invalid) {
+                <p class="text-error text-bodyXS mt-[1px]">
+                  @if (form.get('description')?.errors?.['required']) {
+                    La sinopsis es obligatoria.
+                  } @else if (form.get('description')?.errors?.['minlength']) {
+                    La sinopsis debe tener al menos 10 caracteres.
+                  }
+                </p>
+              }
           </div>
 
           <div class="grid grid-cols-2 gap-6">
@@ -42,7 +48,6 @@
                   [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
                   [containerClass]="'relative w-full text-sm'"
                 ></app-filtro-select>
-
                 @if (formTouched && form.get('category')?.invalid) {
                   <p class="text-error text-bodyXS mt-1">Selecciona una categoría.</p>
                 }
@@ -68,8 +73,14 @@
             <label class="block text-bodyS font-medium mb-1">URL video Youtube</label>
             <input type="text" formControlName="videoUrl" placeholder="Adjunta el enlace del video"
               class="w-full bg-input text-bodyXS p-3 placeholder:text-secondary rounded-sm" />
-              @if (formTouched && form.get('videoUrl')?.invalid) {
-                <p class="text-error text-bodyXS mt-1">URL de vídeo obligatoria y válida.</p>
+              @if (form.get('videoUrl')?.touched && form.get('videoUrl')?.invalid) {
+                <p class="text-error text-bodyXS mt-[1px]">
+                  @if (form.get('videoUrl')?.errors?.['required']) {
+                    URL de vídeo obligatoria.
+                  } @else if (form.get('videoUrl')?.errors?.['pattern']) {
+                    Formato incorrecto.
+                  }
+                </p>
               }
           </div>
 
@@ -81,8 +92,14 @@
               placeholder="Adjunta el enlace de la imagen"
               class="w-full bg-input text-bodyXS p-3 placeholder:text-secondary rounded-sm"
             />
-            @if (formTouched && form.get('imageUrl')?.invalid) {
-              <p class="text-error text-bodyXS mt-1">URL de imagen obligatoria y válida.</p>
+            @if (form.get('imageUrl')?.touched && form.get('imageUrl')?.invalid) {
+              <p class="text-error text-bodyXS mt-[1px]">
+                @if (form.get('imageUrl')?.errors?.['required']) {
+                  URL de imagen obligatoria.
+                } @else if (form.get('imageUrl')?.errors?.['pattern']) {
+                  Formato incorrecto.
+                }
+              </p>
             }
           </div>
 

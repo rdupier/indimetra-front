@@ -20,21 +20,18 @@ export class UploadModalComponent implements OnInit {
   form: FormGroup;
   formTouched = false;
 
-  // Modelos seleccionados
   selectedCategory: string | null = null;
   selectedTechnique: string | null = null;
   selectedLanguage: string | null = null;
   selectedReleaseYear: string | null = null;
   selectedDuration: string | null = null;
 
-  // Placeholders
   generosPlaceholder = 'Escoge categoría';
   tecnicaPlaceholder = 'Selecciona técnica';
   idiomasPlaceholder = 'Escoge idioma';
   yearsPlaceholder = 'Año de lanzamiento';
   duracionesPlaceholder = 'Duración (1–59)';
 
-  // Opciones
   generos: string[] = [];
   years: string[] = [];
   duraciones = [
@@ -70,14 +67,14 @@ export class UploadModalComponent implements OnInit {
     private cortometrajeService: CortometrajeService
   ) {
     this.form = this.fb.group({
-      title: ['', Validators.required],
-      description: ['', [Validators.required, Validators.minLength(10)]],
+      title: ['', { validators: [Validators.required], }],
+      description: ['', { validators: [Validators.required, Validators.minLength(10)], }],
       category: ['', Validators.required],
       technique: [[], Validators.required],
-      videoUrl: ['', [Validators.required, Validators.pattern('https?://.+')]],
-      imageUrl: ['', [Validators.required, Validators.pattern('https?://.+')]],
-      releaseYear: ['', [Validators.required, Validators.min(1950), Validators.max(new Date().getFullYear())]],
-      duration: ['', [Validators.required, Validators.min(1), Validators.max(59)]],
+      videoUrl: ['', { validators: [Validators.required, Validators.pattern('https?://.+')], }],
+      imageUrl: ['', { validators: [Validators.required, Validators.pattern('https?://.+')],}],
+      releaseYear: ['', { validators: [Validators.required, Validators.min(1950), Validators.max(new Date().getFullYear())], }],
+      duration: ['', { validators: [Validators.required, Validators.min(1), Validators.max(59)], }],
       language: ['', Validators.required],
     });
   }
@@ -98,7 +95,6 @@ export class UploadModalComponent implements OnInit {
   onSubmit(): void {
     this.formTouched = true;
 
-    // Convertir duración textual a valor numérico estimado
     const durationMap: { [label: string]: number } = {
       '< 5 min': 4,
       '5-10 min': 8,
@@ -173,7 +169,6 @@ export class UploadModalComponent implements OnInit {
 
     this.formTouched = false;
 
-    // Reset de valores seleccionados
     this.selectedCategory = null;
     this.selectedTechnique = null;
     this.selectedLanguage = null;
