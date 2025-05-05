@@ -1,0 +1,158 @@
+@if (visible) {
+  <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+    <div class="relative w-[clamp(340px,95vw,650px)] px-6 pt-6 pb-6 bg-principal text-primary border-[1.3px] border-primary shadow-lg rounded-lg max-h-[90vh] overflow-y-auto">
+      <button
+        (click)="onClose()"
+        class="absolute top-4 right-4 text-bodyS text-textBase hover:text-primary"
+      >✕</button>
+
+      <div class="mx-auto space-y-6">
+        <div class="text-center">
+          <h2 class="text-xl font-semibold mt-4 mb-1">Nueva obra</h2>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col space-y-4 max-w-[500px] mx-auto">
+
+          <div>
+            <label class="block text-bodyS font-medium mb-1">Título</label>
+            <input type="text" formControlName="title" placeholder="Escribe el título del cortometraje"
+              class="w-full bg-input text-bodyXS p-3 placeholder:text-secondary rounded-sm" />
+              @if (form.get('title')?.touched && form.get('title')?.invalid) {
+              <p class="text-error text-bodyXS mt-1">El título es obligatorio.</p>
+            }
+          </div>
+
+          <div>
+            <label class="block text-bodyS font-medium mb-1">Sinopsis</label>
+            <textarea formControlName="description" placeholder="Sobre qué trata tu obra"
+              class="w-full bg-input text-bodyXS p-3 placeholder:text-secondary min-h-[80px] resize-none rounded-sm"></textarea>
+              @if (form.get('description')?.touched && form.get('description')?.invalid) {
+                <p class="text-error text-bodyXS mt-[1px]">
+                  @if (form.get('description')?.errors?.['required']) {
+                    La sinopsis es obligatoria.
+                  } @else if (form.get('description')?.errors?.['minlength']) {
+                    La sinopsis debe tener al menos 10 caracteres.
+                  }
+                </p>
+              }
+          </div>
+
+          <div class="grid grid-cols-2 gap-6">
+            <div>
+              <label class="block text-bodyS font-medium mb-1">Género</label>
+              <div class="w-full">
+                <app-filtro-select
+                  [label]="generosPlaceholder"
+                  [opciones]="generos"
+                  [(model)]="selectedCategory"
+                  [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
+                  [containerClass]="'relative w-full text-sm'"
+                ></app-filtro-select>
+                @if (formTouched && form.get('category')?.invalid) {
+                  <p class="text-error text-bodyXS mt-1">Selecciona una categoría.</p>
+                }
+              </div>
+
+            </div>
+            <div class="relative">
+              <label class="block text-bodyS font-medium mb-1">Técnica</label>
+              <app-filtro-select
+                [label]="tecnicaPlaceholder"
+                [opciones]="tecnicasDisponibles"
+                [(model)]="selectedTechnique"
+                [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
+                [containerClass]="'relative w-full text-sm'"
+              ></app-filtro-select>
+              @if (formTouched && form.get('technique')?.invalid) {
+                <p class="text-error text-bodyXS mt-1">Selecciona una técnica.</p>
+              }
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-bodyS font-medium mb-1">URL video Youtube</label>
+            <input type="text" formControlName="videoUrl" placeholder="Adjunta el enlace del video"
+              class="w-full bg-input text-bodyXS p-3 placeholder:text-secondary rounded-sm" />
+              @if (form.get('videoUrl')?.touched && form.get('videoUrl')?.invalid) {
+                <p class="text-error text-bodyXS mt-[1px]">
+                  @if (form.get('videoUrl')?.errors?.['required']) {
+                    URL de vídeo obligatoria.
+                  } @else if (form.get('videoUrl')?.errors?.['pattern']) {
+                    Formato incorrecto.
+                  }
+                </p>
+              }
+          </div>
+
+          <div>
+            <label class="block text-bodyS font-medium mb-1">URL Imagen</label>
+            <input
+              type="text"
+              formControlName="imageUrl"
+              placeholder="Adjunta el enlace de la imagen"
+              class="w-full bg-input text-bodyXS p-3 placeholder:text-secondary rounded-sm"
+            />
+            @if (form.get('imageUrl')?.touched && form.get('imageUrl')?.invalid) {
+              <p class="text-error text-bodyXS mt-[1px]">
+                @if (form.get('imageUrl')?.errors?.['required']) {
+                  URL de imagen obligatoria.
+                } @else if (form.get('imageUrl')?.errors?.['pattern']) {
+                  Formato incorrecto.
+                }
+              </p>
+            }
+          </div>
+
+          <div class="grid grid-cols-2 gap-6">
+            <div>
+              <label class="block text-bodyS font-medium mb-1">Año de lanzamiento</label>
+              <app-filtro-select
+                [label]="yearsPlaceholder"
+                [opciones]="years"
+                [(model)]="selectedReleaseYear"
+                [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
+                [containerClass]="'relative w-full text-sm'"
+              ></app-filtro-select>
+              @if (formTouched && form.get('releaseYear')?.invalid) {
+                <p class="text-error text-bodyXS mt-1">Selecciona el año de lanzamiento.</p>
+              }
+            </div>
+
+            <div>
+              <label class="block text-bodyS font-medium mb-1">Duración</label>
+              <app-filtro-select
+                [label]="duracionesPlaceholder"
+                [opciones]="duracionLabels"
+                [(model)]="selectedDuration"
+                [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
+                [containerClass]="'relative w-full text-sm'"
+              ></app-filtro-select>
+              @if (formTouched && form.get('duration')?.invalid) {
+                <p class="text-error text-bodyXS mt-1">Duración obligatoria.</p>
+              }
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-bodyS font-medium mb-1">Idioma</label>
+            <app-filtro-select
+                [label]="idiomasPlaceholder"
+                [opciones]="idiomas"
+                [(model)]="selectedLanguage"
+                [customClass]="'appearance-none w-full bg-input text-bodyXS p-3 placeholder:text-secondary text-secondary rounded-sm'"
+                [containerClass]="'relative w-full text-sm'"
+              ></app-filtro-select>
+              @if (formTouched && form.get('language')?.invalid) {
+                <p class="text-error text-bodyXS mt-1">Selecciona el idioma del cortometraje.</p>
+              }
+          </div>
+
+          <div class="flex justify-center gap-6 mt-4">
+            <button type="button" class="boton-menu min-w-[125px]" (click)="resetForm()">Borrar</button>
+            <button type="submit" class="boton-menu min-w-[125px]">Subir</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}

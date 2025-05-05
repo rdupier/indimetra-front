@@ -51,6 +51,24 @@ export class CortometrajeService {
       .pipe(map((res) => res.message));
   }
 
+  /**
+   * Crea un nuevo cortometraje.
+   * @param data Datos del cortometraje.
+   * @returns Observable con la respuesta del backend.
+   */
+  createCortometraje(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, data);
+  }
+
+  /**
+   * Elimina un cortometraje (versión directa).
+   * @param id ID del cortometraje.
+   * @returns Observable void.
+   */
+  deleteCortometraje(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
   // --------------------------------------------------------------------------
   // 🔍 BÚSQUEDAS Y FILTROS
   // --------------------------------------------------------------------------

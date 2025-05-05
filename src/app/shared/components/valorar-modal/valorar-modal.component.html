@@ -16,7 +16,7 @@
           <div class="grid grid-cols-5 gap-2 justify-center mt-2 mb-3">
             @for (i of [1, 2, 3, 4, 5]; track i) {
               <div
-                class="bg-input flex flex-col items-center justify-center px-2 pb-3 pt-6 cursor-pointer transition hover:scale-105"
+                class="bg-input flex flex-col items-center justify-center px-2 pb-3 pt-6 cursor-pointer transition hover:scale-105 rounded-sm"
                 (click)="setRating(i)"
               >
                 <img
@@ -51,7 +51,7 @@
             <label class="block text-bodyS mb-1 mt-8">Comentario</label>
             <textarea
               formControlName="comment"
-              class="w-full bg-input placeholder:text-secondary text-bodyXS p-3 resize-none min-h-[80px]"
+              class="w-full bg-input placeholder:text-secondary text-bodyXS p-3 resize-none min-h-[80px] rounded-sm"
               placeholder="Escribe tu comentario..."
             ></textarea>
 
