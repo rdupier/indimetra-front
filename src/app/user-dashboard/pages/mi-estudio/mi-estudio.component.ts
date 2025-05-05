@@ -1,6 +1,6 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouterLinkActive } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { UploadModalComponent } from '../../../shared/components/upload-modal/upload-modal.component';
@@ -12,7 +12,7 @@ import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 @Component({
   selector: 'app-mi-estudio',
   standalone: true,
-  imports: [NavbarComponent, FooterComponent, CommonModule, RouterModule, UploadModalComponent],
+  imports: [NavbarComponent, FooterComponent, CommonModule, RouterModule, RouterLinkActive, UploadModalComponent],
   templateUrl: './mi-estudio.component.html',
   styleUrl: './mi-estudio.component.css',
 })
