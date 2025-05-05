@@ -12,7 +12,8 @@
         </div>
 
         <a
-          [routerLink]="['/autor', cortometraje()?.author]"
+          *ngIf="cortometraje()?.author"
+          [routerLink]="['/admin/autor', cortometraje()?.author]"
           class="text-sm font-medium"
           style="color: #e3e1de"
         >
