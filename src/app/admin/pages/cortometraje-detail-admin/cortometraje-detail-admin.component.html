@@ -36,17 +36,17 @@
           alt="|"
           class="h-[18px] w-auto mx-2 inline-block"
         />
-        <span style="color: #e3e1de">{{
-          cortometraje()?.language?.toUpperCase()
-        }}</span>
+        <span style="color: #e3e1de">
+          {{ cortometraje()?.language?.toUpperCase() }}
+        </span>
         <img
           src="assets/icons/linedetails.svg"
           alt="|"
           class="h-[18px] w-auto mx-2 inline-block"
         />
-        <span style="color: #e3e1de">{{
-          cortometraje()?.category?.toUpperCase()
-        }}</span>
+        <span style="color: #e3e1de">
+          {{ cortometraje()?.category?.toUpperCase() }}
+        </span>
       </div>
 
       <div class="mt-4">
@@ -57,8 +57,10 @@
       </div>
 
       <div class="flex flex-wrap justify-center gap-4 mt-4">
-        <button
-          (click)="showReviewsMenu()"
+        <!-- BOTÓN RESEÑAS REDIRIGE A GESTIÓN -->
+        <a
+          [routerLink]="['/admin/reviews']"
+          [queryParams]="{ pelicula: cortometraje()?.title }"
           class="boton-menu icon-btn flex items-center gap-2 group"
         >
           <svg
@@ -74,7 +76,7 @@
             />
           </svg>
           <p>Reseñas</p>
-        </button>
+        </a>
 
         <button
           (click)="onEliminarCortometraje(cortometraje()!.id)"
