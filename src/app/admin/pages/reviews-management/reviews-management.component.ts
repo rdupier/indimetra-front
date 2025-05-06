@@ -4,12 +4,11 @@ import { ReviewService } from '../../../core/services/review.service';
 import { Review } from '../../../core/interfaces/review.interface';
 import { FiltroSelectComponent } from '../../../shared/components/filtro-select/filtro-select.component';
 import Swal from 'sweetalert2';
-import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-reviews-management',
   standalone: true,
-  imports: [FiltroSelectComponent, NgIf, NgFor],
+  imports: [FiltroSelectComponent],
   templateUrl: './reviews-management.component.html',
 })
 export class ReviewsManagementComponent implements OnInit {
@@ -35,7 +34,6 @@ export class ReviewsManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Leer queryParam si existe
     this.route.queryParams.subscribe((params) => {
       const peliculaParam = params['pelicula'];
       if (peliculaParam) {
