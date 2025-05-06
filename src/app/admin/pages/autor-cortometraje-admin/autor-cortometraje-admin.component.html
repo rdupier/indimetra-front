@@ -1,0 +1,43 @@
+<section class="text-center py-10 text-textBase">
+  <h1 class="text-xl font-semibold mb-4">Obras por autor</h1>
+
+  <section>
+    @if (userData) {
+    <div class="flex flex-col items-center gap-3">
+      <img
+        [src]="userData.profileImage"
+        (error)="onImageError($event)"
+        alt="Avatar del autor"
+        class="w-24 h-24 rounded-full object-cover border border-textBase"
+      />
+      <h2 class="text-l font-semibold">{{ autor }}</h2>
+    </div>
+    } @else {
+    <p class="text-center text-subtext mb-6">Cargando perfil del autor...</p>
+    }
+  </section>
+
+  <section
+    class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-background text-textBase mb-10"
+  >
+    <div class="px-[clamp(1rem,2.5vw,48px)] py-3">
+      <h2 class="text-l font-semibold text-left">Todos sus metrajes</h2>
+    </div>
+
+    <div
+      class="grid grid-cols-2 md:grid-cols-4 gap-3 px-[clamp(1rem,2.5vw,48px)]"
+    >
+      @for (corto of cortometrajesFiltrados; track corto.id) {
+      <app-cortometraje-card
+        [corto]="corto"
+        [mostrarEliminar]="true"
+        (eliminar)="onEliminarCortometraje($event)"
+      />
+      } @if (!cortometrajesFiltrados.length) {
+      <p class="col-span-full text-center text-sm text-subtext mt-6">
+        Este autor aún no tiene cortometrajes disponibles.
+      </p>
+      }
+    </div>
+  </section>
+</section>
