@@ -1,0 +1,71 @@
+<div
+  class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+  (click)="cerrar.emit()"
+>
+  <div
+    class="relative w-full max-w-xl bg-principal rounded-lg shadow-lg p-6 border border-secondary mx-4"
+    (click)="$event.stopPropagation()"
+  >
+    <button
+      (click)="cerrar.emit()"
+      class="absolute top-4 right-4 text-secondary hover:text-white transition-colors"
+      aria-label="Cerrar"
+    >
+      ✕
+    </button>
+
+    <h2 class="text-h2 text-center mb-8">Nueva categoría</h2>
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="crearCategoria()"
+      class="flex flex-col items-center gap-[30px] w-full"
+    >
+      <div class="flex flex-col gap-[25px] w-full max-w-[377px]">
+        <div class="flex flex-col gap-[6px]">
+          <label class="text-sm font-medium text-primary">Nombre</label>
+          <input
+            type="text"
+            formControlName="name"
+            placeholder="Introduce el nombre"
+            class="input-form"
+          />
+          @if (form.get('name')?.touched && form.get('name')?.invalid) {
+          <div class="text-red-400 text-sm mt-1">
+            @if (form.get('name')?.errors?.['required']) { El nombre es
+            obligatorio. } @else if (form.get('name')?.errors?.['maxLength']) {
+            El nombre no puede superar los 50 caracteres. }
+          </div>
+          }
+        </div>
+
+        <div class="flex flex-col gap-[6px]">
+          <label class="text-sm font-medium text-primary">Descripción</label>
+          <textarea
+            formControlName="description"
+            placeholder="Descripción opcional..."
+            rows="4"
+            class="input-form"
+          ></textarea>
+          @if ( form.get('description')?.touched &&
+          form.get('description')?.invalid &&
+          form.get('description')?.errors?.['maxLength'] ) {
+          <div class="text-red-400 text-sm mt-1">
+          </div>
+          }
+        </div>
+      </div>
+
+      <div
+        class="w-full max-w-[464px] pt-[8px] flex flex-col gap-[8px] items-center"
+      >
+        <button
+          type="submit"
+          class="boton-menu w-[160px] h-[38px] hover:bg-white hover:text-background transition-colors duration-300 ease-in-out"
+        >
+          Crear categoría
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
