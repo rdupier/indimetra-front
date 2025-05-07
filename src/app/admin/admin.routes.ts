@@ -8,7 +8,6 @@ import { adminGuard } from '../shared/guards/admin.guard';
 import { CortometrajeDetailAdminComponent } from './pages/cortometraje-detail-admin/cortometraje-detail-admin.component';
 import { AutorCortometrajeAdminComponent } from './pages/autor-cortometraje-admin/autor-cortometraje-admin.component';
 
-
 export const ADMIN_ROUTES: Routes = [
   {
     path: '',
@@ -22,8 +21,6 @@ export const ADMIN_ROUTES: Routes = [
       { path: 'reviews', component: ReviewsManagementComponent },
       { path: 'filters', component: FiltersManagementComponent },
       { path: 'autor/:nombre', component: AutorCortometrajeAdminComponent },
-
     ],
   },
 ];
-

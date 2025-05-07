@@ -3,12 +3,10 @@ import { CommonModule } from '@angular/common';
 import { CortometrajeService } from '../../../core/services/cortometraje.service';
 import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 import { AuthService } from '../../../auth/services/auth.service';
-import { UploadModalComponent } from '../../../shared/components/upload-modal/upload-modal.component';
-
 @Component({
   selector: 'app-gestion-obras',
   standalone: true,
-  imports: [CommonModule, UploadModalComponent],
+  imports: [CommonModule],
   templateUrl: './gestion-obras.component.html',
   styleUrl: './gestion-obras.component.css',
 })

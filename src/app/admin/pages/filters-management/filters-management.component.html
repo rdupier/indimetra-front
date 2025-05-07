@@ -1,1 +1,85 @@
-<p>filters-management works!</p>
+<section
+  class="w-full bg-principal text-primary px-[clamp(1rem,2.5vw,48px)] pt-10 pb-6"
+>
+  <div class="text-center space-y-4 mb-10">
+    <h2 class="text-h2">Gestión de categorías</h2>
+  </div>
+
+  <div
+    class="flex flex-wrap justify-between items-center mb-6 max-w-3xl mx-auto gap-4"
+  >
+    <div class="relative flex-1 min-w-[250px] max-w-sm">
+      <input
+        type="text"
+        [(ngModel)]="filtroNombre"
+        (input)="aplicarFiltros()"
+        placeholder="Buscar por nombre..."
+        class="w-full bg-input text-white border border-secondary rounded-lg px-4 py-2 placeholder-secondary focus:outline-none focus:ring-2 focus:ring-secondary"
+      />
+    </div>
+
+    <button (click)="abrirFormularioNuevaCategoria()" class="boton-menu gap-2">
+      Crear nueva categoría
+    </button>
+  </div>
+
+  <section class="max-w-3xl mx-auto pt-6 space-y-4">
+    @if (categoriasPaginadas().length === 0) {
+    <div class="text-center text-bodyS text-primary font-medium py-12">
+      No hay categorías disponibles.
+    </div>
+    } @else { @for (categoria of categoriasPaginadas(); track categoria.id) {
+    <div class="flex gap-2 items-center min-h-[56px]">
+      <button
+        (click)="eliminarCategoria(categoria.id)"
+        class="boton-menu text-primary hover:text-black transition-colors px-[3px] py-[2px] leading-none"
+        aria-label="Eliminar categoría"
+      >
+        <svg
+          class="w-4 h-4"
+          viewBox="0 0 32 32"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M25.3333 2.66663H6.66666C4.45752 2.66663 2.66666 4.45749 2.66666 6.66663V9.33329C2.66666 10.0697 3.26361 10.6666 3.99999 10.6666H5.33332V25.3333C5.33332 27.5424 7.12418 29.3333 9.33332 29.3333H22.6667C24.8758 29.3333 26.6667 27.5424 26.6667 25.3333V10.6666H28C28.7364 10.6666 29.3333 10.0697 29.3333 9.33329V6.66663C29.3333 4.45749 27.5425 2.66663 25.3333 2.66663ZM24 25.3333C24 26.0697 23.403 26.6666 22.6667 26.6666H9.33332C8.59694 26.6666 7.99999 26.0697 7.99999 25.3333V10.6666H24V25.3333ZM5.33332 7.99996H26.6667V6.66663C26.6667 5.93025 26.0697 5.33329 25.3333 5.33329H6.66666C5.93028 5.33329 5.33332 5.93025 5.33332 6.66663V7.99996ZM10.6667 22.6666V14.6666C10.6667 13.9302 11.2636 13.3333 12 13.3333C12.7364 13.3333 13.3333 13.9302 13.3333 14.6666V22.6666C13.3333 23.403 12.7364 24 12 24C11.2636 24 10.6667 23.403 10.6667 22.6666ZM18.6667 14.6666V22.6666C18.6667 23.403 19.2636 24 20 24C20.7364 24 21.3333 23.403 21.3333 22.6666V14.6666C21.3333 13.9302 20.7364 13.3333 20 13.3333C19.2636 13.3333 18.6667 13.9302 18.6667 14.6666Z"
+          />
+        </svg>
+      </button>
+
+      <div class="flex-1 space-y-1 ml-1">
+        <p class="font-semibold text-primary">
+          {{ categoria.name }}
+        </p>
+
+        <div class="bg-card px-4 py-3 rounded text-primary text-bodyS">
+          {{ categoria.description || "Sin descripción" }}
+        </div>
+      </div>
+    </div>
+    } }
+  </section>
+
+  <div
+    class="flex justify-center items-center gap-6 pt-16 text-primary font-semibold"
+  >
+    @if (paginaActual() > 0) {
+    <button (click)="paginaAnterior()" class="boton-menu">Anterior</button>
+    }
+
+    <span>Página {{ paginaActual() + 1 }} de {{ totalPaginas() }}</span>
+
+    @if (paginaActual() < totalPaginas() - 1) {
+    <button (click)="siguientePagina()" class="boton-menu">Siguiente</button>
+    }
+  </div>
+
+  @if (mostrarModal) {
+  <app-filters-form
+    (cerrar)="cerrarModal()"
+    (categoriaCreada)="onCategoriaCreada()"
+  />
+  }
+</section>

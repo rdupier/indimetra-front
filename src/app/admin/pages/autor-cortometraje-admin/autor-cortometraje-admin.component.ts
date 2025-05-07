@@ -5,7 +5,6 @@ import { UserService } from '../../../core/services/user.service';
 import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 import { User } from '../../../core/interfaces/user.interface';
 import Swal from 'sweetalert2';
-import { NgIf, NgFor } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CortometrajeCardComponent } from "../../../shared/components/cortometraje-card/cortometraje-card.component";
 
@@ -13,7 +12,7 @@ import { CortometrajeCardComponent } from "../../../shared/components/cortometra
   selector: 'app-autor-cortometraje-admin',
   standalone: true,
   templateUrl: './autor-cortometraje-admin.component.html',
-  imports: [NgIf, NgFor, RouterModule, CortometrajeCardComponent],
+  imports: [RouterModule, CortometrajeCardComponent],
 })
 export class AutorCortometrajeAdminComponent implements OnInit {
   private route = inject(ActivatedRoute);
