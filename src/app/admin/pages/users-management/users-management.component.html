@@ -1,1 +1,125 @@
-<p>users-management works!</p>
+<section
+  class="w-full bg-principal text-primary px-[clamp(1rem,2.5vw,48px)] pt-10 pb-6"
+>
+  <div class="text-center space-y-4 mb-10">
+    <h2 class="text-h2">Gestión de usuarios</h2>
+  </div>
+
+  <div
+    class="flex flex-wrap justify-center gap-x-10 gap-y-6 items-end px-4 py-2"
+  >
+    <div class="relative flex-1 min-w-[250px] max-w-xs">
+      <input
+        type="text"
+        placeholder="Buscar por username..."
+        class="w-full bg-input text-white border border-secondary rounded-lg px-4 py-2 placeholder-secondary focus:outline-none focus:ring-2 focus:ring-secondary"
+        [value]="filtroUsername()"
+        (input)="
+          filtroUsername.set($any($event.target).value); buscarPorUsername()
+        "
+      />
+    </div>
+
+    <app-filtro-select label="ROL" [opciones]="roles()" [(model)]="filtroRol" />
+
+    <div class="flex items-center gap-4">
+      <label class="flex items-center gap-2">
+        <input
+          type="checkbox"
+          [checked]="mostrarActivos()"
+          (change)="onActivosChange($event)"
+        />
+        ACTIVOS
+      </label>
+
+      <label class="flex items-center gap-2">
+        <input
+          type="checkbox"
+          [checked]="mostrarEliminados()"
+          (change)="onEliminadosChange($event)"
+        />
+        ELIMINADOS
+      </label>
+    </div>
+
+    <div class="flex gap-3">
+      <button
+        class="boton-menu flex items-center gap-2 group transition-all bg-[#2B2B2B] hover:bg-primary px-4 py-2 rounded"
+        (click)="resetFiltros()"
+      >
+        <svg
+          class="w-4 h-4 fill-primary transition-colors group-hover:fill-black"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M28.9467 27.0533C29.1991 27.3036 29.3411 27.6444 29.3411 28C29.3411 28.3555 29.1991 28.6963 28.9467 28.9466L16 17.88 4.94667 28.9466C4.69631 29.199 4.35552 29.341 4 29.341 3.64448 29.341 3.30369 29.199 3.05333 28.9466L14.12 16 3.05333 4.94662C2.71512 4.60841 2.58304 4.11545 2.70683 3.65345 2.83062 3.19144 3.19149 2.83058 3.6535 2.70678 4.1155 2.58299 4.60846 2.71507 4.94667 3.05329L16 14.12 27.0533 3.05329C27.5762 2.53046 28.4238 2.53046 28.9467 3.05329 29.4695 3.57612 29.4695 4.42379 28.9467 4.94662L17.88 16 28.9467 27.0533Z"
+          />
+        </svg>
+        <p class="text-primary transition-colors group-hover:text-principal">
+          Limpiar
+        </p>
+      </button>
+    </div>
+  </div>
+
+  <section class="max-w-6xl mx-auto pt-10">
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-card text-primary rounded-lg">
+        <thead>
+          <tr class="border-b border-[#555]">
+            <th class="px-4 py-2 text-center align-middle">USERNAME</th>
+            <th class="px-4 py-2 text-center align-middle">EMAIL</th>
+            <th class="px-4 py-2 text-center align-middle">ROL ADMIN</th>
+            <th class="px-4 py-2 text-center align-middle">AUTOR</th>
+            <th class="px-4 py-2 text-center align-middle">ACTIVO</th>
+            <th class="px-4 py-2 text-center align-middle">ELIMINADO</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of usuariosFiltrados(); track user.id) {
+          <tr class="border-b border-[#333]">
+            <td class="px-4 py-2 text-center align-middle">
+              {{ user.username }}
+            </td>
+            <td class="px-4 py-2 text-center align-middle">{{ user.email }}</td>
+            <td class="px-4 py-2 text-center align-middle">
+              <input
+                type="checkbox"
+                [checked]="user.roles === 'ROLE_ADMIN'"
+                (change)="toggleAdmin(user)"
+              />
+            </td>
+            <td class="px-4 py-2 text-center align-middle">
+              <span
+                class="text-primary inline-block text-sm font-medium rounded px-2 py-1"
+              >
+                {{ user.autor ? "Sí" : "—" }}
+              </span>
+            </td>
+            <td class="px-4 py-2 text-center align-middle">
+              <input
+                type="checkbox"
+                [checked]="user.active"
+                (change)="toggleActivo(user)"
+              />
+            </td>
+            <td class="px-4 py-2 text-center align-middle">
+              <input
+                type="checkbox"
+                [checked]="user.deleted"
+                (change)="toggleEliminado(user)"
+              />
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      @if (usuariosFiltrados().length === 0) {
+      <div class="text-center text-bodyS text-primary font-medium py-12">
+        No hay usuarios disponibles con los filtros actuales.
+      </div>
+      }
+    </div>
+  </section>
+</section>
