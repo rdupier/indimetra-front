@@ -120,36 +120,15 @@ export class ObrasFormComponent implements OnInit {
       duration,
     });
 
-    const {
-      category,
-      technique,
-      language,
-      imageUrl,
-      videoUrl,
-      title,
-      description
-    } = this.form.value;
-
-    if (
-      !title || !description || !technique || !language ||
-      !imageUrl || !videoUrl || !category ||
-      releaseYear === null || duration === null
-    ) {
-      console.warn('Formulario incompleto');
+    if (this.form.invalid) {
       this.form.markAllAsTouched();
+      console.warn('Formulario incompleto');
       return;
     }
 
     const newCortometraje: Partial<Cortometraje> = {
-      title,
-      description,
-      technique: technique.join(', '),
-      releaseYear,
-      duration,
-      language,
-      videoUrl,
-      imageUrl,
-      category
+      ...this.form.value,
+      technique: this.form.value.technique.join(', ')
     };
 
     this.submit.emit(newCortometraje);
