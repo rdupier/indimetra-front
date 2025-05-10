@@ -17,6 +17,14 @@ export class UserService {
       .pipe(map((res) => res.data.map((raw) => this.mapToUser(raw))));
   }
 
+  updatePerfil(data: Partial<User> & { newPassword?: string }): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/me`, data);
+  }
+
+  changePassword(data: { newPassword: string; repeatPassword: string }): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/me/change-password`, data);
+  }
+
   getUserByUsername(username: string): Observable<User | null> {
     return this.http
       .get<{ data: any[] }>(`${this.baseUrl}/buscar/by-username/${username}`)
@@ -90,6 +98,7 @@ export class UserService {
       email: raw.email,
       profileImage: raw.profileImage,
       socialLinks: raw.socialLinks,
+      country: raw.country,
       roles: raw.roles[0],
       active: raw.isActive,
       deleted: raw.isDeleted,
