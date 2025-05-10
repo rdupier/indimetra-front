@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 
 @if (user()) {
-<section class="text-center py-10 text-textBase">
+<section class="text-center py-10 text-textBase mt-4">
   <div class="flex flex-col items-center gap-3">
     <img [src]="user()?.profileImage || 'assets/icons/default-avatar.svg'" alt="Foto de perfil"
       class="w-[8rem] h-[8rem] rounded-full object-cover border border-none" />
@@ -12,12 +12,14 @@
         inspiran y compartir las tuyas propias con el mundo
       </p>
       <div class="flex justify-center gap-4 mt-6 flex-wrap">
-        <a routerLink="gestion-obras" class="boton-menu flex items-center gap-2 icon-btn" routerLinkActive="active-link">
+        <a routerLink="gestion-obras" class="boton-menu flex items-center gap-2 icon-btn"
+          routerLinkActive="active-link">
           <img src="assets/icons/ajust.svg" alt="Gestionar" class="w-5 h-5" />
           Gestionar obras
         </a>
 
-        <button class="boton-menu flex items-center gap-2 icon-btn" (click)="abrirModalSubida()" routerLinkActive="active-link">
+        <button class="boton-menu flex items-center gap-2 icon-btn" (click)="abrirModalSubida()"
+          routerLinkActive="active-link">
           <img src="assets/icons/upload.svg" alt="Subir" class="w-5 h-5" />
           Subir obra
         </button>
@@ -27,7 +29,8 @@
           Ver después
         </a>
 
-        <a routerLink="editar-perfil" class="boton-menu flex items-center gap-2 icon-btn" routerLinkActive="active-link">
+        <a routerLink="editar-perfil" class="boton-menu flex items-center gap-2 icon-btn"
+          routerLinkActive="active-link">
           <img src="assets/icons/edit.svg" alt="Editar" class="w-5 h-5" />
           Editar perfil
         </a>

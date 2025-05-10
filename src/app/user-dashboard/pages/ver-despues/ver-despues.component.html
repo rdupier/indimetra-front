@@ -1,61 +1,42 @@
-<section
-  class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-background text-textBase mb-10"
->
+<section class="w-screen min-h-[12rem] relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-background text-textBase mt-3">
   @if (favoritos().length) {
   <div class="px-[clamp(1rem,2.5vw,48px)] py-3">
-    <h2 class="text-l font-semibold text-left">Ver después</h2>
+    <h6 class="text-h6 text-center pb-4">Ver después</h6>
   </div>
   }
 
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-2">
     @for (fav of favoritos(); track fav.id) {
-      <div class="relative">
-        <a
-          [routerLink]="['/cortometraje', fav.cortometrajeId]"
-          class="block"
-        >
-          <div class="aspect-[16/9] overflow-hidden">
-            <img
-              [src]="fav.imageUrl"
-              [alt]="fav.cortometrajeTitle"
-              class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-            />
-          </div>
-        </a>
-
-        <div class="bg-input px-6 py-2 flex justify-between items-center">
-          <div class="text-left">
-            <h3 class="text-sm font-semibold text-textBase truncate">
-              {{ fav.cortometrajeTitle }}
-            </h3>
-            <p class="text-xs text-subtext truncate">{{ fav.username }}</p>
-          </div>
-
-          <button
-            (click)="eliminarDeFavoritos(fav.id); $event.stopPropagation()"
-            class="p-1"
-            title="Quitar de ver después"
-          >
-            <img
-              src="assets/icons/bookmark-style.svg"
-              alt="Eliminar de favoritos"
-              class="w-5 h-5"
-            />
-          </button>
+    <div class="relative">
+      <a [routerLink]="['/cortometraje', fav.cortometrajeId]" class="block">
+        <div class="aspect-[16/9] overflow-hidden">
+          <img [src]="fav.imageUrl" [alt]="fav.cortometrajeTitle"
+            class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
         </div>
+      </a>
+
+      <div class="bg-input px-6 py-2 flex justify-between items-center">
+        <div class="text-left">
+          <h3 class="text-sm font-semibold text-textBase truncate">
+            {{ fav.cortometrajeTitle }}
+          </h3>
+          <p class="text-xs text-subtext truncate">{{ fav.username }}</p>
+        </div>
+
+        <button (click)="eliminarDeFavoritos(fav.id); $event.stopPropagation()" class="p-1"
+          title="Quitar de ver después">
+          <img src="assets/icons/bookmark-style.svg" alt="Eliminar de favoritos" class="w-5 h-5" />
+        </button>
       </div>
+    </div>
     }
 
     @if (!favoritos().length) {
-      <p class="col-span-full text-center text-sm text-subtext mt-6">
-        Aún no tienes nada para ver después. ¿Quieres
-        <a
-          (click)="explorar()"
-          class="text-underline text-action hover:text-primary cursor-pointer"
-        >
-          explorar aquí</a
-        >?
-      </p>
+    <p class="col-span-full text-center text-bodyS mb-9 mt-6">
+      Aún no tienes nada para ver después. ¿Quieres
+      <a (click)="explorar()" class="text-underline text-action hover:text-primary cursor-pointer">
+        explorar aquí</a>?
+    </p>
     }
   </div>
 </section>

@@ -1,43 +1,50 @@
-<section class="w-[100vw] -ml-[calc((100vw-100%)/2)] px-[clamp(1rem,2.5vw,48px)] pb-10 pt-4 bg-principal text-primary">
+<section class="w-screen -ml-[calc((100vw-100%)/2)] px-[clamp(1rem,2.5vw,48px)] pt-4 pb-8 text-primary">
+  <!-- migas de pan -->
+  <div class="mb-6 flex items-center gap-2 text-sm font-medium text-secondary hover:underline transition-colors">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+    <a [routerLink]="['/cortos']">Volver</a>
+  </div>
   @if (cortometraje()) {
-  <div class="grid md:grid-cols-[1fr_1.6fr] gap-10 items-start">
+  <div class="grid grid-cols-1 md:grid-cols-[35%_1fr] gap-10 items-start">
+    <!-- datos del cortometraje -->
     <div class="space-y-8 pt-6">
       <div class="space-y-2">
+        <!-- titulo y rating-->
         <div class="flex items-center justify-between">
           <h1 class="text-h2">{{ cortometraje()?.title }}</h1>
-          <span class="border border-primary px-2 py-1 text-sm">
+          <span class="border border-secondary py-2 px-3 text-base">
             {{ cortometraje()?.rating }}
           </span>
         </div>
-
-        <a [routerLink]="['/autor', cortometraje()?.author]" class="text-sm font-medium" style="color: #e3e1de">
+        <!-- autor -->
+        <a [routerLink]="['/autor', cortometraje()?.author]" class="text-base font-medium text-primary hover:underline hover:text-secondary">
           {{ cortometraje()?.author }}
         </a>
       </div>
-
-      <div class="flex flex-wrap gap-2 text-xs font-medium text-gray-300 mt-2 items-center">
-        <span style="color: #e3e1de">{{ cortometraje()?.releaseYear }}</span>
-        <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] w-auto mx-2 inline-block" />
-        <span style="color: #e3e1de">{{ cortometraje()?.duration }} min</span>
-        <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] w-auto mx-2 inline-block" />
-        <span style="color: #e3e1de">{{
-          cortometraje()?.language?.toUpperCase()
-          }}</span>
-        <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] w-auto mx-2 inline-block" />
-        <span style="color: #e3e1de">{{
-          cortometraje()?.category?.toUpperCase()
-          }}</span>
+      <!-- datos generales -->
+      <div class="flex flex-wrap items-center gap-2 text-xs font-medium text-action mt-2">
+        <span>{{ cortometraje()?.releaseYear }}</span>
+        <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] mx-2" />
+        <span>{{ cortometraje()?.duration }} min</span>
+        <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] mx-2" />
+        <span>{{ cortometraje()?.language?.toUpperCase() }}</span>
+        <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] mx-2" />
+        <span>{{ cortometraje()?.category?.toUpperCase() }}</span>
       </div>
-
+      <!-- sinopsis -->
       <div class="mt-4">
-        <h2 class="font-semibold mb-1 text-sm">Sinopsis</h2>
-        <p class="text-sm" style="color: #e3e1de">
+        <h2 class="font-semibold text-sm mb-1">Sinopsis</h2>
+        <p class="text-sm text-primary">
           {{ cortometraje()?.description }}
         </p>
       </div>
 
+      <!-- grupo de botones -->
       @if (isLoggedIn()) {
       <div class="flex flex-wrap justify-start gap-4 mt-4">
+        <!-- boton ver despues -->
         <button (click)="toggleWatchLater()" class="boton-menu icon-btn flex items-center gap-2 group">
           <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 32 32" [ngClass]="
@@ -57,6 +64,7 @@
           Ver después
         </button>
 
+        <!-- boton valorar -->
         <button (click)="abrirValoracion()" class="boton-menu icon-btn flex items-center gap-2 group">
           <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 32 32" [ngClass]="'fill-[#E3E1DE] group-hover:fill-black'">
@@ -66,13 +74,14 @@
           Valorar
         </button>
 
+        <!-- boton reseñas -->
         <button (click)="toggleReviews()" class="boton-menu icon-btn flex items-center gap-2 group">
           <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 32 32" [ngClass]="'fill-action group-hover:fill-principal rounded-sm'">
             <path fill-rule="evenodd" clip-rule="evenodd"
               d="M6.66667 2.66663H25.3333C27.5425 2.66663 29.3333 4.45749 29.3333 6.66663V20C29.3333 22.2091 27.5425 24 25.3333 24H24V28C23.9973 28.5382 23.6712 29.0221 23.1733 29.2266C23.0151 29.3013 22.8416 29.3378 22.6667 29.3333C22.3123 29.3353 21.9716 29.1962 21.72 28.9466L16.7867 24H6.66667C4.45753 24 2.66667 22.2091 2.66667 20V6.66663C2.66667 4.45749 4.45753 2.66663 6.66667 2.66663ZM25.3333 21.3333C26.0697 21.3333 26.6667 20.7363 26.6667 20V6.66663C26.6667 5.93025 26.0697 5.33329 25.3333 5.33329H6.66667C5.93029 5.33329 5.33333 5.93025 5.33333 6.66663V20C5.33333 20.7363 5.93029 21.3333 6.66667 21.3333H17.3333C17.6877 21.3312 18.0284 21.4704 18.28 21.72L21.3333 24.7866V22.6666C21.3333 21.9302 21.9303 21.3333 22.6667 21.3333H25.3333Z" />
           </svg>
-          {{ mostrarResenas() ? "Ocultar" : "Ver reseñas" }}
+          {{ mostrarResenas() ? "Ocultar" : "Reseñas" }}
         </button>
       </div>
       } @else {
@@ -83,19 +92,21 @@
             <path fill-rule="evenodd" clip-rule="evenodd"
               d="M6.66667 2.66663H25.3333C27.5425 2.66663 29.3333 4.45749 29.3333 6.66663V20C29.3333 22.2091 27.5425 24 25.3333 24H24V28C23.9973 28.5382 23.6712 29.0221 23.1733 29.2266C23.0151 29.3013 22.8416 29.3378 22.6667 29.3333C22.3123 29.3353 21.9716 29.1962 21.72 28.9466L16.7867 24H6.66667C4.45753 24 2.66667 22.2091 2.66667 20V6.66663C2.66667 4.45749 4.45753 2.66663 6.66667 2.66663ZM25.3333 21.3333C26.0697 21.3333 26.6667 20.7363 26.6667 20V6.66663C26.6667 5.93025 26.0697 5.33329 25.3333 5.33329H6.66667C5.93029 5.33329 5.33333 5.93025 5.33333 6.66663V20C5.33333 20.7363 5.93029 21.3333 6.66667 21.3333H17.3333C17.6877 21.3312 18.0284 21.4704 18.28 21.72L21.3333 24.7866V22.6666C21.3333 21.9302 21.9303 21.3333 22.6667 21.3333H25.3333Z" />
           </svg>
-          {{ mostrarResenas() ? "Ocultar" : "Ver reseñas" }}
+          {{ mostrarResenas() ? "Ocultar" : "Reseñas" }}
         </button>
       </div>
       }
     </div>
 
+    <!-- Video-->
     <div class="aspect-video overflow-hidden">
       <iframe [src]="videoUrlSanitizado()" frameborder="0" allowfullscreen class="w-full h-full"></iframe>
     </div>
   </div>
 
+  <!-- zona reseñas -->
   @if (mostrarResenas()) {
-  <div class="mt-10 space-y-6">
+  <div class="mt-20 mb-3 space-y-6">
     <h2 class="text-center text-h6 font-medium border-b border-primary pb-2 w-[clamp(200px,80vw,1300px)] mx-auto">
       Reseñas</h2>
 
@@ -127,4 +138,5 @@
   <app-valorar-modal [visible]="modalResenas()" [title]="cortometraje()?.title || ''" [form]="formValoracion"
     (close)="cerrarValoracion()" (submit)="enviarValoracionExterna($event)" />
   }
+
 </section>
