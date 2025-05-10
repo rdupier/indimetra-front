@@ -1,13 +1,13 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CortometrajeService } from '../../../core/services/cortometraje.service';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Favorite } from '../../../core/interfaces/favorite.interface';
 
 @Component({
   selector: 'app-ver-despues',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, RouterLink],
   templateUrl: './ver-despues.component.html'
 })
 export class VerDespuesComponent implements OnInit {

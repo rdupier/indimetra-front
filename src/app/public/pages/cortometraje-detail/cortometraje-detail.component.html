@@ -84,6 +84,16 @@
           {{ mostrarResenas() ? "Ocultar" : "Reseñas" }}
         </button>
       </div>
+
+      <div class="flex justify-center mt-6">
+        <button (click)="volverAtras()" class="text-secondary hover:text-primary text-xs flex items-center gap-2 duration-300">
+          <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          Volver
+        </button>
+      </div>
+
       } @else {
       <div class="flex justify-center mt-4">
         <button (click)="toggleReviews()" class="boton-menu icon-btn flex items-center gap-2 group">
@@ -134,9 +144,9 @@
     </p>
     }
   </div>
-  } } @if (modalResenas()) {
+  } } 
+  @if (modalResenas()) {
   <app-valorar-modal [visible]="modalResenas()" [title]="cortometraje()?.title || ''" [form]="formValoracion"
     (close)="cerrarValoracion()" (submit)="enviarValoracionExterna($event)" />
   }
-
 </section>

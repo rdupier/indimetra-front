@@ -45,7 +45,15 @@
 }
 
 @if (modalSubida()) {
-<app-upload-modal [visible]="true" (close)="cerrarModalSubida()" (submit)="crearNuevaObra($event)" />
+<app-obras-form-modal
+  [visible]="modalSubida().visible"
+  [isEditMode]="modalSubida().editMode"
+  [cortometraje]="modalSubida().obra"
+  (close)="cerrarModalSubida()"
+  (submit)="modalSubida().editMode ? actualizarObra($event) : crearNuevaObra($event)"
+  (saved)="recargarObras()"
+/>
+
 }
 
 <app-footer></app-footer>
