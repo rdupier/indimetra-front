@@ -1,13 +1,16 @@
 <section class="w-screen -ml-[calc((100vw-100%)/2)] px-[clamp(1rem,2.5vw,48px)] pt-4 pb-8 text-primary">
   <!-- migas de pan -->
-  <div class="mb-6 flex items-center gap-2 text-sm font-medium text-secondary hover:underline transition-colors">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-    </svg>
-    <a [routerLink]="['/cortos']">Volver</a>
+  <div class="mb-6 transition-colors">
+    <button (click)="volverAtras()"
+      class="text-secondary hover:text-primary text-bodyS flex items-center gap-2 duration-300">
+      <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+      Volver
+    </button>
   </div>
   @if (cortometraje()) {
-  <div class="grid grid-cols-1 md:grid-cols-[35%_1fr] gap-10 items-start">
+  <div class="grid grid-cols-1 md:grid-cols-[35%_1fr] gap-10 items-start mb-7">
     <!-- datos del cortometraje -->
     <div class="space-y-8 pt-6">
       <div class="space-y-2">
@@ -19,7 +22,8 @@
           </span>
         </div>
         <!-- autor -->
-        <a [routerLink]="['/autor', cortometraje()?.author]" class="text-base font-medium text-primary hover:underline hover:text-secondary">
+        <a [routerLink]="['/autor', cortometraje()?.author]"
+          class="text-base font-medium text-primary hover:underline hover:text-secondary">
           {{ cortometraje()?.author }}
         </a>
       </div>
@@ -84,16 +88,6 @@
           {{ mostrarResenas() ? "Ocultar" : "Reseñas" }}
         </button>
       </div>
-
-      <div class="flex justify-center mt-6">
-        <button (click)="volverAtras()" class="text-secondary hover:text-primary text-xs flex items-center gap-2 duration-300">
-          <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-          Volver
-        </button>
-      </div>
-
       } @else {
       <div class="flex justify-center mt-4">
         <button (click)="toggleReviews()" class="boton-menu icon-btn flex items-center gap-2 group">
@@ -144,7 +138,7 @@
     </p>
     }
   </div>
-  } } 
+  } }
   @if (modalResenas()) {
   <app-valorar-modal [visible]="modalResenas()" [title]="cortometraje()?.title || ''" [form]="formValoracion"
     (close)="cerrarValoracion()" (submit)="enviarValoracionExterna($event)" />
