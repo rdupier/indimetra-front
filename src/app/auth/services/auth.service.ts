@@ -87,7 +87,6 @@ export class AuthService {
     });
   }
 
-  // Util si en el futuro se quiere guardar sesiones en la bbdd, backlist de JWT, usar cookies en vez de localStorage, etc.
   logoutFromBackend() {
     return this.http.post<ApiResponse<void>>(`${this.baseUrl}/logout`, {});
   }
