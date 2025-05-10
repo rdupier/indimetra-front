@@ -8,7 +8,9 @@
 
       <div class="mx-auto space-y-6">
         <div class="text-center">
-          <h2 class="text-xl font-semibold mt-4 mb-1">Nueva obra</h2>
+          <h2 class="text-xl font-semibold mt-4 mb-1">
+            {{ isEditMode ? 'Editar obra' : 'Nueva obra' }}
+          </h2>
         </div>
 
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col space-y-4 max-w-[500px] mx-auto">
@@ -148,8 +150,12 @@
           </div>
 
           <div class="flex justify-center gap-6 mt-4">
-            <button type="button" class="boton-menu min-w-[125px]" (click)="resetForm()">Borrar</button>
-            <button type="submit" class="boton-menu min-w-[125px]">Subir</button>
+            <button type="button" class="boton-menu min-w-[125px]" (click)="resetForm()">
+              {{ isEditMode ? 'Restaurar' : 'Limpiar' }}
+            </button>
+            <button type="submit" class="boton-menu min-w-[125px]">
+              {{ isEditMode ? 'Actualizar' : 'Subir' }}
+            </button>
           </div>
         </form>
       </div>

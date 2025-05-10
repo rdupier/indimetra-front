@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ModalService } from '../../../shared/modal.service';
@@ -22,7 +22,8 @@ import { ValorarModalComponent } from '../../../shared/components/valorar-modal/
 export class CortometrajeDetailComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private location: Location
   ) {}
 
   private route = inject(ActivatedRoute);
@@ -161,6 +162,10 @@ export class CortometrajeDetailComponent implements OnInit {
   private convertToEmbedUrl(url: string): string {
     const match = url.match(/(?:youtube\.com.*(?:\?v=|embed\/)|youtu\.be\/)([^&]+)/);
     return match ? `https://www.youtube.com/embed/${match[1]}` : '';
+  }
+
+  volverAtras(): void {
+    this.location.back();
   }
 
 }
