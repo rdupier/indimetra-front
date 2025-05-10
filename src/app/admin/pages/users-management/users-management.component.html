@@ -1,22 +1,16 @@
-<section
-  class="w-full bg-principal text-primary px-[clamp(1rem,2.5vw,48px)] pt-10 pb-6"
->
+<section class="w-full bg-principal text-primary px-[clamp(1rem,2.5vw,48px)] pt-10 pb-6">
   <div class="text-center space-y-4 mb-10">
     <h2 class="text-h2">Gestión de usuarios</h2>
   </div>
 
-  <div
-    class="flex flex-wrap justify-center gap-x-10 gap-y-6 items-end px-4 py-2"
-  >
+  <div class="flex flex-wrap justify-center gap-x-10 gap-y-6 items-end px-4 py-2">
     <div class="relative flex-1 min-w-[250px] max-w-xs">
       <input
         type="text"
         placeholder="Buscar por username..."
         class="w-full bg-input text-white border border-secondary rounded-lg px-4 py-2 placeholder-secondary focus:outline-none focus:ring-2 focus:ring-secondary"
         [value]="filtroUsername()"
-        (input)="
-          filtroUsername.set($any($event.target).value); buscarPorUsername()
-        "
+        (input)="filtroUsername.set($any($event.target).value); buscarPorUsername()"
       />
     </div>
 
@@ -26,6 +20,7 @@
       <label class="flex items-center gap-2">
         <input
           type="checkbox"
+          class="w-5 h-5 border-primary bg-principal text-primary accent-primary rounded"
           [checked]="mostrarActivos()"
           (change)="onActivosChange($event)"
         />
@@ -35,6 +30,7 @@
       <label class="flex items-center gap-2">
         <input
           type="checkbox"
+          class="w-5 h-5 border-primary bg-principal text-primary accent-primary rounded"
           [checked]="mostrarEliminados()"
           (change)="onEliminadosChange($event)"
         />
@@ -86,20 +82,20 @@
             <td class="px-4 py-2 text-center align-middle">
               <input
                 type="checkbox"
+                class="w-5 h-5 border-primary bg-principal text-primary accent-primary rounded"
                 [checked]="user.roles === 'ROLE_ADMIN'"
                 (change)="toggleAdmin(user)"
               />
             </td>
             <td class="px-4 py-2 text-center align-middle">
-              <span
-                class="text-primary inline-block text-sm font-medium rounded px-2 py-1"
-              >
+              <span class="text-primary inline-block text-sm font-medium rounded px-2 py-1">
                 {{ user.autor ? "Sí" : "—" }}
               </span>
             </td>
             <td class="px-4 py-2 text-center align-middle">
               <input
                 type="checkbox"
+                class="w-5 h-5 border-primary bg-principal text-primary accent-primary rounded"
                 [checked]="user.active"
                 (change)="toggleActivo(user)"
               />
@@ -107,6 +103,7 @@
             <td class="px-4 py-2 text-center align-middle">
               <input
                 type="checkbox"
+                class="w-5 h-5 border-primary bg-principal text-primary accent-primary rounded"
                 [checked]="user.deleted"
                 (change)="toggleEliminado(user)"
               />
