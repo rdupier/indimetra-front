@@ -5,9 +5,11 @@
       <div class="space-y-2">
         <div class="flex items-center justify-between">
           <h1 class="text-h2">{{ cortometraje()?.title }}</h1>
-          <span class="border border-primary px-2 py-1 text-sm">
-            {{ cortometraje()?.rating }}
-          </span>
+          @if (cortometraje()?.rating != null) {
+            <span class="border border-primary px-2 py-1 text-sm">
+              {{ cortometraje()?.rating }}
+            </span>
+          }
         </div>
 
         <a [routerLink]="['/autor', cortometraje()?.author]" class="text-sm font-medium" style="color: #e3e1de">
@@ -75,6 +77,13 @@
           {{ mostrarResenas() ? "Ocultar" : "Ver reseñas" }}
         </button>
       </div>
+
+      <div class="flex justify-center mt-6">
+        <button (click)="volverAtras()" class="text-action hover:text-primary text-sm flex items-center gap-2">
+          ← Volver
+        </button>
+      </div>
+
       } @else {
       <div class="flex justify-center mt-4">
         <button (click)="toggleReviews()" class="boton-menu icon-btn flex items-center gap-2 group">
