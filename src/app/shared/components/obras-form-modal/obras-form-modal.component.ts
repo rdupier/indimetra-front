@@ -7,15 +7,18 @@ import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 import { FiltroSelectComponent } from '../filtro-select/filtro-select.component';
 
 @Component({
-  selector: 'app-upload-modal',
+  selector: 'app-obras-form-modal',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FiltroSelectComponent],
-  templateUrl: './upload-modal.component.html',
+  templateUrl: './obras-form-modal.component.html',
 })
-export class UploadModalComponent implements OnInit {
+export class ObrasFormComponent implements OnInit {
+  @Input() isEditMode = false;
+  @Input() cortometraje?: Cortometraje;
   @Input() visible = false;
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<any>();
+  @Output() saved = new EventEmitter<void>();
 
   form: FormGroup;
   formTouched = false;
@@ -90,6 +93,10 @@ export class UploadModalComponent implements OnInit {
 
     const currentYear = new Date().getFullYear();
     this.years = Array.from({ length: currentYear - 1950 + 1 }, (_, i) => (currentYear - i).toString());
+
+    if (this.isEditMode && this.cortometraje) {
+      this.resetForm();
+    }
   }
 
   onSubmit(): void {
@@ -146,6 +153,7 @@ export class UploadModalComponent implements OnInit {
     };
 
     this.submit.emit(newCortometraje);
+    this.saved.emit();
     this.resetForm();
   }
 
@@ -154,7 +162,38 @@ export class UploadModalComponent implements OnInit {
     this.close.emit();
   }
 
+  getDurationLabel(duration: number): string | null {
+    if (duration <= 4) return '< 5 min';
+    if (duration <= 10) return '5-10 min';
+    if (duration <= 20) return '10-20 min';
+    return '> 20 min';
+  }
+
   resetForm(): void {
+    if (this.isEditMode && this.cortometraje) {
+    this.form.patchValue({
+      title: this.cortometraje.title,
+      description: this.cortometraje.description,
+      category: this.cortometraje.category,
+      videoUrl: this.cortometraje.videoUrl,
+      imageUrl: this.cortometraje.imageUrl,
+      releaseYear: this.cortometraje.releaseYear,
+      duration: this.cortometraje.duration,
+      language: this.cortometraje.language,
+      technique: this.cortometraje.technique
+        ? this.cortometraje.technique.split(',').map(t => t.trim())
+        : [],
+    });
+
+    this.selectedCategory = this.cortometraje.category;
+    this.selectedTechnique = this.cortometraje.technique?.split(',')[0] ?? null;
+    this.selectedLanguage = this.cortometraje.language;
+    this.selectedReleaseYear = String(this.cortometraje.releaseYear);
+    this.selectedDuration = this.getDurationLabel(this.cortometraje.duration);
+    this.formTouched = false;
+    return;
+  }
+
     this.form.reset({
       title: '',
       description: '',
@@ -175,4 +214,5 @@ export class UploadModalComponent implements OnInit {
     this.selectedReleaseYear = null;
     this.selectedDuration = null;
   }
+
 }

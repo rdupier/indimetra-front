@@ -61,6 +61,16 @@ export class CortometrajeService {
   }
 
   /**
+ * Actualiza un cortometraje existente.
+ * @param id ID del cortometraje a actualizar.
+ * @param data Datos actualizados del cortometraje.
+ * @returns Observable con el cortometraje actualizado.
+ */
+  updateCortometraje(id: number, data: Partial<Cortometraje>): Observable<Cortometraje> {
+    return this.http.put<Cortometraje>(`${this.apiUrl}/${id}`, data);
+  }
+
+  /**
    * Elimina un cortometraje (versión directa).
    * @param id ID del cortometraje.
    * @returns Observable void.
