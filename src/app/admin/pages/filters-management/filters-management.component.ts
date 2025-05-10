@@ -3,8 +3,7 @@ import Swal from 'sweetalert2';
 import { CategoryService } from '../../../core/services/category.service';
 import { CategoryResponseDto as Categoria } from '../../../core/models/category/category-response.dto';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { FiltersFormComponent } from "../../components/filters-form/filters-form.component";
+import { FiltersFormComponent } from '../../components/filters-form/filters-form.component';
 
 @Component({
   selector: 'app-filters-management',
@@ -14,12 +13,11 @@ import { FiltersFormComponent } from "../../components/filters-form/filters-form
 })
 export class FiltersManagementComponent implements OnInit {
   private categoriaService = inject(CategoryService);
-  private router = inject(Router);
 
   categorias = signal<Categoria[]>([]);
   categoriasFiltradas = signal<Categoria[]>([]);
 
-  filtroNombre = '';
+  filtroNombre = signal('');
   mostrarModal = false;
 
   paginaActual = signal(0);
@@ -41,7 +39,7 @@ export class FiltersManagementComponent implements OnInit {
   }
 
   aplicarFiltros(): void {
-    const filtro = this.filtroNombre.toLowerCase().trim();
+    const filtro = this.filtroNombre().toLowerCase().trim();
 
     let resultado = this.categorias();
     if (filtro) {
@@ -130,5 +128,4 @@ export class FiltersManagementComponent implements OnInit {
     this.loadCategorias();
     this.mostrarModal = false;
   }
-  
 }
