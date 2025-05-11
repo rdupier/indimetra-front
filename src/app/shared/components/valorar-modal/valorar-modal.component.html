@@ -1,5 +1,5 @@
 @if (visible) {
-  <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+  <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 py-10">
     <div class="relative w-[clamp(340px,95vw,650px)] px-24 pt-6 pb-6 bg-principal text-primary border-[1.3px] border-primary shadow-lg rounded-lg">
       <button
         (click)="onClose()"
@@ -56,7 +56,7 @@
             ></textarea>
 
             @if (formTouched && form.get('comment')?.invalid) {
-              <p class="text-error text-bodyXS mt-1">
+              <p class="text-error text-bodyS mt-1">
                 @if (form.get('comment')?.errors?.['required']) {
                   El comentario es obligatorio.
                 }
@@ -66,7 +66,9 @@
               </p>
             }
           </div>
-
+          @if (errorMessage) {
+          <div class="text-error text-bodyS">{{errorMessage}}</div>
+          }
           <div class="flex justify-center mt-6">
             <button
               type="submit"

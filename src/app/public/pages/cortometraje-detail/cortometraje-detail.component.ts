@@ -43,6 +43,7 @@ export class CortometrajeDetailComponent implements OnInit {
 
   formValoracion!: FormGroup;
   formTocado = false;
+  errorMessage!: string;
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -107,7 +108,10 @@ export class CortometrajeDetailComponent implements OnInit {
         this.reviews.update(actuales => [...actuales, nuevaResena]);
         this.modalResenas.set(false);
       },
-      error: (err) => console.error('Error al enviar valoración', err),
+      error: (err) => {
+        console.error('Error al enviar valoración', err);
+        this.errorMessage = err.error.message;
+      },
     });
   }
 

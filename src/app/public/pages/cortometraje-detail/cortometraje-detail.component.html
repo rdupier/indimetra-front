@@ -9,26 +9,27 @@
       Volver
     </button>
   </div>
+
   @if (cortometraje()) {
   <div class="grid grid-cols-1 md:grid-cols-[35%_1fr] gap-10 items-start mb-7">
     <!-- datos del cortometraje -->
-    <div class="space-y-8 pt-6">
-      <div class="space-y-2">
+    <div class="space-y-9 pt-3 max-w-[28rem] ms-5">
+      <div>
         <!-- titulo y rating-->
-        <div class="flex items-center justify-between">
+        <div class="flex items-center mb-1 justify-between">
           <h1 class="text-h2">{{ cortometraje()?.title }}</h1>
-          <span class="border border-secondary py-2 px-3 text-base">
+          <span class="border border-primary py-2 px-3 text-bodyS">
             {{ cortometraje()?.rating }}
           </span>
         </div>
         <!-- autor -->
         <a [routerLink]="['/autor', cortometraje()?.author]"
-          class="text-base font-medium text-primary hover:underline hover:text-secondary">
+          class="text-base text-primary text-underline hover:text-secondary">
           {{ cortometraje()?.author }}
         </a>
       </div>
       <!-- datos generales -->
-      <div class="flex flex-wrap items-center gap-2 text-xs font-medium text-action mt-2">
+      <div class="flex flex-wrap items-center gap-2 text-bodyS text-action py-2">
         <span>{{ cortometraje()?.releaseYear }}</span>
         <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] mx-2" />
         <span>{{ cortometraje()?.duration }} min</span>
@@ -38,16 +39,16 @@
         <span>{{ cortometraje()?.category?.toUpperCase() }}</span>
       </div>
       <!-- sinopsis -->
-      <div class="mt-4">
-        <h2 class="font-semibold text-sm mb-1">Sinopsis</h2>
-        <p class="text-sm text-primary">
+      <div>
+        <h2 class="text-actionS my-3">Sinopsis</h2>
+        <p class="text-bodyS text-primary pb-7 max-w-[24rem]">
           {{ cortometraje()?.description }}
         </p>
       </div>
 
       <!-- grupo de botones -->
       @if (isLoggedIn()) {
-      <div class="flex flex-wrap justify-start gap-4 mt-4">
+      <div class="flex flex-wrap justify-start gap-4">
         <!-- boton ver despues -->
         <button (click)="toggleWatchLater()" class="boton-menu icon-btn flex items-center gap-2 group">
           <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +104,7 @@
     </div>
 
     <!-- Video-->
-    <div class="aspect-video overflow-hidden">
+    <div class="aspect-video overflow-hidden me-3">
       <iframe [src]="videoUrlSanitizado()" frameborder="0" allowfullscreen class="w-full h-full"></iframe>
     </div>
   </div>
@@ -141,6 +142,6 @@
   } }
   @if (modalResenas()) {
   <app-valorar-modal [visible]="modalResenas()" [title]="cortometraje()?.title || ''" [form]="formValoracion"
-    (close)="cerrarValoracion()" (submit)="enviarValoracionExterna($event)" />
+    (close)="cerrarValoracion()" (submit)="enviarValoracionExterna($event)" [errorMessage]="errorMessage" />
   }
 </section>

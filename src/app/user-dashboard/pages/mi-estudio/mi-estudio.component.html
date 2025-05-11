@@ -6,8 +6,8 @@
     <img [src]="user()?.profileImage || 'assets/icons/default-avatar.svg'" alt="Foto de perfil"
       class="w-[8rem] h-[8rem] rounded-full object-cover border border-none" />
     <div>
-      <h1 class="text-h6 font-semibold">¡Hola, {{ user()?.username }}!</h1>
-      <p class="text-bodyS font-semibold text-primary max-w-xl">
+      <h1 class="text-h6">¡Hola, {{ user()?.username }}!</h1>
+      <p class="text-bodyS text-primary max-w-xl">
         Este es tu estudio, tu espacio personal donde puedes guardar las obras que más te
         inspiran y compartir las tuyas propias con el mundo
       </p>
@@ -25,7 +25,7 @@
         </button>
 
         <a routerLink="ver-despues" class="boton-menu flex items-center gap-2 icon-btn" routerLinkActive="active-link">
-          <img src="assets/icons/bookmark.svg" alt="Principal" class="w-5 h-5" />
+          <img src="assets/icons/bookmark.svg" alt="Guardar" class="w-5 h-5" />
           Ver después
         </a>
 

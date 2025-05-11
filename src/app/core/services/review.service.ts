@@ -29,7 +29,9 @@ export class ReviewService {
     rating: number;
     comment: string;
   }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}`, review);
+    return this.http
+      .post<any>(`${this.apiUrl}`, review)
+      .pipe(map((res) => res.data));
   }
 
   deleteReview(id: number): Observable<void> {
