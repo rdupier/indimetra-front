@@ -11,7 +11,7 @@ module.exports = {
         secondary: '#A9A59B',
         action: "#E3E1DE",
         input: "#373330",
-        error: "#D75158",
+        error: "#FF5572",
         card: "#393533"
       },
       fontFamily: {

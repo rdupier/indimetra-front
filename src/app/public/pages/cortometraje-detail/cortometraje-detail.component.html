@@ -1,147 +1,158 @@
-<section class="w-screen -ml-[calc((100vw-100%)/2)] px-[clamp(1rem,2.5vw,48px)] pt-4 pb-8 text-primary">
+<section class="w-full max-w-screen-2xl mx-auto items-center text-primary mt-2 pb-8">
   <!-- migas de pan -->
-  <div class="mb-6 transition-colors">
+  <div class="mb-3 transition-colors">
     <button (click)="volverAtras()"
       class="text-secondary hover:text-primary text-bodyS flex items-center gap-2 duration-300">
-      <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-      </svg>
+      <img src="assets/icons/chevron-left.svg" alt="Volver" class="w-3 h-3" />
       Volver
     </button>
   </div>
+  <!-- row card cortometraje -->
+  <div class="row">
+    <div class="w-full lg:max-w-full lg:flex">
+      @if (cortometraje()) {
+      <div class="h-auto lg:h-auto md:lg:w-[65%] flex-none bg-cover text-center overflow-hidden">
 
-  @if (cortometraje()) {
-  <div class="grid grid-cols-1 md:grid-cols-[35%_1fr] gap-10 items-start mb-7">
-    <!-- datos del cortometraje -->
-    <div class="space-y-9 pt-3 max-w-[28rem] ms-5">
-      <div>
-        <!-- titulo y rating-->
-        <div class="flex items-center mb-1 justify-between">
-          <h1 class="text-h2">{{ cortometraje()?.title }}</h1>
-          <span class="border border-primary py-2 px-3 text-bodyS">
-            {{ cortometraje()?.rating }}
-          </span>
+        <!-- video -->
+        <div class="aspect-video overflow-hidden">
+          <iframe [src]="videoUrlSanitizado()" frameborder="0" allowfullscreen class="w-full h-full"></iframe>
         </div>
-        <!-- autor -->
-        <a [routerLink]="['/autor', cortometraje()?.author]"
-          class="text-base text-primary text-underline hover:text-secondary">
-          {{ cortometraje()?.author }}
-        </a>
-      </div>
-      <!-- datos generales -->
-      <div class="flex flex-wrap items-center gap-2 text-bodyS text-action py-2">
-        <span>{{ cortometraje()?.releaseYear }}</span>
-        <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] mx-2" />
-        <span>{{ cortometraje()?.duration }} min</span>
-        <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] mx-2" />
-        <span>{{ cortometraje()?.language?.toUpperCase() }}</span>
-        <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] mx-2" />
-        <span>{{ cortometraje()?.category?.toUpperCase() }}</span>
-      </div>
-      <!-- sinopsis -->
-      <div>
-        <h2 class="text-actionS my-3">Sinopsis</h2>
-        <p class="text-bodyS text-primary pb-7 max-w-[24rem]">
-          {{ cortometraje()?.description }}
-        </p>
       </div>
 
-      <!-- grupo de botones -->
-      @if (isLoggedIn()) {
-      <div class="flex flex-wrap justify-start gap-4">
-        <!-- boton ver despues -->
-        <button (click)="toggleWatchLater()" class="boton-menu icon-btn flex items-center gap-2 group">
-          <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 32 32" [ngClass]="
+      <!-- datos video -->
+      <div class="p-4 flex flex-col justify-between leading-normal ms-5">
+        <div class="mb-8">
+
+          <!-- titulo y puntuacion -->
+          <div class="pt-4">
+            <div class="flex mb-1 justify-between max-w-[95%]">
+              <h1 class="text-h2">{{ cortometraje()?.title }}</h1>
+              <span class="border border-primary rounded-sm px-[0.7rem] py-[0.4rem] text-bodyS">
+                {{ cortometraje()?.rating }}
+              </span>
+            </div>
+
+            <!-- autor -->
+            <a [routerLink]="['/autor', cortometraje()?.author]"
+              class="text-base text-primary text-underline hover:text-secondary">
+              {{ cortometraje()?.author }}
+            </a>
+          </div>
+
+          <!-- datos generales -->
+          <div class="flex flex-wrap items-center gap-2 text-action text-bodyS my-12">
+            <span>{{ cortometraje()?.releaseYear }}</span>
+            <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] mx-2" />
+            <span>{{ cortometraje()?.duration }} min</span>
+            <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] mx-2" />
+            <span>{{ cortometraje()?.language?.toUpperCase() }}</span>
+            <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] mx-2" />
+            <span>{{ cortometraje()?.category?.toUpperCase() }}</span>
+          </div>
+
+          <!-- sinopsis -->
+          <div class="pb-2">
+            <h2 class="text-actionS my-3">Sinopsis</h2>
+            <p class="text-bodyS text-primary pb-7 max-w-[90%]">
+              {{ cortometraje()?.description }}
+            </p>
+          </div>
+        </div>
+
+        <!-- grupo de botones -->
+        <div class="flex items-center mb-4">
+          @if (isLoggedIn()) {
+          <div class="flex flex-wrap justify-start gap-3">
+
+            <!-- boton ver despues -->
+            <button (click)="toggleWatchLater()" class="boton-menu icon-btn flex items-center gap-2 group">
+              <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32" [ngClass]="
               estaEnWatchLater()
                 ? 'fill-principal'
                 : 'fill-action group-hover:fill-principal'
             ">
-            <ng-container *ngIf="estaEnWatchLater(); else iconoNormal">
-              <path
-                d="M22.6667 2.7467H9.33333C7.07771 2.79771 5.28866 4.66428 5.33333 6.92004V26.4934C5.32775 27.5811 5.9586 28.5717 6.94667 29.0267C7.89585 29.4278 8.99115 29.2461 9.76 28.56L16 22.88L22.24 28.56C22.7147 29.002 23.3381 29.2494 23.9867 29.2534C24.3538 29.2502 24.7166 29.1731 25.0533 29.0267C26.0414 28.5717 26.6723 27.5811 26.6667 26.4934V6.92004C26.7113 4.66428 24.9223 2.79771 22.6667 2.7467Z" />
-            </ng-container>
-            <ng-template #iconoNormal>
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M9.33334 2.7467H22.6667C24.9223 2.79771 26.7113 4.66428 26.6667 6.92004V26.4934C26.6723 27.5811 26.0414 28.5717 25.0533 29.0267C24.7166 29.1731 24.3538 29.2502 23.9867 29.2534C23.3381 29.2494 22.7147 29.002 22.24 28.56L16 22.88L9.76 28.56C8.99115 29.2461 7.89585 29.4278 6.94667 29.0267C5.95861 28.5717 5.32776 27.5811 5.33334 26.4934V6.92004C5.28867 4.66428 7.07771 2.79771 9.33334 2.7467ZM17.7733 20.9067L24 26.5867V6.92004C24.0383 6.13913 23.4464 5.47035 22.6667 5.41337H9.33334C8.55357 5.47035 7.96173 6.13913 8.00001 6.92004V26.4934L14.1733 20.9067C15.1923 19.9745 16.7544 19.9745 17.7733 20.9067Z" />
-            </ng-template>
-          </svg>
-          Ver después
-        </button>
+                <ng-container *ngIf="estaEnWatchLater(); else iconoNormal">
+                  <path
+                    d="M22.6667 2.7467H9.33333C7.07771 2.79771 5.28866 4.66428 5.33333 6.92004V26.4934C5.32775 27.5811 5.9586 28.5717 6.94667 29.0267C7.89585 29.4278 8.99115 29.2461 9.76 28.56L16 22.88L22.24 28.56C22.7147 29.002 23.3381 29.2494 23.9867 29.2534C24.3538 29.2502 24.7166 29.1731 25.0533 29.0267C26.0414 28.5717 26.6723 27.5811 26.6667 26.4934V6.92004C26.7113 4.66428 24.9223 2.79771 22.6667 2.7467Z" />
+                </ng-container>
+                <ng-template #iconoNormal>
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M9.33334 2.7467H22.6667C24.9223 2.79771 26.7113 4.66428 26.6667 6.92004V26.4934C26.6723 27.5811 26.0414 28.5717 25.0533 29.0267C24.7166 29.1731 24.3538 29.2502 23.9867 29.2534C23.3381 29.2494 22.7147 29.002 22.24 28.56L16 22.88L9.76 28.56C8.99115 29.2461 7.89585 29.4278 6.94667 29.0267C5.95861 28.5717 5.32776 27.5811 5.33334 26.4934V6.92004C5.28867 4.66428 7.07771 2.79771 9.33334 2.7467ZM17.7733 20.9067L24 26.5867V6.92004C24.0383 6.13913 23.4464 5.47035 22.6667 5.41337H9.33334C8.55357 5.47035 7.96173 6.13913 8.00001 6.92004V26.4934L14.1733 20.9067C15.1923 19.9745 16.7544 19.9745 17.7733 20.9067Z" />
+                </ng-template>
+              </svg>
+              Ver después
+            </button>
 
-        <!-- boton valorar -->
-        <button (click)="abrirValoracion()" class="boton-menu icon-btn flex items-center gap-2 group">
-          <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 32 32" [ngClass]="'fill-[#E3E1DE] group-hover:fill-black'">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M29.1733 12.5733C29.5197 13.5837 29.2669 14.7031 28.52 15.4667L24.2533 19.84C24.2247 19.8895 24.2247 19.9505 24.2533 20L25.1733 26.0266C25.3492 27.0996 24.897 28.1789 24.0088 28.806C23.1206 29.4331 21.9523 29.4981 21 28.9733L16.0267 26.2133C15.9765 26.1872 15.9168 26.1872 15.8667 26.2133L10.8933 28.9733C9.94198 29.5098 8.76666 29.4502 7.87444 28.8203C6.98222 28.1903 6.53277 27.1027 6.72 26.0266L7.70666 19.9733C7.73119 19.9181 7.73119 19.8552 7.70666 19.8L3.49333 15.4667C2.75005 14.7014 2.4932 13.5867 2.82666 12.5733C3.16209 11.5611 4.03861 10.8238 5.09333 10.6666L10.8 9.74665C10.8574 9.73121 10.9057 9.69255 10.9333 9.63998L13.44 4.30665C13.8964 3.30397 14.8983 2.66209 16 2.66665C17.1149 2.66729 18.1242 3.32623 18.5733 4.34665L21.08 9.67998C21.1019 9.7318 21.146 9.77099 21.2 9.78665L26.92 10.6666C27.9737 10.8195 28.8481 11.5595 29.1733 12.5733ZM21.6133 20.4C21.4713 19.5061 21.7577 18.5975 22.3867 17.9467L26.6533 13.56C26.6921 13.4989 26.6921 13.421 26.6533 13.36C26.6299 13.2963 26.5737 13.2503 26.5067 13.24L20.8 12.36C19.8612 12.2208 19.0549 11.6199 18.6533 10.76L16.16 5.42665C16.1319 5.36469 16.0677 5.32725 16 5.33332C15.9588 5.32956 15.918 5.34334 15.8876 5.37126C15.8571 5.39918 15.8398 5.43866 15.84 5.47998L13.3333 10.8133C12.9502 11.6602 12.1701 12.2602 11.2533 12.4133L5.53333 13.2933C5.47003 13.3054 5.41868 13.3516 5.4 13.4133C5.36427 13.4752 5.36427 13.5514 5.4 13.6133L9.61333 17.9733C10.2479 18.6208 10.5352 19.5323 10.3867 20.4267L9.39999 26.48C9.39074 26.5521 9.42137 26.6236 9.47999 26.6667H9.65333L14.5867 23.88C15.4413 23.4078 16.4787 23.4078 17.3333 23.88L22.4133 26.64C22.4632 26.6827 22.5368 26.6827 22.5867 26.64C22.6453 26.5969 22.6759 26.5255 22.6667 26.4533L21.6133 20.4Z" />
-          </svg>
-          Valorar
-        </button>
+            <!-- boton valorar -->
+            <button (click)="abrirValoracion()" class="boton-menu icon-btn flex items-center gap-2 group">
+              <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32" [ngClass]="'fill-[#E3E1DE] group-hover:fill-black'">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M29.1733 12.5733C29.5197 13.5837 29.2669 14.7031 28.52 15.4667L24.2533 19.84C24.2247 19.8895 24.2247 19.9505 24.2533 20L25.1733 26.0266C25.3492 27.0996 24.897 28.1789 24.0088 28.806C23.1206 29.4331 21.9523 29.4981 21 28.9733L16.0267 26.2133C15.9765 26.1872 15.9168 26.1872 15.8667 26.2133L10.8933 28.9733C9.94198 29.5098 8.76666 29.4502 7.87444 28.8203C6.98222 28.1903 6.53277 27.1027 6.72 26.0266L7.70666 19.9733C7.73119 19.9181 7.73119 19.8552 7.70666 19.8L3.49333 15.4667C2.75005 14.7014 2.4932 13.5867 2.82666 12.5733C3.16209 11.5611 4.03861 10.8238 5.09333 10.6666L10.8 9.74665C10.8574 9.73121 10.9057 9.69255 10.9333 9.63998L13.44 4.30665C13.8964 3.30397 14.8983 2.66209 16 2.66665C17.1149 2.66729 18.1242 3.32623 18.5733 4.34665L21.08 9.67998C21.1019 9.7318 21.146 9.77099 21.2 9.78665L26.92 10.6666C27.9737 10.8195 28.8481 11.5595 29.1733 12.5733ZM21.6133 20.4C21.4713 19.5061 21.7577 18.5975 22.3867 17.9467L26.6533 13.56C26.6921 13.4989 26.6921 13.421 26.6533 13.36C26.6299 13.2963 26.5737 13.2503 26.5067 13.24L20.8 12.36C19.8612 12.2208 19.0549 11.6199 18.6533 10.76L16.16 5.42665C16.1319 5.36469 16.0677 5.32725 16 5.33332C15.9588 5.32956 15.918 5.34334 15.8876 5.37126C15.8571 5.39918 15.8398 5.43866 15.84 5.47998L13.3333 10.8133C12.9502 11.6602 12.1701 12.2602 11.2533 12.4133L5.53333 13.2933C5.47003 13.3054 5.41868 13.3516 5.4 13.4133C5.36427 13.4752 5.36427 13.5514 5.4 13.6133L9.61333 17.9733C10.2479 18.6208 10.5352 19.5323 10.3867 20.4267L9.39999 26.48C9.39074 26.5521 9.42137 26.6236 9.47999 26.6667H9.65333L14.5867 23.88C15.4413 23.4078 16.4787 23.4078 17.3333 23.88L22.4133 26.64C22.4632 26.6827 22.5368 26.6827 22.5867 26.64C22.6453 26.5969 22.6759 26.5255 22.6667 26.4533L21.6133 20.4Z" />
+              </svg>
+              Valorar
+            </button>
 
-        <!-- boton reseñas -->
-        <button (click)="toggleReviews()" class="boton-menu icon-btn flex items-center gap-2 group">
-          <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 32 32" [ngClass]="'fill-action group-hover:fill-principal rounded-sm'">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M6.66667 2.66663H25.3333C27.5425 2.66663 29.3333 4.45749 29.3333 6.66663V20C29.3333 22.2091 27.5425 24 25.3333 24H24V28C23.9973 28.5382 23.6712 29.0221 23.1733 29.2266C23.0151 29.3013 22.8416 29.3378 22.6667 29.3333C22.3123 29.3353 21.9716 29.1962 21.72 28.9466L16.7867 24H6.66667C4.45753 24 2.66667 22.2091 2.66667 20V6.66663C2.66667 4.45749 4.45753 2.66663 6.66667 2.66663ZM25.3333 21.3333C26.0697 21.3333 26.6667 20.7363 26.6667 20V6.66663C26.6667 5.93025 26.0697 5.33329 25.3333 5.33329H6.66667C5.93029 5.33329 5.33333 5.93025 5.33333 6.66663V20C5.33333 20.7363 5.93029 21.3333 6.66667 21.3333H17.3333C17.6877 21.3312 18.0284 21.4704 18.28 21.72L21.3333 24.7866V22.6666C21.3333 21.9302 21.9303 21.3333 22.6667 21.3333H25.3333Z" />
-          </svg>
-          {{ mostrarResenas() ? "Ocultar" : "Reseñas" }}
-        </button>
-      </div>
-      } @else {
-      <div class="flex justify-center mt-4">
-        <button (click)="toggleReviews()" class="boton-menu icon-btn flex items-center gap-2 group">
-          <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 32 32" [ngClass]="'fill-action group-hover:fill-principal'">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M6.66667 2.66663H25.3333C27.5425 2.66663 29.3333 4.45749 29.3333 6.66663V20C29.3333 22.2091 27.5425 24 25.3333 24H24V28C23.9973 28.5382 23.6712 29.0221 23.1733 29.2266C23.0151 29.3013 22.8416 29.3378 22.6667 29.3333C22.3123 29.3353 21.9716 29.1962 21.72 28.9466L16.7867 24H6.66667C4.45753 24 2.66667 22.2091 2.66667 20V6.66663C2.66667 4.45749 4.45753 2.66663 6.66667 2.66663ZM25.3333 21.3333C26.0697 21.3333 26.6667 20.7363 26.6667 20V6.66663C26.6667 5.93025 26.0697 5.33329 25.3333 5.33329H6.66667C5.93029 5.33329 5.33333 5.93025 5.33333 6.66663V20C5.33333 20.7363 5.93029 21.3333 6.66667 21.3333H17.3333C17.6877 21.3312 18.0284 21.4704 18.28 21.72L21.3333 24.7866V22.6666C21.3333 21.9302 21.9303 21.3333 22.6667 21.3333H25.3333Z" />
-          </svg>
-          {{ mostrarResenas() ? "Ocultar" : "Reseñas" }}
-        </button>
+            <!-- boton reseñas -->
+            <button (click)="toggleReviews()" class="boton-menu icon-btn flex items-center gap-2 group">
+              <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32" [ngClass]="'fill-action group-hover:fill-principal rounded-sm'">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M6.66667 2.66663H25.3333C27.5425 2.66663 29.3333 4.45749 29.3333 6.66663V20C29.3333 22.2091 27.5425 24 25.3333 24H24V28C23.9973 28.5382 23.6712 29.0221 23.1733 29.2266C23.0151 29.3013 22.8416 29.3378 22.6667 29.3333C22.3123 29.3353 21.9716 29.1962 21.72 28.9466L16.7867 24H6.66667C4.45753 24 2.66667 22.2091 2.66667 20V6.66663C2.66667 4.45749 4.45753 2.66663 6.66667 2.66663ZM25.3333 21.3333C26.0697 21.3333 26.6667 20.7363 26.6667 20V6.66663C26.6667 5.93025 26.0697 5.33329 25.3333 5.33329H6.66667C5.93029 5.33329 5.33333 5.93025 5.33333 6.66663V20C5.33333 20.7363 5.93029 21.3333 6.66667 21.3333H17.3333C17.6877 21.3312 18.0284 21.4704 18.28 21.72L21.3333 24.7866V22.6666C21.3333 21.9302 21.9303 21.3333 22.6667 21.3333H25.3333Z" />
+              </svg>
+              {{ mostrarResenas() ? "Ocultar" : "Reseñas" }}
+            </button>
+          </div>
+          } @else {
+          <div class="flex justify-center mt-4">
+            <button (click)="toggleReviews()" class="boton-menu icon-btn flex items-center gap-2 group">
+              <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32" [ngClass]="'fill-action group-hover:fill-principal'">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M6.66667 2.66663H25.3333C27.5425 2.66663 29.3333 4.45749 29.3333 6.66663V20C29.3333 22.2091 27.5425 24 25.3333 24H24V28C23.9973 28.5382 23.6712 29.0221 23.1733 29.2266C23.0151 29.3013 22.8416 29.3378 22.6667 29.3333C22.3123 29.3353 21.9716 29.1962 21.72 28.9466L16.7867 24H6.66667C4.45753 24 2.66667 22.2091 2.66667 20V6.66663C2.66667 4.45749 4.45753 2.66663 6.66667 2.66663ZM25.3333 21.3333C26.0697 21.3333 26.6667 20.7363 26.6667 20V6.66663C26.6667 5.93025 26.0697 5.33329 25.3333 5.33329H6.66667C5.93029 5.33329 5.33333 5.93025 5.33333 6.66663V20C5.33333 20.7363 5.93029 21.3333 6.66667 21.3333H17.3333C17.6877 21.3312 18.0284 21.4704 18.28 21.72L21.3333 24.7866V22.6666C21.3333 21.9302 21.9303 21.3333 22.6667 21.3333H25.3333Z" />
+              </svg>
+              {{ mostrarResenas() ? "Ocultar" : "Reseñas" }}
+            </button>
+          </div>
+          }
+        </div>
       </div>
       }
     </div>
 
-    <!-- Video-->
-    <div class="aspect-video overflow-hidden me-3">
-      <iframe [src]="videoUrlSanitizado()" frameborder="0" allowfullscreen class="w-full h-full"></iframe>
-    </div>
-  </div>
-
-  <!-- zona reseñas -->
-  @if (mostrarResenas()) {
-  <div class="mt-20 mb-3 space-y-6">
-    <h2 class="text-center text-h6 font-medium border-b border-primary pb-2 w-[clamp(200px,80vw,1300px)] mx-auto">
-      Reseñas</h2>
-
-    @if (reviews().length === 0) {
-    <p class="text-center text-bodyXS text-secondary mt-6">
-      Este cortometraje no tiene reseñas todavía.
-    </p>
-    } @for (review of reviews(); track review.id) {
-    <div class="max-w-3xl mx-auto">
-      <span class="block text-primary text-bodyS mb-1">{{review.username}}</span>
-      <div class="bg-input p-4 text-sm text-subtext shadow-sm">
-        <div class="w-full flex justify-end mb-1">
-          <span class="text-action text-bodyXS border px-2 py-0.5">
-            {{ review.rating }}
-          </span>
+    <!-- row zona reseñas -->
+    @if (mostrarResenas()) {
+    <div class="mb-14 mt-10 space-y-6 row">
+      <h2 class="text-center text-h6 font-medium border-b border-primary pb-2 w-[clamp(200px,80vw,1300px)] mx-auto">
+        Reseñas</h2>
+      @if (reviews().length === 0) {
+      <p class="text-center text-bodyXS text-secondary mt-6">
+        Este cortometraje no tiene reseñas todavía.
+      </p>
+      } @for (review of reviews(); track review.id) {
+      <div class="max-w-3xl mx-auto">
+        <span class="block text-primary text-bodyS mb-1">{{review.username}}</span>
+        <div class="bg-input p-4 text-sm text-subtext shadow-sm">
+          <div class="w-full flex justify-end mb-1">
+            <span class="text-action text-bodyXS border px-2 py-0.5">
+              {{ review.rating }}
+            </span>
+          </div>
+          <p class="text-secondary text-bodyXS leading-tight mt-0">{{ review.comment }}</p>
         </div>
-        <p class="text-secondary text-bodyXS leading-tight mt-0">{{ review.comment }}</p>
       </div>
+      } @if (isLoggedIn()) {} @else {
+      <p class="text-center text-secondary text-bodyXS mt-6">
+        Para escribir un comentario, por favor,
+        <a (click)="abrirModalLogin()" class="underline hover:text-white transition cursor-pointer">
+          inicia sesión </a>
+      </p>
+      }
     </div>
-    } @if (isLoggedIn()) {} @else {
-    <p class="text-center text-secondary text-bodyXS mt-6">
-      Para escribir un comentario, por favor,
-      <a (click)="abrirModalLogin()" class="underline hover:text-white transition cursor-pointer">
-        inicia sesión </a>
-    </p>
+    }
+    @if (modalResenas()) {
+    <app-valorar-modal [visible]="modalResenas()" [title]="cortometraje()?.title || ''" [form]="formValoracion"
+      (close)="cerrarValoracion()" (submit)="enviarValoracionExterna($event)" [errorMessage]="errorMessage" />
     }
   </div>
-  } }
-  @if (modalResenas()) {
-  <app-valorar-modal [visible]="modalResenas()" [title]="cortometraje()?.title || ''" [form]="formValoracion"
-    (close)="cerrarValoracion()" (submit)="enviarValoracionExterna($event)" [errorMessage]="errorMessage" />
-  }
-</section>
