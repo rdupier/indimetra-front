@@ -66,12 +66,12 @@
 
   <div class="flex justify-center items-center gap-6 pt-20 text-primary text-base pb-6">
     @if (paginaActual() > 0) {
-    <button (click)="paginaAnterior()" class="small-btn icon-btn">
+    <button (click)="paginaAnterior()" class="small-btn icon-btn" title="Anterior">
       <img src="assets/icons/chevron-left.svg" alt="Anterior" class="w-4 h-4" />
     </button>
     }
     <span>Página {{ paginaActual() + 1 }} de {{ totalPaginas() }}</span>
-    @if (paginaActual() < totalPaginas() - 1) { <button (click)="siguientePagina()" class="small-btn icon-btn">
+    @if (paginaActual() < totalPaginas() - 1) { <button (click)="siguientePagina()" class="small-btn icon-btn" title="Siguiente">
       <img src="assets/icons/chevron-right.svg" alt="Siguiente" class="w-4 h-4" />
       </button>
       }

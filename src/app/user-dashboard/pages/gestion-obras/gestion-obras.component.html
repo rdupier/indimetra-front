@@ -16,14 +16,12 @@
         </div>
       </a>
       <div class="flex justify-center gap-5 items-center bg-input p-2">
-        <button class="small-btn icon-btn tooltip" (click)="abrirModalEdicion(obra)">
+        <button class="small-btn icon-btn" title="Editar obra" (click)="abrirModalEdicion(obra)">
           <img src="assets/icons/edit.svg" alt="Editar" class="w-4 h-4" />
-          <span class="tooltiptext">Editar</span>
         </button>
 
-        <button class="small-btn icon-btn tooltip" (click)="confirmarEliminar(obra.id)">
+        <button class="small-btn icon-btn" title="Eliminar obra" (click)="confirmarEliminar(obra.id)">
           <img src="assets/icons/delete.svg" alt="Eliminar" class="w-4 h-4" />
-          <span class="tooltiptext">Eliminar</span>
         </button>
       </div>
     </div>
