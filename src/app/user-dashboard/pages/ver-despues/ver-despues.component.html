@@ -35,7 +35,7 @@
     @if (!favoritos().length) {
     <p class="col-span-full text-center text-bodyS mb-9 mt-6">
       Aún no tienes nada para ver después. ¿Quieres
-      <a (click)="explorar()" class="text-underline text-action hover:text-primary cursor-pointer">
+      <a [routerLink]="(['/explore'])" class="text-underline text-action hover:text-primary cursor-pointer">
         explorar aquí</a>?
     </p>
     }
