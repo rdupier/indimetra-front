@@ -128,7 +128,8 @@ export class ObrasFormComponent implements OnInit {
 
     const newCortometraje: Partial<Cortometraje> = {
       ...this.form.value,
-      technique: this.form.value.technique.join(', ')
+      technique: this.form.value.technique.join(', '),
+      ...(this.isEditMode && this.cortometraje?.rating !== undefined ? { rating: this.cortometraje.rating } : {})
     };
 
     this.submit.emit(newCortometraje);
