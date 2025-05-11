@@ -43,7 +43,7 @@
 
           @if (formTouched && form.get('rating')?.errors?.['min']) {
             <p class="text-error text-bodyXS">
-              Selecciona al menos una estrella.
+              Selecciona al menos una estrella
             </p>
           }
 
@@ -56,18 +56,18 @@
             ></textarea>
 
             @if (formTouched && form.get('comment')?.invalid) {
-              <p class="text-error text-bodyS mt-1">
+              <p class="text-error text-bodyXS mt-1">
                 @if (form.get('comment')?.errors?.['required']) {
-                  El comentario es obligatorio.
+                  El comentario es obligatorio
                 }
                 @if (form.get('comment')?.errors?.['minlength']) {
-                  Debe tener al menos 2 caracteres.
+                  Debe tener al menos 2 caracteres
                 }
               </p>
             }
           </div>
           @if (errorMessage) {
-          <div class="text-error text-bodyS">{{errorMessage}}</div>
+          <div class="text-error text-bodyXS">{{errorMessage}}</div>
           }
           <div class="flex justify-center mt-6">
             <button

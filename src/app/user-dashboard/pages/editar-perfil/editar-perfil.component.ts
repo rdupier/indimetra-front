@@ -14,6 +14,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 })
 export class EditarPerfilComponent implements OnInit {
   perfilForm!: FormGroup;
+  passwordMismatch: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -27,11 +28,13 @@ export class EditarPerfilComponent implements OnInit {
     if (!user) return;
 
     this.perfilForm = this.fb.group({
-      profileImage: [user.profileImage || '', [Validators.required, Validators.pattern('https?://.+')]],
+      profileImage: [user.profileImage || '', Validators.pattern('https?://.+')],
       newPassword: [''],
       repeatPassword: [''],
-      country: [user.country || '', Validators.required],
-      socialLinks: [user.socialLinks || '', Validators.pattern('https?://.+')],
+      country: [user.country || '', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      socialLinks: [user.socialLinks || '', Validators.pattern('https?://.+')]
+    }, {
+      validators: this.passwordsCoinciden
     });
   }
 
@@ -44,9 +47,10 @@ export class EditarPerfilComponent implements OnInit {
     const { profileImage, socialLinks, country, newPassword, repeatPassword } = this.perfilForm.value;
 
     if (newPassword && newPassword !== repeatPassword) {
-      alert('Las contraseñas no coinciden.');
+      this.passwordMismatch = true;
       return;
     }
+    this.passwordMismatch = false;
 
     const perfilPayload = {
       profileImage,
@@ -55,8 +59,8 @@ export class EditarPerfilComponent implements OnInit {
     };
 
     this.userService.updatePerfil(perfilPayload).subscribe({
-  next: () => {
-    console.log('Perfil actualizado correctamente.');
+      next: () => {
+      console.log('Perfil actualizado correctamente.');
 
     this.authService.refreshUser();
 
@@ -84,6 +88,13 @@ export class EditarPerfilComponent implements OnInit {
         alert('Ocurrió un error al guardar los cambios del perfil.');
       }
     });
+  }
+
+  passwordsCoinciden(formGroup: FormGroup) {
+    const newPassword = formGroup.get('newPassword')?.value;
+    const repeatPassword = formGroup.get('repeatPassword')?.value;
+
+    return newPassword === repeatPassword ? null : { mismatch: true };
   }
 
 }
