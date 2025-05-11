@@ -148,7 +148,7 @@ export class CortometrajeDetailComponent implements OnInit {
   checkIfFavorite(cortoId: number): void {
     this.cortometrajeService.getMyFavorites().subscribe({
       next: (favorites) => {
-        const match = favorites.find((fav: any) => fav.cortometraje && fav.cortometraje.id === cortoId);
+        const match = favorites.find((fav: any) => !!fav && fav.cortometrajeId === cortoId);
         if (match) {
           this.favoriteId = match.id;
           this.estaEnWatchLater.set(true);
