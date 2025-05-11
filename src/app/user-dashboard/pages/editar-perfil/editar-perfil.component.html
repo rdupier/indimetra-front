@@ -12,13 +12,20 @@
             class="w-full bg-input text-bodyXS py-2 px-3 rounded-sm placeholder:text-secondary text-primary"
             type="text"
           />
+          @if (perfilForm.get('profileImage')?.touched && perfilForm.get('profileImage')?.invalid) {
+            <p class="text-error text-bodyXS mt-2">
+            @if (perfilForm.get('profileImage')?.errors?.['pattern']) {
+              Introduce una URL válida
+            }
+            </p>
+          }
         </div>
       </div>
 
       <div class="flex items-start gap-2.5">
         <img src="assets/icons/lock.svg" alt="icono candado" class="w-5 h-5 mt-1 -translate-y-[5px]" />
 
-        <div class="flex flex-col gap-6 w-full">
+        <div class="flex flex-col gap-6 mb w-full">
           <h3 class="text-bodyS font-semibold">Modificar contraseña</h3>
 
           <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-6 items-center">
@@ -40,6 +47,9 @@
               placeholder="************"
             />
           </div>
+          @if (perfilForm.errors?.['mismatch'] && (perfilForm.get('repeatPassword')?.touched || perfilForm.get('newPassword')?.touched)) {
+            <p class="text-error text-bodyXS col-span-2 -mt-4">La contraseña no coincide</p>
+          }
         </div>
       </div>
 
@@ -53,6 +63,16 @@
             placeholder="Introduce tu país"
             class="w-full bg-input text-bodyXS py-2 px-3 rounded-sm placeholder:text-secondary text-primary"
           />
+          @if (perfilForm.get('country')?.touched && perfilForm.get('country')?.invalid) {
+            <p class="text-error text-bodyXS mt-2">
+              @if (perfilForm.get('country')?.errors?.['required']) {
+                El país es obligatorio
+              }
+              @if (perfilForm.get('country')?.errors?.['pattern']) {
+                Formato incorrecto
+              }
+            </p>
+          }
         </div>
       </div>
 
@@ -66,6 +86,13 @@
             class="w-full bg-input text-bodyXS py-2 px-3 rounded-sm placeholder:text-secondary text-primary"
             type="text"
           />
+          @if (perfilForm.get('socialLinks')?.touched && perfilForm.get('socialLinks')?.invalid) {
+            <p class="text-error text-bodyXS mt-2">
+            @if (perfilForm.get('socialLinks')?.errors?.['pattern']) {
+              Introduce una URL válida
+            }
+            </p>
+          }
         </div>
       </div>
 
