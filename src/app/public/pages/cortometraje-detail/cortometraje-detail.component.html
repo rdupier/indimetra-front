@@ -1,4 +1,4 @@
-<section class="w-full max-w-screen-2xl mx-auto items-center text-primary mt-2 pb-8">
+<section class="w-full max-w-screen-2xl mx-auto items-center text-primary mt-2 pb-10">
   <!-- migas de pan -->
   <div class="mb-3 transition-colors">
     <button (click)="volverAtras()"
@@ -11,7 +11,7 @@
   <div class="row">
     <div class="w-full lg:max-w-full lg:flex">
       @if (cortometraje()) {
-      <div class="h-auto lg:h-auto md:lg:w-[65%] flex-none bg-cover text-center overflow-hidden">
+      <div class="h-auto lg:h-auto lg:w-[65%] flex-none bg-cover text-center overflow-hidden">
 
         <!-- video -->
         <div class="aspect-video overflow-hidden">
@@ -21,8 +21,7 @@
 
       <!-- datos video -->
       <div class="p-4 flex flex-col justify-between leading-normal ms-5">
-        <div class="mb-8">
-
+        <div>
           <!-- titulo y puntuacion -->
           <div class="pt-4">
             <div class="flex mb-1 justify-between max-w-[95%]">
@@ -53,7 +52,7 @@
           <!-- sinopsis -->
           <div class="pb-2">
             <h2 class="text-actionS my-3">Sinopsis</h2>
-            <p class="text-bodyS text-primary pb-7 max-w-[90%]">
+            <p class="text-bodyS text-primary pb-4 max-w-[95%]">
               {{ cortometraje()?.description }}
             </p>
           </div>
@@ -63,7 +62,6 @@
         <div class="flex items-center mb-4">
           @if (isLoggedIn()) {
           <div class="flex flex-wrap justify-start gap-3">
-
             <!-- boton ver despues -->
             <button (click)="toggleWatchLater()" class="boton-menu icon-btn flex items-center gap-2 group">
               <svg class="w-5 h-5 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg"
