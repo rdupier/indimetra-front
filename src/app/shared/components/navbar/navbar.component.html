@@ -1,58 +1,138 @@
-<nav class="bg-principal text-white px-6 py-4 border-b border-secondary w-full">
-  <div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row md:justify-between md:items-center gap-y-6">
-    <div class="flex flex-col md:flex-row md:items-center md:gap-x-12 w-full">
-      <a routerLink="/" class="flex items-center gap-2" aria-label="Inicio">
-        <img src="assets/img/indimetra-logo.svg" alt="Logo" class="logoSmall w-auto" />
-      </a>
+<nav class="bg-principal text-white px-6 py-4 border-b border-secondary w-full relative">
+  <div class="max-w-screen-2xl mx-auto flex items-center justify-between">
+    <a routerLink="/" class="flex items-center gap-2" aria-label="Inicio">
+      <img src="assets/img/indimetra-logo.svg" alt="Logo" class="logoSmall w-auto" />
+    </a>
 
-      @if (showMobileMenu() || isDesktop()) {
-      <ul class="flex flex-col md:flex-row gap-y-2 md:gap-x-6 items-center text-bodyS mt-4 md:mt-0">
+    <button
+      class="md:hidden"
+      (click)="toggleMobileMenu()"
+      aria-label="Abrir menú"
+    >
+      <img src="assets/icons/burger.svg" alt="Menú" class="w-6 h-6" />
+    </button>
+
+    <div class="hidden md:flex justify-between items-center w-full ml-12">
+      <ul class="flex gap-x-6 text-bodyS items-center">
         <li>
-          <a class="nav-link" routerLink="/" routerLinkActive="active-link"
-            [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+          <a
+            class="nav-link"
+            routerLink="/"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >Inicio</a>
         </li>
         <li>
-          <a class="nav-link" routerLink="/explore" routerLinkActive="active-link">Explorar</a>
-        </li> <li>
-          <a class="nav-link" routerLink="/colecciones" routerLinkActive="active-link">Colecciones</a>
+          <a
+            class="nav-link"
+            routerLink="/explore"
+            routerLinkActive="active-link"
+          >Explorar</a>
+        </li>
+        <li>
+          <a
+            class="nav-link"
+            routerLink="/colecciones"
+            routerLinkActive="active-link"
+          >Colecciones</a>
         </li>
       </ul>
-      }
-    </div>
 
-    @if (showMobileMenu() || isDesktop()) {
-    <ul class="flex flex-col md:flex-row gap-y-3 md:gap-x-6 items-center text-actionS mt-4 md:mt-0 w-full md:w-auto">
-      @if (!isLoggedIn()) {
-      <li>
-        <button routerLink="/register" class="boton-menu" routerLinkActive="active-btn">
-          Regístrate
-        </button>
-      </li>
-      <li>
-        <button (click)="openLoginModal()" class="boton-menu">
-          Iniciar Sesión
-        </button>
-      </li>
-      } @else {
-      <li>
-        <a class="boton-menu icon-btn flex items-center gap-2" routerLink="/user/studio" aria-label="Mi estudio"
-          routerLinkActive="active-btn">
-          <img src="assets/icons/profile.svg" alt="icon profile" class="w-5 h-5" />
-          Mi Estudio
-        </a>
-      </li>
-      <li>
-        <button (click)="logout()" class="boton-menu" aria-label="Cerrar sesión">
-          Cerrar Sesión
-        </button>
-      </li>
-      }
-    </ul>
-    }
+      <div class="flex gap-x-6 text-actionS items-center">
+        @if (!isLoggedIn()) {
+          <button
+            routerLink="/register"
+            class="boton-menu"
+            routerLinkActive="active-btn"
+          >Regístrate</button>
+          <button (click)="openLoginModal()" class="boton-menu">Iniciar Sesión</button>
+        } @else {
+          <a
+            class="boton-menu icon-btn flex items-center gap-2"
+            routerLink="/user/studio"
+            routerLinkActive="active-btn"
+          >
+            <img src="assets/icons/profile.svg" alt="icon profile" class="w-5 h-5" />
+            Mi Estudio
+          </a>
+          <button (click)="logout()" class="boton-menu">Cerrar Sesión</button>
+        }
+      </div>
+    </div>
   </div>
 
-  <app-login-modal [visible]="showLoginModal()" (close)="showLoginModal.set(false)"
+  @if (showMobileMenu()) {
+    <div class="md:hidden absolute top-full left-0 w-full bg-principal border-y border-primary z-50 divide-y divide-secondary">
+
+      <ul class="flex flex-col text-bodyS">
+        <li>
+          <a
+            class="block w-full px-6 py-4 text-left hover:bg-primary hover:text-principal"
+            routerLink="/"
+            routerLinkActive="bg-primary text-principal"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="toggleMobileMenu()"
+          >Inicio</a>
+        </li>
+        <li>
+          <a
+            class="block w-full px-6 py-4 text-left hover:bg-primary hover:text-principal"
+            routerLink="/explore"
+            routerLinkActive="bg-primary text-principal"
+            (click)="toggleMobileMenu()"
+          >Explorar</a>
+        </li>
+        <li>
+          <a
+            class="block w-full px-6 py-4 text-left hover:bg-primary hover:text-principal"
+            routerLink="/colecciones"
+            routerLinkActive="bg-primary text-principal"
+            (click)="toggleMobileMenu()"
+          >Colecciones</a>
+        </li>
+      </ul>
+
+      <ul class="flex flex-col text-actionS">
+        @if (!isLoggedIn()) {
+          <li>
+            <button
+              routerLink="/register"
+              class="block w-full px-6 py-4 text-left hover:bg-primary hover:text-principal"
+              routerLinkActive="bg-primary text-principal"
+              (click)="toggleMobileMenu()"
+            >Regístrate</button>
+          </li>
+          <li>
+            <button
+              (click)="openLoginModal(); toggleMobileMenu()"
+              class="block w-full px-6 py-4 text-left hover:bg-primary hover:text-principal"
+            >Iniciar Sesión</button>
+          </li>
+        } @else {
+          <li>
+            <a
+              class="block w-full px-6 py-4 text-left hover:bg-primary hover:text-principal"
+              routerLink="/user/studio"
+              routerLinkActive="bg-primary text-principal"
+              (click)="toggleMobileMenu()"
+            >
+              Mi Estudio
+            </a>
+          </li>
+          <li>
+            <button
+              (click)="logout(); toggleMobileMenu()"
+              class="block w-full px-6 py-4 text-left hover:bg-primary hover:text-principal"
+            >Cerrar Sesión</button>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
+  <app-login-modal
+    [visible]="showLoginModal()"
+    (close)="showLoginModal.set(false)"
     (openRegister)="showLoginModal.set(false)">
   </app-login-modal>
-
 </nav>
