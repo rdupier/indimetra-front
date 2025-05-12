@@ -13,8 +13,8 @@ import Swal from 'sweetalert2';
   templateUrl: './users-management.component.html',
 })
 export class UsersManagementComponent implements OnInit {
-  usuarios = signal<User[]>([]);
-  usuariosFiltrados = signal<User[]>([]);
+  usuarios = signal<(User & { rolAdmin: boolean })[]>([]);
+  usuariosFiltrados = signal<(User & { rolAdmin: boolean })[]>([]);
   filtroUsername = signal<string>('');
   filtroRol = signal<string | null>(null);
   mostrarActivos = signal(true);
@@ -51,7 +51,9 @@ export class UsersManagementComponent implements OnInit {
 
     cargar$.subscribe({
       next: (res) => {
-        this.usuarios.set(res);
+        this.usuarios.set(
+          res.map((u) => ({ ...u, rolAdmin: u.roles === 'ROLE_ADMIN' }))
+        );
         this.aplicarFiltros();
       },
       error: (err) => console.error('Error cargando usuarios', err),
@@ -67,7 +69,11 @@ export class UsersManagementComponent implements OnInit {
 
     this.usuarioService.getUserByUsername(texto).subscribe({
       next: (user) => {
-        this.usuariosFiltrados.set(user ? [user] : []);
+        if (user)
+          this.usuariosFiltrados.set([
+            { ...user, rolAdmin: user.roles === 'ROLE_ADMIN' },
+          ]);
+        else this.usuariosFiltrados.set([]);
       },
       error: () => this.usuariosFiltrados.set([]),
     });
@@ -113,8 +119,10 @@ export class UsersManagementComponent implements OnInit {
     return [...new Set(this.usuarios().map((u) => u.roles))];
   }
 
-  toggleAdmin(user: User): void {
-    const nuevoRol = user.roles === 'ROLE_ADMIN' ? 'ROLE_USER' : 'ROLE_ADMIN';
+  onToggleAdmin(user: any): void {
+    user.rolAdmin = !user.rolAdmin;
+
+    const nuevoRol = user.rolAdmin ? 'ROLE_ADMIN' : 'ROLE_USER';
 
     Swal.fire({
       icon: 'question',
@@ -129,34 +137,24 @@ export class UsersManagementComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.usuarioService.toggleUserRole(user.id).subscribe({
-          next: () => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Rol actualizado',
-              text: `El rol ha sido cambiado a ${nuevoRol}.`,
-              confirmButtonColor: '#A9A59B',
-              background: '#2A2929',
-              color: '#FFF8F8',
-            });
-            this.cargarUsuarios();
-          },
-          error: () => {
+          next: () => this.cargarUsuarios(),
+          error: () =>
             Swal.fire({
               icon: 'error',
               title: 'Error',
               text: 'No se pudo cambiar el rol del usuario.',
-              confirmButtonColor: '#A9A59B',
-              background: '#2A2929',
-              color: '#FFF8F8',
-            });
-          },
+            }),
         });
+      } else {
+        user.rolAdmin = !user.rolAdmin;
       }
     });
   }
 
-  toggleActivo(user: User): void {
-    const texto = user.active ? 'desactivar' : 'reactivar';
+  onToggleActivo(user: any): void {
+    user.active = !user.active;
+
+    const texto = user.active ? 'reactivar' : 'desactivar';
 
     Swal.fire({
       icon: 'question',
@@ -171,40 +169,26 @@ export class UsersManagementComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         const accion = user.active
-          ? this.usuarioService.deactivateUser(user.id)
-          : this.usuarioService.reactivateUser(user.id);
+          ? this.usuarioService.reactivateUser(user.id)
+          : this.usuarioService.deactivateUser(user.id);
 
         accion.subscribe({
-          next: () => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Estado actualizado',
-              text: `El usuario ha sido ${
-                user.active ? 'reactivado' : 'desactivado'
-              }.`,
-              confirmButtonColor: '#A9A59B',
-              background: '#2A2929',
-              color: '#FFF8F8',
-            });
-            this.cargarUsuarios();
-          },
-          error: () => {
+          next: () => this.cargarUsuarios(),
+          error: () =>
             Swal.fire({
               icon: 'error',
               title: 'Error',
               text: `No se pudo ${texto} al usuario.`,
-              confirmButtonColor: '#A9A59B',
-              background: '#2A2929',
-              color: '#FFF8F8',
-            });
-          },
+            }),
         });
+      } else {
+        user.active = !user.active;
       }
     });
   }
 
-  toggleEliminado(user: User): void {
-    if (user.deleted) return;
+  onToggleEliminado(user: any): void {
+    user.deleted = true;
 
     Swal.fire({
       icon: 'question',
@@ -219,28 +203,16 @@ export class UsersManagementComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.usuarioService.softDeleteUser(user.id).subscribe({
-          next: () => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Usuario eliminado',
-              text: 'La eliminación lógica se ha realizado correctamente.',
-              confirmButtonColor: '#A9A59B',
-              background: '#2A2929',
-              color: '#FFF8F8',
-            });
-            this.cargarUsuarios();
-          },
-          error: () => {
+          next: () => this.cargarUsuarios(),
+          error: () =>
             Swal.fire({
               icon: 'error',
               title: 'Error',
               text: 'No se pudo eliminar al usuario.',
-              confirmButtonColor: '#A9A59B',
-              background: '#2A2929',
-              color: '#FFF8F8',
-            });
-          },
+            }),
         });
+      } else {
+        user.deleted = false;
       }
     });
   }
