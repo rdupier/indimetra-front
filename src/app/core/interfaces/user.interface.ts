@@ -4,11 +4,13 @@ export interface User {
   email: string;
   profileImage: string;
   socialLinks?: string;
+  country?: string;
+
   roles: string;
   active: boolean;
   deleted: boolean;
 
-  // Simulados
   rolAdmin?: boolean;
   autor?: boolean;
 }
+

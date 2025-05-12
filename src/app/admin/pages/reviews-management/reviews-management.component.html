@@ -1,37 +1,20 @@
-<section
-  class="w-full bg-principal text-primary px-[clamp(1rem,2.5vw,48px)] pt-10 pb-6"
->
+<section class="w-full bg-principal text-primary px-[clamp(1rem,2.5vw,48px)] pt-10 pb-6">
   <div class="text-center space-y-4 mb-10">
-    <h2 class="text-h2">Gestión de reseñas</h2>
+    <h4 class="text-h4">Gestión de usuarios</h4>
   </div>
 
-  <div
-    class="flex flex-wrap justify-center gap-x-10 gap-y-6 items-end px-4 py-2"
-  >
-    <app-filtro-select
-      label="PELÍCULA"
-      [opciones]="peliculas()"
-      [(model)]="filtroPelicula"
-    />
-    <app-filtro-select
-      label="USUARIO"
-      [opciones]="usuarios()"
-      [(model)]="filtroUsuario"
-    />
+  <div class="flex flex-wrap justify-center gap-x-10 gap-y-6 items-end px-4 py-2">
+    <app-filtro-select label="PELÍCULA" [opciones]="peliculas()" [(model)]="filtroPelicula" />
+    <app-filtro-select label="USUARIO" [opciones]="usuarios()" [(model)]="filtroUsuario" />
 
     <div class="flex gap-3">
       <button
         class="boton-menu flex items-center gap-2 group transition-all bg-[#2B2B2B] hover:bg-primary px-4 py-2 rounded"
-        (click)="resetFiltros()"
-      >
-        <svg
-          class="w-4 h-4 fill-primary transition-colors group-hover:fill-black"
-          viewBox="0 0 32 32"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        (click)="resetFiltros()">
+        <svg class="w-4 h-4 fill-primary transition-colors group-hover:fill-black" viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg">
           <path
-            d="M28.9467 27.0533C29.1991 27.3036 29.3411 27.6444 29.3411 28C29.3411 28.3555 29.1991 28.6963 28.9467 28.9466L16 17.88 4.94667 28.9466C4.69631 29.199 4.35552 29.341 4 29.341 3.64448 29.341 3.30369 29.199 3.05333 28.9466L14.12 16 3.05333 4.94662C2.71512 4.60841 2.58304 4.11545 2.70683 3.65345 2.83062 3.19144 3.19149 2.83058 3.6535 2.70678 4.1155 2.58299 4.60846 2.71507 4.94667 3.05329L16 14.12 27.0533 3.05329C27.5762 2.53046 28.4238 2.53046 28.9467 3.05329 29.4695 3.57612 29.4695 4.42379 28.9467 4.94662L17.88 16 28.9467 27.0533Z"
-          />
+            d="M28.9467 27.0533C29.1991 27.3036 29.3411 27.6444 29.3411 28C29.3411 28.3555 29.1991 28.6963 28.9467 28.9466L16 17.88 4.94667 28.9466C4.69631 29.199 4.35552 29.341 4 29.341 3.64448 29.341 3.30369 29.199 3.05333 28.9466L14.12 16 3.05333 4.94662C2.71512 4.60841 2.58304 4.11545 2.70683 3.65345 2.83062 3.19144 3.19149 2.83058 3.6535 2.70678 4.1155 2.58299 4.60846 2.71507 4.94667 3.05329L16 14.12 27.0533 3.05329C27.5762 2.53046 28.4238 2.53046 28.9467 3.05329 29.4695 3.57612 29.4695 4.42379 28.9467 4.94662L17.88 16 28.9467 27.0533Z" />
         </svg>
         <p class="text-primary transition-colors group-hover:text-principal">
           Limpiar
@@ -49,41 +32,28 @@
     <div class="space-y-4">
       @for (review of reviewsPaginadas; track review.id) {
       <div class="flex gap-2 items-center min-h-[56px]">
-        <button
-          (click)="eliminarReview(review.id)"
+        <button (click)="eliminarReview(review.id)"
           class="boton-menu text-primary hover:text-black transition-colors px-[3px] py-[2px] leading-none"
-          aria-label="Eliminar reseña"
-        >
-          <svg
-            class="w-4 h-4"
-            viewBox="0 0 32 32"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M25.3333 2.66663H6.66666C4.45752 2.66663 2.66666 4.45749 2.66666 6.66663V9.33329C2.66666 10.0697 3.26361 10.6666 3.99999 10.6666H5.33332V25.3333C5.33332 27.5424 7.12418 29.3333 9.33332 29.3333H22.6667C24.8758 29.3333 26.6667 27.5424 26.6667 25.3333V10.6666H28C28.7364 10.6666 29.3333 10.0697 29.3333 9.33329V6.66663C29.3333 4.45749 27.5425 2.66663 25.3333 2.66663ZM24 25.3333C24 26.0697 23.403 26.6666 22.6667 26.6666H9.33332C8.59694 26.6666 7.99999 26.0697 7.99999 25.3333V10.6666H24V25.3333ZM5.33332 7.99996H26.6667V6.66663C26.6667 5.93025 26.0697 5.33329 25.3333 5.33329H6.66666C5.93028 5.33329 5.33332 5.93025 5.33332 6.66663V7.99996ZM10.6667 22.6666V14.6666C10.6667 13.9302 11.2636 13.3333 12 13.3333C12.7364 13.3333 13.3333 13.9302 13.3333 14.6666V22.6666C13.3333 23.403 12.7364 24 12 24C11.2636 24 10.6667 23.403 10.6667 22.6666ZM18.6667 14.6666V22.6666C18.6667 23.403 19.2636 24 20 24C20.7364 24 21.3333 23.403 21.3333 22.6666V14.6666C21.3333 13.9302 20.7364 13.3333 20 13.3333C19.2636 13.3333 18.6667 13.9302 18.6667 14.6666Z"
-            />
+          aria-label="Eliminar reseña">
+          <svg class="w-4 h-4" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M25.3333 2.66663H6.66666C4.45752 2.66663 2.66666 4.45749 2.66666 6.66663V9.33329C2.66666 10.0697 3.26361 10.6666 3.99999 10.6666H5.33332V25.3333C5.33332 27.5424 7.12418 29.3333 9.33332 29.3333H22.6667C24.8758 29.3333 26.6667 27.5424 26.6667 25.3333V10.6666H28C28.7364 10.6666 29.3333 10.0697 29.3333 9.33329V6.66663C29.3333 4.45749 27.5425 2.66663 25.3333 2.66663ZM24 25.3333C24 26.0697 23.403 26.6666 22.6667 26.6666H9.33332C8.59694 26.6666 7.99999 26.0697 7.99999 25.3333V10.6666H24V25.3333ZM5.33332 7.99996H26.6667V6.66663C26.6667 5.93025 26.0697 5.33329 25.3333 5.33329H6.66666C5.93028 5.33329 5.33332 5.93025 5.33332 6.66663V7.99996ZM10.6667 22.6666V14.6666C10.6667 13.9302 11.2636 13.3333 12 13.3333C12.7364 13.3333 13.3333 13.9302 13.3333 14.6666V22.6666C13.3333 23.403 12.7364 24 12 24C11.2636 24 10.6667 23.403 10.6667 22.6666ZM18.6667 14.6666V22.6666C18.6667 23.403 19.2636 24 20 24C20.7364 24 21.3333 23.403 21.3333 22.6666V14.6666C21.3333 13.9302 20.7364 13.3333 20 13.3333C19.2636 13.3333 18.6667 13.9302 18.6667 14.6666Z" />
           </svg>
         </button>
 
         <div class="flex-1 space-y-1 ml-1">
           <p class="font-semibold text-primary">
             {{
-              review.username.charAt(0).toUpperCase() + review.username.slice(1)
+            review.username.charAt(0).toUpperCase() + review.username.slice(1)
             }}
           </p>
 
-          <div
-            class="flex justify-between items-start gap-4 bg-card px-4 py-3 rounded text-primary"
-          >
+          <div class="flex justify-between items-start gap-4 bg-card px-4 py-3 rounded text-primary">
             <p class="text-bodyS text-[#CCCCCC] flex-1">
               {{ review.comment }}
             </p>
             <div
-              class="w-8 h-8 min-w-8 border border-white text-primary font-bold rounded flex items-center justify-center"
-            >
+              class="w-8 h-8 min-w-8 border border-white text-primary font-bold rounded flex items-center justify-center">
               {{ review.rating }}
             </div>
           </div>
@@ -94,17 +64,16 @@
     }
   </section>
 
-  <div
-    class="flex justify-center items-center gap-6 pt-16 text-primary font-semibold"
-  >
+  <div class="flex justify-center items-center gap-6 pt-20 text-primary text-base pb-6">
     @if (paginaActual() > 0) {
-    <button (click)="paginaAnterior()" class="boton-menu">Anterior</button>
+    <button (click)="paginaAnterior()" class="small-btn icon-btn" title="Anterior">
+      <img src="assets/icons/chevron-left.svg" alt="Anterior" class="w-4 h-4" />
+    </button>
     }
-
     <span>Página {{ paginaActual() + 1 }} de {{ totalPaginas() }}</span>
-
-    @if (paginaActual() < totalPaginas() - 1) {
-    <button (click)="siguientePagina()" class="boton-menu">Siguiente</button>
-    }
+    @if (paginaActual() < totalPaginas() - 1) { <button (click)="siguientePagina()" class="small-btn icon-btn" title="Siguiente">
+      <img src="assets/icons/chevron-right.svg" alt="Siguiente" class="w-4 h-4" />
+      </button>
+      }
   </div>
 </section>

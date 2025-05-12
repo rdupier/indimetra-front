@@ -58,7 +58,7 @@ export class RegisterComponent {
         '',
         [Validators.pattern(/^(https?:\/\/)?[\w\-]+(\.[\w\-]+)+[/#?]?.*$/)],
       ],
-      country: ['', [Validators.required]],
+      country: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
       socialLinks: ['',
         [
           Validators.pattern(

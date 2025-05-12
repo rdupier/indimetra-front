@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ModalService } from '../../../shared/modal.service';
@@ -22,7 +22,8 @@ import { ValorarModalComponent } from '../../../shared/components/valorar-modal/
 export class CortometrajeDetailComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private location: Location
   ) {}
 
   private route = inject(ActivatedRoute);
@@ -42,6 +43,7 @@ export class CortometrajeDetailComponent implements OnInit {
 
   formValoracion!: FormGroup;
   formTocado = false;
+  errorMessage!: string;
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -106,7 +108,10 @@ export class CortometrajeDetailComponent implements OnInit {
         this.reviews.update(actuales => [...actuales, nuevaResena]);
         this.modalResenas.set(false);
       },
-      error: (err) => console.error('Error al enviar valoración', err),
+      error: (err) => {
+        console.error('Error al enviar valoración', err);
+        this.errorMessage = err.error.message;
+      },
     });
   }
 
@@ -143,7 +148,7 @@ export class CortometrajeDetailComponent implements OnInit {
   checkIfFavorite(cortoId: number): void {
     this.cortometrajeService.getMyFavorites().subscribe({
       next: (favorites) => {
-        const match = favorites.find((fav: any) => fav.cortometraje && fav.cortometraje.id === cortoId);
+        const match = favorites.find((fav: any) => !!fav && fav.cortometrajeId === cortoId);
         if (match) {
           this.favoriteId = match.id;
           this.estaEnWatchLater.set(true);
@@ -161,6 +166,10 @@ export class CortometrajeDetailComponent implements OnInit {
   private convertToEmbedUrl(url: string): string {
     const match = url.match(/(?:youtube\.com.*(?:\?v=|embed\/)|youtu\.be\/)([^&]+)/);
     return match ? `https://www.youtube.com/embed/${match[1]}` : '';
+  }
+
+  volverAtras(): void {
+    this.location.back();
   }
 
 }

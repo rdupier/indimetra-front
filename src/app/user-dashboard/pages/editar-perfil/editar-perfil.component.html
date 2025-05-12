@@ -1,1 +1,107 @@
-<p>editar-perfil works!</p>
+<section class="py-8 max-w-xl mx-auto text-primary pb-24">
+  @if (perfilForm) {
+    <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()" class="space-y-10">
+
+      <div class="flex items-start gap-2.5">
+        <img src="/assets/icons/camera.svg" alt="icono cámara" class="w-5 h-5 mt-1 -translate-y-[5px]">
+        <div class="w-full">
+          <label class="block text-bodyS mb-1">URL imagen perfil</label>
+          <input
+            formControlName="profileImage"
+            placeholder="https://..."
+            class="w-full bg-input text-bodyXS py-2 px-3 rounded-sm placeholder:text-secondary text-primary"
+            type="text"
+          />
+          @if (perfilForm.get('profileImage')?.touched && perfilForm.get('profileImage')?.invalid) {
+            <p class="text-error text-bodyXS mt-2">
+            @if (perfilForm.get('profileImage')?.errors?.['pattern']) {
+              Introduce una URL válida
+            }
+            </p>
+          }
+        </div>
+      </div>
+
+      <div class="flex items-start gap-2.5">
+        <img src="assets/icons/lock.svg" alt="icono candado" class="w-5 h-5 mt-1 -translate-y-[5px]" />
+
+        <div class="flex flex-col gap-6 mb w-full">
+          <h3 class="text-bodyS font-semibold">Modificar contraseña</h3>
+
+          <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-6 items-center">
+            <label for="nueva" class="text-bodyXS text-primary">Nueva contraseña</label>
+            <input
+              id="nueva"
+              type="password"
+              formControlName="newPassword"
+              class="bg-input text-bodyXS py-2 px-3 rounded-sm w-full placeholder:text-secondary"
+              placeholder="************"
+            />
+
+            <label for="repetir" class="text-bodyXS text-primary">Repetir contraseña</label>
+            <input
+              id="repetir"
+              type="password"
+              formControlName="repeatPassword"
+              class="bg-input text-bodyXS py-2 px-3 rounded-sm w-full placeholder:text-secondary"
+              placeholder="************"
+            />
+          </div>
+          @if (perfilForm.errors?.['mismatch'] && (perfilForm.get('repeatPassword')?.touched || perfilForm.get('newPassword')?.touched)) {
+            <p class="text-error text-bodyXS col-span-2 -mt-4">La contraseña no coincide</p>
+          }
+        </div>
+      </div>
+
+      <div class="flex items-start gap-2.5">
+        <img src="/assets/icons/location.svg" alt="icono ubicación" class="w-5 h-5 mt-1 -translate-y-[5px]">
+        <div class="w-full">
+          <label class="block text-bodyS mb-1">País</label>
+          <input
+            type="text"
+            formControlName="country"
+            placeholder="Introduce tu país"
+            class="w-full bg-input text-bodyXS py-2 px-3 rounded-sm placeholder:text-secondary text-primary"
+          />
+          @if (perfilForm.get('country')?.touched && perfilForm.get('country')?.invalid) {
+            <p class="text-error text-bodyXS mt-2">
+              @if (perfilForm.get('country')?.errors?.['required']) {
+                El país es obligatorio
+              }
+              @if (perfilForm.get('country')?.errors?.['pattern']) {
+                Formato incorrecto
+              }
+            </p>
+          }
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3.5">
+        <img src="/assets/icons/link.svg" alt="icono link" class="w-4 h-4 mt-1 -translate-y-[2px]">
+        <div class="w-full">
+          <label class="block text-bodyS mb-1">URL redes sociales</label>
+          <input
+            formControlName="socialLinks"
+            placeholder="https://..."
+            class="w-full bg-input text-bodyXS py-2 px-3 rounded-sm placeholder:text-secondary text-primary"
+            type="text"
+          />
+          @if (perfilForm.get('socialLinks')?.touched && perfilForm.get('socialLinks')?.invalid) {
+            <p class="text-error text-bodyXS mt-2">
+            @if (perfilForm.get('socialLinks')?.errors?.['pattern']) {
+              Introduce una URL válida
+            }
+            </p>
+          }
+        </div>
+      </div>
+
+      <div class="flex justify-center gap-6 pt-8">
+        <button type="submit" class="boton-menu min-w-[125px]">Guardar cambios</button>
+        <button [routerLink]="['../gestion-obras']" type="button" class="boton-menu min-w-[125px]">Cancelar</button>
+      </div>
+    </form>
+  } @else {
+    <p class="text-center text-subtext">Cargando formulario...</p>
+  }
+</section>

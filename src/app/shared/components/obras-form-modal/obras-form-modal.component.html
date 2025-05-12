@@ -8,7 +8,9 @@
 
       <div class="mx-auto space-y-6">
         <div class="text-center">
-          <h2 class="text-xl font-semibold mt-4 mb-1">Nueva obra</h2>
+          <h2 class="text-xl font-semibold mt-4 mb-1">
+            {{ isEditMode ? 'Editar obra' : 'Nueva obra' }}
+          </h2>
         </div>
 
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col space-y-4 max-w-[500px] mx-auto">
@@ -18,7 +20,7 @@
             <input type="text" formControlName="title" placeholder="Escribe el título del cortometraje"
               class="w-full bg-input text-bodyXS p-3 placeholder:text-secondary rounded-sm" />
               @if (form.get('title')?.touched && form.get('title')?.invalid) {
-              <p class="text-error text-bodyXS mt-1">El título es obligatorio.</p>
+              <p class="text-error text-bodyXS mt-1">El título es obligatorio</p>
             }
           </div>
 
@@ -29,9 +31,9 @@
               @if (form.get('description')?.touched && form.get('description')?.invalid) {
                 <p class="text-error text-bodyXS mt-[1px]">
                   @if (form.get('description')?.errors?.['required']) {
-                    La sinopsis es obligatoria.
+                    La sinopsis es obligatoria
                   } @else if (form.get('description')?.errors?.['minlength']) {
-                    La sinopsis debe tener al menos 10 caracteres.
+                    La sinopsis debe tener al menos 10 caracteres
                   }
                 </p>
               }
@@ -49,7 +51,7 @@
                   [containerClass]="'relative w-full text-sm'"
                 ></app-filtro-select>
                 @if (formTouched && form.get('category')?.invalid) {
-                  <p class="text-error text-bodyXS mt-1">Selecciona una categoría.</p>
+                  <p class="text-error text-bodyXS mt-1">Selecciona una categoría</p>
                 }
               </div>
 
@@ -64,7 +66,7 @@
                 [containerClass]="'relative w-full text-sm'"
               ></app-filtro-select>
               @if (formTouched && form.get('technique')?.invalid) {
-                <p class="text-error text-bodyXS mt-1">Selecciona una técnica.</p>
+                <p class="text-error text-bodyXS mt-1">Selecciona una técnica</p>
               }
             </div>
           </div>
@@ -76,9 +78,9 @@
               @if (form.get('videoUrl')?.touched && form.get('videoUrl')?.invalid) {
                 <p class="text-error text-bodyXS mt-[1px]">
                   @if (form.get('videoUrl')?.errors?.['required']) {
-                    URL de vídeo obligatoria.
+                    La URL del vídeo es obligatoria
                   } @else if (form.get('videoUrl')?.errors?.['pattern']) {
-                    Formato incorrecto.
+                    Introduce una URL válida
                   }
                 </p>
               }
@@ -95,9 +97,9 @@
             @if (form.get('imageUrl')?.touched && form.get('imageUrl')?.invalid) {
               <p class="text-error text-bodyXS mt-[1px]">
                 @if (form.get('imageUrl')?.errors?.['required']) {
-                  URL de imagen obligatoria.
+                  La URL de la imagen es obligatoria
                 } @else if (form.get('imageUrl')?.errors?.['pattern']) {
-                  Formato incorrecto.
+                  Introduce una URL válida
                 }
               </p>
             }
@@ -114,7 +116,7 @@
                 [containerClass]="'relative w-full text-sm'"
               ></app-filtro-select>
               @if (formTouched && form.get('releaseYear')?.invalid) {
-                <p class="text-error text-bodyXS mt-1">Selecciona el año de lanzamiento.</p>
+                <p class="text-error text-bodyXS mt-1">Selecciona el año de lanzamiento</p>
               }
             </div>
 
@@ -128,7 +130,7 @@
                 [containerClass]="'relative w-full text-sm'"
               ></app-filtro-select>
               @if (formTouched && form.get('duration')?.invalid) {
-                <p class="text-error text-bodyXS mt-1">Duración obligatoria.</p>
+                <p class="text-error text-bodyXS mt-1">Selecciona la duración del cortometraje</p>
               }
             </div>
           </div>
@@ -143,13 +145,17 @@
                 [containerClass]="'relative w-full text-sm'"
               ></app-filtro-select>
               @if (formTouched && form.get('language')?.invalid) {
-                <p class="text-error text-bodyXS mt-1">Selecciona el idioma del cortometraje.</p>
+                <p class="text-error text-bodyXS mt-1">Selecciona el idioma del cortometraje</p>
               }
           </div>
 
           <div class="flex justify-center gap-6 mt-4">
-            <button type="button" class="boton-menu min-w-[125px]" (click)="resetForm()">Borrar</button>
-            <button type="submit" class="boton-menu min-w-[125px]">Subir</button>
+            <button type="button" class="boton-menu min-w-[125px]" (click)="resetForm()">
+              {{ isEditMode ? 'Restaurar' : 'Limpiar' }}
+            </button>
+            <button type="submit" class="boton-menu min-w-[125px]">
+              {{ isEditMode ? 'Actualizar' : 'Subir' }}
+            </button>
           </div>
         </form>
       </div>

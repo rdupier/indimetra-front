@@ -1,16 +1,7 @@
-<div
-  class="w-screen h-[300px] md:h-[495px] relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden mt-4"
->
+<div class="w-screen min-h-[35rem] md:h-[495px] relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden">
   <div class="absolute inset-0 flex items-center justify-center w-full h-full">
-    <video
-      #heroVideo
-      src="assets/videos/A New Romance_Ambros Chapel_12SEG.mp4"
-      class="w-full h-full object-cover"
-      autoplay
-      muted
-      loop
-      playsinline
-    ></video>
+    <video #heroVideo src="assets/videos/A New Romance_Ambros Chapel_12SEG.mp4" class="w-full h-full object-cover"
+      autoplay muted loop playsinline></video>
 
   </div>
 </div>
@@ -24,21 +15,13 @@
   </p>
 </section>
 
-<section
-  class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-principal"
->
+<section class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-principal mb-8">
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
     @for (corto of cortometrajes; track corto.id) {
-      <a
-        [routerLink]="['/cortometraje', corto.id]"
-        class="relative aspect-[16/9] overflow-hidden block"
-      >
-        <img
-          [src]="corto.imageUrl"
-          [alt]="corto.title"
-          class="w-full h-full object-cover transition-transform duration-300 hover:scale-105 block"
-        />
-      </a>
+    <a [routerLink]="['/cortometraje', corto.id]" class="relative aspect-[16/9] overflow-hidden block">
+      <img [src]="corto.imageUrl" [alt]="corto.title"
+        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105 block" />
+    </a>
     }
   </div>
 </section>

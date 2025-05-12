@@ -1,34 +1,21 @@
-<section
-  class="w-screen min-h-[600px] relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden"
->
+<section class="w-screen min-h-[35rem] relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden">
   <!-- Imagen de fondo -->
-  <div
-    class="absolute inset-0 bg-fixed bg-cover bg-center bg-main-bg opacity-25 -z-10"
-  ></div>
+  <div class="absolute inset-0 bg-fixed bg-cover bg-center bg-main-bg opacity-25 -z-10"></div>
 
   <!-- Contenedor del formulario -->
-  <div
-    class="max-w-xl mx-auto space-y-6 my-20 text-primary text-bodyS px-12 pb-10 bg-principal rounded-[8px] p-[24px]"
-  >
-    <form
-      [formGroup]="contactForm"
-      (ngSubmit)="onSubmit()"
-      class="flex flex-col items-center gap-[20px] mt-10"
-    >
+  <div class="max-w-xl mx-auto space-y-6 my-20 text-primary text-bodyS px-12 pb-10 bg-principal rounded-[8px] p-[24px]">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="flex flex-col items-center gap-[20px] mt-10">
       <p class="text-h4 text-primary text-center">Contacto</p>
 
       <div class="flex flex-col gap-[1.5625rem] w-full max-w-[26.3rem]">
         <div class="flex flex-col gap-[0.375rem]">
-          <label class="text-bodyS text-primary">Nombre completo *</label>
-          <input
-            type="text"
-            formControlName="nombre"
+          <label class="text-bodyS text-primary">Nombre completo <span class="text-error">*</span></label>
+          <input type="text" formControlName="nombre"
             class="input-form h-[30px] px-[10px] py-[4px] text-secondary text-bodyS"
-            placeholder="Introduce tu nombre completo"
-          />
+            placeholder="Introduce tu nombre completo" />
           @if (contactForm.get('nombre')?.touched &&
           contactForm.get('nombre')?.invalid) {
-          <p class="text-error text-bodyXS mt-[1px]">
+          <p class="text-error text-bodyS mt-[1px]">
             @if (contactForm.get('nombre')?.errors?.['required']) { El nombre es
             obligatorio. } @if
             (contactForm.get('nombre')?.errors?.['minlength']) { Mínimo 3
@@ -38,16 +25,12 @@
         </div>
 
         <div class="flex flex-col gap-[0.375rem]">
-          <label class="text-bodyS text-primary">Email *</label>
-          <input
-            type="email"
-            formControlName="email"
-            class="input-form h-[30px] px-[10px] py-[4px] text-secondary text-bodyS"
-            placeholder="correo@dominio.com"
-          />
+          <label class="text-bodyS text-primary">Email <span class="text-error">*</span></label>
+          <input type="email" formControlName="email"
+            class="input-form h-[30px] px-[10px] py-[4px] text-secondary text-bodyS" placeholder="correo@dominio.com" />
           @if (contactForm.get('email')?.touched &&
           contactForm.get('email')?.invalid) {
-          <p class="text-error text-bodyXS mt-[1px]">
+          <p class="text-error text-bodyS mt-[1px]">
             @if (contactForm.get('email')?.errors?.['required']) { El email es
             obligatorio. } @if (contactForm.get('email')?.errors?.['email'] ||
             contactForm.get('email')?.errors?.['pattern']) { Introduce un email
@@ -57,16 +40,12 @@
         </div>
 
         <div class="flex flex-col gap-[0.375rem]">
-          <label class="text-bodyS text-primary">Asunto *</label>
-          <input
-            type="text"
-            formControlName="asunto"
-            class="input-form h-[30px] px-[10px] py-[4px] text-secondary text-bodyS"
-            placeholder="Escribe el asunto"
-          />
+          <label class="text-bodyS text-primary">Asunto <span class="text-error">*</span></label>
+          <input type="text" formControlName="asunto"
+            class="input-form h-[30px] px-[10px] py-[4px] text-secondary text-bodyS" placeholder="Escribe el asunto" />
           @if (contactForm.get('asunto')?.touched &&
           contactForm.get('asunto')?.invalid) {
-          <p class="text-error text-bodyXS mt-[1px]">
+          <p class="text-error text-bodyS mt-[1px]">
             @if (contactForm.get('asunto')?.errors?.['required']) { El asunto es
             obligatorio. } @if (contactForm.get('asunto')?.errors?.['pattern'])
             { El asunto solo puede contener letras y espacios. }
@@ -75,15 +54,13 @@
         </div>
 
         <div class="flex flex-col gap-[0.375rem]">
-          <label class="text-bodyS text-primary">Mensaje *</label>
-          <textarea
-            formControlName="mensaje"
+          <label class="text-bodyS text-primary">Mensaje <span class="text-error">*</span></label>
+          <textarea formControlName="mensaje"
             class="input-form min-h-[180px] px-[10px] py-[8px] text-secondary text-bodyS resize-none"
-            placeholder="Cuéntanos en detalle..."
-          ></textarea>
+            placeholder="Cuéntanos en detalle..."></textarea>
           @if (contactForm.get('mensaje')?.touched &&
           contactForm.get('mensaje')?.invalid) {
-          <p class="text-error text-bodyXS mt-[1px]">
+          <p class="text-error text-bodyS mt-[1px]">
             @if (contactForm.get('mensaje')?.errors?.['required']) { El mensaje
             es obligatorio. } @if
             (contactForm.get('mensaje')?.errors?.['minlength']) { Mínimo 10
@@ -95,51 +72,35 @@
 
       <div class="flex flex-col gap-[0.5rem] w-full max-w-[26.3rem]">
         <p class="flex items-start gap-[0.3rem]">
-          <input
-            type="checkbox"
-            formControlName="aceptar"
-            class="mt-[2px]"
-            (change)="contactForm.get('aceptar')?.markAsTouched()"
-          />
-          <label class="text-bodyXS text-primary">
+          <input type="checkbox" formControlName="aceptar" class="mt-[2px]"
+            (change)="contactForm.get('aceptar')?.markAsTouched()" />
+          <label class="text-bodyS text-primary">
             Aceptar los términos y condiciones
           </label>
         </p>
-        <p class="text-bodyXS text-secondary w-full text-start">
+        <p class="text-bodyS text-secondary w-full text-start">
           Al enviarnos este formulario, aceptas los términos recogidos en
           nuestro
-          <a
-            (click)="openLegalModal()"
-            class="text-underline hover:text-primary cursor-pointer"
-            >Aviso legal</a
-          >.
+          <a (click)="openLegalModal()" class="text-underline hover:text-primary cursor-pointer">Aviso legal</a>.
         </p>
       </div>
 
       @if (contactForm.get('aceptar')?.touched &&
       contactForm.get('aceptar')?.invalid) {
-      <p class="text-error text-bodyXS max-w-[26.3rem]">
+      <p class="text-error text-bodyS max-w-[26.3rem]">
         Debes aceptar los términos y condiciones.
       </p>
       }
 
-      <p
-        class="text-bodyXS w-full max-w-[26.3rem] text-start leading-[12px] mt-4"
-      >
-        <i>* Campos obligatorios</i>
+      <p class="text-bodyXS w-full max-w-[26.3rem] text-start leading-[12px] mt-4">
+        * Campos obligatorios
       </p>
 
-      <div
-        class="w-full max-w-[26.3rem] pt-[6px] flex flex-col gap-[4px] items-center"
-      >
-        <button
-          type="submit"
-          [ngClass]="{
+      <div class="w-full max-w-[26.3rem] pt-[6px] flex flex-col gap-[4px] items-center">
+        <button type="submit" [ngClass]="{
             'cursor-not-allowed opacity-60': contactForm.invalid,
             'cursor-pointer': contactForm.valid
-          }"
-          class="boton-menu w-[110px] h-[32px] text-bodyXS"
-        >
+          }" class="boton-menu w-[110px] h-[32px] text-bodyXS">
           Enviar
         </button>
       </div>

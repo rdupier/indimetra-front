@@ -13,6 +13,7 @@ export class ValorarModalComponent {
   @Input() visible = false;
   @Input() title: string = '';
   @Input() form!: FormGroup;
+  @Input() errorMessage!: string;
 
   @Output() close = new EventEmitter<void>();
   @Output() submit = new EventEmitter<{ rating: number; comment: string }>();

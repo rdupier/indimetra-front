@@ -1,42 +1,21 @@
-<section
-  class="w-full bg-principal text-primary px-[clamp(1rem,2.5vw,48px)] pt-10 pb-6"
->
-  <div class="text-center space-y-4 mb-10">
-    <h2 class="text-h2">Explora los límites de tu imaginación</h2>
+<section class="w-full bg-principal text-primary px-[clamp(1rem,2.5vw,48px)] pt-10 pb-6">
+  <div class="text-center space-y-4 mb-8">
+    <h2 class="text-h4">Gestiona todos los cortometrajes de la plataforma</h2>
   </div>
 
-  <div
-    class="flex flex-wrap justify-center gap-x-10 gap-y-6 items-end px-4 py-2"
-  >
-    <app-filtro-select
-      label="GÉNERO"
-      [opciones]="generos()"
-      [(model)]="filtroGenero"
-    />
-    <app-filtro-select
-      label="IDIOMA"
-      [opciones]="idiomas()"
-      [(model)]="filtroIdioma"
-    />
-    <app-filtro-select
-      label="DURACIÓN"
-      [opciones]="duraciones"
-      [(model)]="filtroDuracion"
-    />
+  <div class="flex flex-wrap justify-center gap-x-10 gap-y-6 items-end px-4 py-2">
+    <app-filtro-select label="GÉNERO" [opciones]="generos()" [(model)]="filtroGenero" />
+    <app-filtro-select label="IDIOMA" [opciones]="idiomas()" [(model)]="filtroIdioma" />
+    <app-filtro-select label="DURACIÓN" [opciones]="duraciones" [(model)]="filtroDuracion" />
 
     <div class="flex gap-3">
       <button
         class="boton-menu flex items-center gap-2 group transition-all bg-[#2B2B2B] hover:bg-primary px-4 py-2 rounded"
-        (click)="resetFiltros()"
-      >
-        <svg
-          class="w-4 h-4 fill-primary transition-colors group-hover:fill-black"
-          viewBox="0 0 32 32"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        (click)="resetFiltros()">
+        <svg class="w-4 h-4 fill-primary transition-colors group-hover:fill-black" viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg">
           <path
-            d="M28.9467 27.0533C29.1991 27.3036 29.3411 27.6444 29.3411 28C29.3411 28.3555 29.1991 28.6963 28.9467 28.9466L16 17.88 4.94667 28.9466C4.69631 29.199 4.35552 29.341 4 29.341 3.64448 29.341 3.30369 29.199 3.05333 28.9466L14.12 16 3.05333 4.94662C2.71512 4.60841 2.58304 4.11545 2.70683 3.65345 2.83062 3.19144 3.19149 2.83058 3.6535 2.70678 4.1155 2.58299 4.60846 2.71507 4.94667 3.05329L16 14.12 27.0533 3.05329C27.5762 2.53046 28.4238 2.53046 28.9467 3.05329 29.4695 3.57612 29.4695 4.42379 28.9467 4.94662L17.88 16 28.9467 27.0533Z"
-          />
+            d="M28.9467 27.0533C29.1991 27.3036 29.3411 27.6444 29.3411 28C29.3411 28.3555 29.1991 28.6963 28.9467 28.9466L16 17.88 4.94667 28.9466C4.69631 29.199 4.35552 29.341 4 29.341 3.64448 29.341 3.30369 29.199 3.05333 28.9466L14.12 16 3.05333 4.94662C2.71512 4.60841 2.58304 4.11545 2.70683 3.65345 2.83062 3.19144 3.19149 2.83058 3.6535 2.70678 4.1155 2.58299 4.60846 2.71507 4.94667 3.05329L16 14.12 27.0533 3.05329C27.5762 2.53046 28.4238 2.53046 28.9467 3.05329 29.4695 3.57612 29.4695 4.42379 28.9467 4.94662L17.88 16 28.9467 27.0533Z" />
         </svg>
         <p class="text-primary transition-colors group-hover:text-principal">
           Limpiar
@@ -45,38 +24,30 @@
     </div>
   </div>
 
-  <section
-    class="w-screen relative left-1/2 -translate-x-1/2 bg-principal pt-10 pb-4 px-0"
-  >
+  <section class="w-screen relative left-1/2 -translate-x-1/2 bg-principal pt-10 pb-4 px-0">
     @if (cortometrajes().length === 0) {
     <div class="text-center text-bodyS text-primary font-medium py-12">
       No hay cortometrajes disponibles con los filtros actuales.
     </div>
     } @else {
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-4 gap-y-12 justify-items-center"
-    >
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-4 gap-y-12 justify-items-center">
       @for (corto of cortometrajes(); track corto.id) {
-      <app-cortometraje-card
-        [corto]="corto"
-        [mostrarEliminar]="true"
-        (eliminar)="onEliminarCortometraje($event)"
-      />
+      <app-cortometraje-card [corto]="corto" [mostrarEliminar]="true" (eliminar)="onEliminarCortometraje($event)" />
       }
     </div>
 
-    <div
-      class="flex justify-center items-center gap-6 pt-24 text-primary font-semibold"
-    >
+    <div class="flex justify-center items-center gap-6 pt-20 text-primary text-base pb-6">
       @if (paginaActual() > 0) {
-      <button (click)="paginaAnterior()" class="boton-menu">Anterior</button>
+      <button (click)="paginaAnterior()" class="small-btn icon-btn" title="Anterior">
+        <img src="assets/icons/chevron-left.svg" alt="Anterior" class="w-4 h-4" />
+      </button>
       }
-
       <span>Página {{ paginaActual() + 1 }} de {{ totalPaginas() }}</span>
-
-      @if (paginaActual() < totalPaginas() - 1) {
-      <button (click)="siguientePagina()" class="boton-menu">Siguiente</button>
-      }
+      @if (paginaActual() < totalPaginas() - 1) { <button (click)="siguientePagina()" class="small-btn icon-btn" title="Siguiente">
+        <img src="assets/icons/chevron-right.svg" alt="Siguiente" class="w-4 h-4" />
+        </button>
+        }
     </div>
     }
   </section>

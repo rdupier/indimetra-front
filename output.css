@@ -628,15 +628,15 @@ html {
   width: 100%;
 }
 
-@media (min-width: 640px) {
+/*@media (min-width: 640px) {
   .container {
     max-width: 640px;
   }
-}
+}*/
 
 @media (min-width: 768px) {
   .container {
-    max-width: 768px;
+    max-width: 90%;/*768px;*/
   }
 }
 
@@ -652,11 +652,11 @@ html {
   }
 }
 
-@media (min-width: 1536px) {
+/*@media (min-width: 1536px) {
   .container {
     max-width: 1536px;
   }
-}
+}*/
 
 .link {
   cursor: pointer;
