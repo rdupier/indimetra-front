@@ -27,16 +27,21 @@ export class CollectionsComponent implements OnInit {
     this.loadData();
   }
 
-  private loadData(): void {
-    this.categoryService.getAllCategories().subscribe({
-      next: (categorias) => {
-        // guardamos los nombres en la signal
-        this.colecciones.set(categorias.map(cat => cat.name));
-        this.loadCortometrajes(categorias);
-      },
-      error: (err) => console.error('Error cargando categorías', err)
-    });
-  }
+private loadData(): void {
+  this.categoryService.getAllCategories().subscribe({
+    next: (categorias) => {
+      // filtramos solo las categorias deseadas (aqui hemos filtrado por categorias documental, suspense, animacion y musical para no tener que meter tantos videos)
+      const categoriasFiltradas = categorias.filter(cat => 
+        [2, 7, 9, 10].includes(cat.id)
+      );
+
+      // guardamos los nombres en la signal
+      this.colecciones.set(categoriasFiltradas.map(cat => cat.name));
+      this.loadCortometrajes(categoriasFiltradas);
+    },
+    error: (err) => console.error('Error cargando categorías', err)
+  });
+}
 
   private loadCortometrajes(categorias: Categoria[]): void {
     categorias.forEach(cat => {
