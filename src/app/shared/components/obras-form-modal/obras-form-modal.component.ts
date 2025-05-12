@@ -29,11 +29,11 @@ export class ObrasFormComponent implements OnInit {
   selectedReleaseYear: string | null = null;
   selectedDuration: string | null = null;
 
-  generosPlaceholder = 'Escoge categoría';
-  tecnicaPlaceholder = 'Selecciona técnica';
-  idiomasPlaceholder = 'Escoge idioma';
+  generosPlaceholder = 'Categoría';
+  tecnicaPlaceholder = 'Técnica';
+  idiomasPlaceholder = 'Idioma';
   yearsPlaceholder = 'Año de lanzamiento';
-  duracionesPlaceholder = 'Duración (1–59)';
+  duracionesPlaceholder = 'Duración';
 
   generos: string[] = [];
   years: string[] = [];

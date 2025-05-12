@@ -15,6 +15,7 @@ export class FiltroSelectComponent {
   @Input() model: string | null = null;
   @Input() containerClass: string = '';
   @Output() modelChange = new EventEmitter<string | null>();
+  @Input() usarCustomDropdown: boolean = true;
 
   isOpen = false;
 
@@ -32,4 +33,11 @@ export class FiltroSelectComponent {
   closeDropdown() {
     this.isOpen = false;
   }
+
+  selectOption(opcion: string) {
+    this.model = opcion;
+    this.modelChange.emit(opcion);
+    this.closeDropdown();
+  }
+
 }
