@@ -1,0 +1,13 @@
+/* oculta la barra de scroll pero mantiene la funcionalidad */
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* asegura que las tarjetas no se compriman */
+.snap-start {
+    scroll-snap-align: start;
+}

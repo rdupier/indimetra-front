@@ -1,0 +1,58 @@
+<section class="w-full bg-principal text-primary">
+    <!-- titulo principal pagina -->
+    <div class="text-center">
+        <h3 class="text-h3 pt-[2.5rem] pb-[0.5rem]">Descubre todas nuestras colecciones</h3>
+    </div>
+
+    <div class="w-screen relative left-1/2 -translate-x-1/2 bg-principal pt-10 pb-4 px-0">
+        <!-- listado por categorías -->
+        @for (item of categoriasConCortos; track item.categoria.id) {
+        <section class="pb-6 relative group">
+            <!-- Descripción por categorías -->
+            <div class="px-[clamp(1rem,2.5vw,48px)] pt-3 pb-2">
+                <h2 class="text-actionBase text-left">{{ item.categoria.description }}</h2>
+            </div>
+
+            <!-- contenedor carrusel -->
+            <div class="relative">
+                <!-- Flecha izquierda -->
+                <button (click)="scrollLeft('category-'+item.categoria.id)"
+                    class="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-principal bg-opacity-60 text-primary 
+                    border-primary border-2 border-opacity-55 hover:bg-opacity-100 rounded-full p-2 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+
+                <!-- Contenedor scrollable -->
+                <div id="category-{{item.categoria.id}}"
+                    class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth space-x-4 py-2 hide-scrollbar">
+                    @for (corto of item.cortos; track corto.id) {
+                    <div
+                        class="snap-start flex-shrink-0 w-[100%] sm:w-[340px] md:w-[310px] lg:w-[415px] xl:w-[360px] 2xl:w-[371px] 
+                        transition-[width] duration-500 ease-in-out">
+                        <app-cortometraje-card [corto]="corto" />
+                    </div>
+                    }
+                </div>
+
+                <!-- flecha derecha -->
+                <button (click)="scrollRight('category-'+item.categoria.id)"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-principal bg-opacity-60 text-primary
+                    border-primary border-2 border-opacity-55 hover:bg-opacity-100 rounded-full p-2 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </section>
+        }
+
+        <!-- mensaje si no hay datos -->
+        @if (categoriasConCortos.length === 0 && colecciones().length > 0) {
+        <p class="loading-message">No hay cortometrajes disponibles</p>
+        }
+    </div>
+</section>
