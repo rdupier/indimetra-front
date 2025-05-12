@@ -6,13 +6,15 @@
       </a>
 
       @if (showMobileMenu() || isDesktop()) {
-      <ul class="flex flex-col md:flex-row gap-y-2 md:gap-x-10 items-center text-bodyS mt-4 md:mt-0">
+      <ul class="flex flex-col md:flex-row gap-y-2 md:gap-x-6 items-center text-bodyS mt-4 md:mt-0">
         <li>
           <a class="nav-link" routerLink="/" routerLinkActive="active-link"
             [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
         </li>
         <li>
           <a class="nav-link" routerLink="/explore" routerLinkActive="active-link">Explorar</a>
+        </li> <li>
+          <a class="nav-link" routerLink="/colecciones" routerLinkActive="active-link">Colecciones</a>
         </li>
       </ul>
       }

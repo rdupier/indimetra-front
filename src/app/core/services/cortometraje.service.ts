@@ -137,6 +137,17 @@ export class CortometrajeService {
   }
 
   /**
+   * Obtiene los cortometrajes publicados por categoria.
+   * @param nombre Nombre de la categoria.
+   * @returns Observable con un array de cortometrajes.
+   */
+  getCortometrajesByCategory(nombre: string): Observable<Cortometraje[]> {
+    return this.http
+      .get<{ data: Cortometraje[] }>(`${this.apiUrl}/buscar/categoria/${nombre}`)
+      .pipe(map((res) => res.data));
+  }
+
+  /**
    * Obtiene los 5 cortometrajes más recientes.
    * @returns Observable con un array de cortometrajes.
    */

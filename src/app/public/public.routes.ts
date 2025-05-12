@@ -10,6 +10,7 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { LegalComponent } from './pages/legal/legal.component';
 import { RRSSComponent } from './pages/rrss/rrss.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { CollectionsComponent } from './pages/collections/collections.component';
 
 export const PUBLIC_ROUTES: Routes = [
   {
@@ -18,6 +19,7 @@ export const PUBLIC_ROUTES: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'explore', component: ExploreComponent },
+      { path: 'colecciones', component: CollectionsComponent },
       { path: 'cortometraje/:id', component: CortometrajeDetailComponent },
       { path: 'autor/:nombre', component: AutorCortometrajesComponent },
       { path: 'register', component: RegisterComponent },
