@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
 import { RegisterRequestDto } from '../../../auth/models/register-request.dto';
-import { LoginModalComponent } from '../../../auth/components/login-modal/login-modal.component';
 import { ModalService } from '../../../shared/modal.service';
 
 @Component({
@@ -26,6 +25,8 @@ export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
   legalVisible: boolean = false;
+
+  defaultProfileImage = 'assets/img/profile.svg';
 
   showLegalModal = signal(false);
   showLoginModal = signal(false);
@@ -70,6 +71,7 @@ export class RegisterComponent {
     });
   }
 
+
   register() {
     this.registerForm.markAllAsTouched();
 
@@ -77,7 +79,11 @@ export class RegisterComponent {
       return;
     }
 
-    const data: RegisterRequestDto = this.registerForm.value;
+    const formData = this.registerForm.value;
+    const data: RegisterRequestDto = {
+      ...formData,
+      profileImage: formData.profileImage || this.defaultProfileImage
+    };
 
     this.authService.register(data).subscribe({
       next: (res) => {
