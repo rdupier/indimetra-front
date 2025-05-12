@@ -6,28 +6,28 @@
       </a>
 
       @if (showMobileMenu() || isDesktop()) {
-      <ul class="flex flex-col md:flex-row gap-y-2 md:gap-x-10 items-center text-bodyS mt-4 md:mt-0">
+      <ul class="flex flex-col md:flex-row gap-y-2 md:gap-x-6 items-center text-bodyS mt-4 md:mt-0">
         <li>
           <a class="px-3 py-1 rounded-md text-primary hover:bg-[#E3E1DE] hover:text-[#2A2929]"
             routerLink="/admin/videos" routerLinkActive="!bg-[#E3E1DE] !text-[#2A2929] font-semibold"
             [routerLinkActiveOptions]="{ exact: false }">
-            Gestión vídeos
+            Vídeos
           </a>
         </li>
         <li>
           <a class="px-3 py-1 rounded-md text-primary hover:bg-[#E3E1DE] hover:text-[#2A2929]" routerLink="/admin/users"
             routerLinkActive="!bg-[#E3E1DE] !text-[#2A2929] font-semibold"
-            [routerLinkActiveOptions]="{ exact: false }">Gestión usuarios</a>
+            [routerLinkActiveOptions]="{ exact: false }">Usuarios</a>
         </li>
         <li>
           <a class="px-3 py-1 rounded-md text-primary hover:bg-[#E3E1DE] hover:text-[#2A2929]"
             routerLink="/admin/reviews" routerLinkActive="!bg-[#E3E1DE] !text-[#2A2929] font-semibold"
-            [routerLinkActiveOptions]="{ exact: false }">Gestión reseñas</a>
+            [routerLinkActiveOptions]="{ exact: false }">Reseñas</a>
         </li>
         <li>
           <a class="px-3 py-1 rounded-md text-primary hover:bg-[#E3E1DE] hover:text-[#2A2929]"
             routerLink="/admin/filters" routerLinkActive="!bg-[#E3E1DE] !text-[#2A2929] font-semibold"
-            [routerLinkActiveOptions]="{ exact: false }">Gestión categorias</a>
+            [routerLinkActiveOptions]="{ exact: false }">Categorias</a>
         </li>
       </ul>
       }
