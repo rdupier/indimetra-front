@@ -1,5 +1,5 @@
 <section class="text-center py-10 text-textBase mt-4">
-  <h1 class="text-xl font-semibold mb-4">Obras por autor</h1>
+  <h4 class="text-h4 mb-4">Obras por autor</h4>
 
   <section>
     @if (userData) {
@@ -7,7 +7,7 @@
       <img [src]="userData.profileImage" (error)="onImageError($event)" alt="Avatar del autor"
         class="w-[8rem] h-[8rem] rounded-full object-cover border border-none" />
 
-      <h2 class="text-h6">{{ autor }}</h2>
+        <h6 class="text-h6">{{ autor }}</h6>
 
       @if (userData.socialLinks) {
       <p class="text-bodyS mb-6">

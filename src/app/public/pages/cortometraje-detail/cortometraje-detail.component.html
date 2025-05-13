@@ -20,13 +20,13 @@
       </div>
 
       <!-- datos video -->
-      <div class="p-4 flex flex-col justify-between leading-normal ms-5">
+      <div class="px-4 py-2 flex flex-col justify-between leading-normal ms-5">
         <div>
           <!-- titulo y puntuacion -->
           <div class="pt-4">
             <div class="flex mb-1 justify-between max-w-[95%]">
               <h1 class="text-h2">{{ cortometraje()?.title }}</h1>
-              <span class="border border-primary rounded-sm px-[0.7rem] py-[0.4rem] text-bodyS">
+              <span class="w-9 h-9 min-w-9 border border-primary text-primary font-bold rounded flex items-center justify-center">
                 {{ cortometraje()?.rating }}
               </span>
             </div>
@@ -39,7 +39,7 @@
           </div>
 
           <!-- datos generales -->
-          <div class="flex flex-wrap items-center gap-2 text-action text-bodyS my-12">
+          <div class="flex flex-wrap items-center gap-2 text-action text-bodyS my-10">
             <span>{{ cortometraje()?.releaseYear }}</span>
             <img src="assets/icons/linedetails.svg" alt="|" class="h-[18px] mx-2" />
             <span>{{ cortometraje()?.duration }} min</span>
@@ -49,9 +49,16 @@
             <span>{{ cortometraje()?.category?.toUpperCase() }}</span>
           </div>
 
+          <div>
+            <h2 class="text-actionS my-2">Técnica</h2>
+            <p class="text-bodyS text-primary pb-6">
+              {{ cortometraje()?.technique }}
+            </p>
+          </div>
+
           <!-- sinopsis -->
           <div class="pb-2">
-            <h2 class="text-actionS my-3">Sinopsis</h2>
+            <h2 class="text-actionS my-2">Sinopsis</h2>
             <p class="text-bodyS text-primary pb-4 max-w-[95%]">
               {{ cortometraje()?.description }}
             </p>
@@ -59,7 +66,7 @@
         </div>
 
         <!-- grupo de botones -->
-        <div class="flex items-center justify-center mb-4">
+        <div class="flex items-center justify-center pb-4">
           @if (isLoggedIn()) {
           <div class="flex flex-wrap gap-3">
             <!-- botón ver después -->
@@ -110,14 +117,15 @@
       } @for (review of reviews(); track review.id) {
       <div class="max-w-3xl mx-auto">
         <span class="block text-primary text-bodyS mb-1">{{review.username}}</span>
-        <div class="bg-input p-4 text-sm text-subtext shadow-sm">
-          <div class="w-full flex justify-end mb-1">
-            <span class="text-action text-bodyXS border px-2 py-0.5">
+        <div class="flex justify-between items-start gap-4 bg-card px-4 py-3 rounded text-primary">
+            <p class="text-bodyS text-secondary flex-1">
+              {{ review.comment }}
+            </p>
+            <div
+              class="w-8 h-8 min-w-8 border border-primary text-primary  rounded flex items-center justify-center">
               {{ review.rating }}
-            </span>
+            </div>
           </div>
-          <p class="text-secondary text-bodyXS leading-tight mt-0">{{ review.comment }}</p>
-        </div>
       </div>
       } @if (isLoggedIn()) {} @else {
       <p class="text-center text-secondary text-bodyXS mt-6">
@@ -133,3 +141,4 @@
       (close)="cerrarValoracion()" (submit)="enviarValoracionExterna($event)" [errorMessage]="errorMessage" />
     }
   </div>
+</section>

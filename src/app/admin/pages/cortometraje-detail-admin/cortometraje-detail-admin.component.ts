@@ -1,27 +1,22 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CortometrajeService } from '../../../core/services/cortometraje.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
 import { Review } from '../../../core/interfaces/review.interface';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cortometraje-detail-admin',
+  standalone: true,
   imports: [RouterModule, FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './cortometraje-detail-admin.component.html',
 })
 export class CortometrajeDetailAdminComponent implements OnInit {
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private location: Location) { }
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -120,4 +115,10 @@ export class CortometrajeDetailAdminComponent implements OnInit {
     );
     return match ? `https://www.youtube.com/embed/${match[1]}` : '';
   }
+
+
+  volverAtras(): void {
+    this.location.back();
+  }
+
 }
