@@ -12,13 +12,13 @@ export class FaqsComponent {
     {
       question: '¿Para quién va dirigido?',
       answer:
-        'IndeReel está pensado para cineastas independientes que desean dar visibilidad a su trabajo, así como para amantes del cine que buscan descubrir y apoyar nuevas producciones. También es una herramienta útil para festivales, críticos y cualquier persona interesada en el cine emergente.',
+        'Indimetra está pensado para cineastas independientes que desean dar visibilidad a su trabajo, así como para amantes del cine que buscan descubrir y apoyar nuevas producciones. También es una herramienta útil para festivales, críticos y cualquier persona interesada en el cine emergente.',
       isOpen: false,
     },
     {
       question: '¿Cuánto cuesta?',
       answer:
-        'IndieReel es completamente gratuito para todos los usuarios. Tanto cineastas como espectadores pueden registrarse sin costo y disfrutar del contenido disponible en la plataforma.',
+        'Indimetra es completamente gratuito para todos los usuarios. Tanto cineastas como espectadores pueden registrarse sin costo y disfrutar del contenido disponible en la plataforma.',
       isOpen: false,
     },
     {
