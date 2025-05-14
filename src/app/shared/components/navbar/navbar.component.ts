@@ -12,7 +12,6 @@ import { LoginModalComponent } from '../../../auth/components/login-modal/login-
     LoginModalComponent
 ],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
   private authService = inject(AuthService);

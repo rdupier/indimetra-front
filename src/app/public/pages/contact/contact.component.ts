@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LegalModalComponent],
   templateUrl: './contact.component.html',
-  styleUrl: './contact.component.css',
 })
 export class ContactComponent {
   contactForm: FormGroup;
@@ -45,7 +44,7 @@ export class ContactComponent {
     if (this.contactForm.valid) {
       console.log('Mensaje enviado:', this.contactForm.value);
       // llamar al servicio de envío de email o API. Por ahora solo imprimimos en consola
-  
+
       Swal.fire({
         icon: 'success',
         title: '¡Mensaje enviado!',
@@ -58,12 +57,12 @@ export class ContactComponent {
         this.contactForm.reset();
         this.router.navigate(['/']);
       });
-  
+
     } else {
       this.contactForm.markAllAsTouched();
     }
   }
-  
+
   openLegalModal() {
     this.showLegalModal.set(true);
   }

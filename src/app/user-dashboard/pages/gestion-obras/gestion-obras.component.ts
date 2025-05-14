@@ -11,7 +11,6 @@ import { ObrasFormComponent } from '../../../shared/components/obras-form-modal/
   standalone: true,
   imports: [RouterLink, CommonModule, ObrasFormComponent],
   templateUrl: './gestion-obras.component.html',
-  styleUrl: './gestion-obras.component.css',
 })
 export class GestionObrasComponent implements OnInit {
   obras = signal<Cortometraje[]>([]);

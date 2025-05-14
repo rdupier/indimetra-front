@@ -14,7 +14,6 @@ import { Cortometraje } from '../../../core/interfaces/cortometraje.interface';
   standalone: true,
   imports: [NavbarComponent, FooterComponent, CommonModule, RouterModule, RouterLinkActive, ObrasFormComponent],
   templateUrl: './mi-estudio.component.html',
-  styleUrl: './mi-estudio.component.css',
 })
 export class MiEstudioComponent implements OnInit {
   user = signal<User | null>(null);

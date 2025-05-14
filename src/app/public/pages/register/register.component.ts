@@ -12,7 +12,6 @@ import { ModalService } from '../../../shared/modal.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, LegalModalComponent],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
 })
 export class RegisterComponent {
 

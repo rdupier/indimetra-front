@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   selector: 'app-faqs',
   imports: [CommonModule],
   templateUrl: './faqs.component.html',
-  styleUrl: './faqs.component.css',
 })
 export class FaqsComponent {
   faqList = [

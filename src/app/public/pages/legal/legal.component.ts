@@ -5,7 +5,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   selector: 'app-legal',
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './legal.component.html',
-  styleUrl: './legal.component.css'
 })
 export class LegalComponent {
 

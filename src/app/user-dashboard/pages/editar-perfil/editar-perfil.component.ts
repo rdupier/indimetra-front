@@ -10,7 +10,6 @@ import { AuthService } from '../../../auth/services/auth.service';
   standalone: true,
   imports: [RouterLink, CommonModule, ReactiveFormsModule],
   templateUrl: './editar-perfil.component.html',
-  styleUrls: ['./editar-perfil.component.css'],
 })
 export class EditarPerfilComponent implements OnInit {
   perfilForm!: FormGroup;
