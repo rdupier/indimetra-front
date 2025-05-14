@@ -3,18 +3,40 @@
     <h3 class="text-h3 pt-[2.5rem] pb-[0.5rem]">Explora los límites de tu imaginación</h3>
   </div>
 
-  <div class="flex flex-wrap justify-center gap-x-10 gap-y-6 items-end px-4 pb-[2rem]">
-    <app-filtro-select label="GÉNERO" [opciones]="generos()" [(model)]="filtroGenero" />
-    <app-filtro-select label="IDIOMA" [opciones]="idiomas()" [(model)]="filtroIdioma" />
-    <app-filtro-select label="DURACIÓN" [opciones]="duraciones" [(model)]="filtroDuracion" />
+  <div
+  class="flex flex-wrap justify-center gap-x-10 gap-y-6 items-end px-4 pb-[2rem] max-[767px]:grid max-[767px]:grid-cols-1 max-[767px]:items-stretch max-[767px]:gap-y-4">
+  <app-filtro-select
+    label="GÉNERO"
+    [opciones]="generos()"
+    [(model)]="filtroGenero"
+    [containerClass]="'relative w-[200px] max-[767px]:w-full text-sm'"
+  />
 
-    <div class="flex gap-3">
-      <button class="boton-menu flex items-center gap-2 group icon-btn" (click)="resetFiltros()">
-        <img src="assets/icons/close.svg" alt="Subir" class="w-4 h-4" />
-        Limpiar
-      </button>
-    </div>
+  <app-filtro-select
+    label="IDIOMA"
+    [opciones]="idiomas()"
+    [(model)]="filtroIdioma"
+    [containerClass]="'relative w-[200px] max-[767px]:w-full text-sm'"
+  />
+
+  <app-filtro-select
+    label="DURACIÓN"
+    [opciones]="duraciones"
+    [(model)]="filtroDuracion"
+    [containerClass]="'relative w-[200px] max-[767px]:w-full text-sm'"
+  />
+
+  <div class="max-[767px]:w-full">
+    <button
+      class="boton-menu flex items-center gap-2 group icon-btn w-full"
+      (click)="resetFiltros()"
+    >
+      <img src="assets/icons/close.svg" alt="Limpiar" class="w-4 h-4" />
+      Limpiar
+    </button>
   </div>
+</div>
+
 
   <div class="w-screen relative left-1/2 -translate-x-1/2 bg-principal pt-10 pb-4 px-0">
     @if (cortometrajes().length === 0) {
